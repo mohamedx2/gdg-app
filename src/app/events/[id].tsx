@@ -1,13 +1,14 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Calendar from 'expo-calendar';
-import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { Share } from 'react-native';
 import { XStack, YStack } from 'tamagui';
 
 import { Icon, iconName } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
-import { Pill, SolidPill } from '@/components/ui/Chip';
+import { Pill } from '@/components/ui/Chip';
+import { Gradient } from '@/components/ui/Gradient';
+import { Orbs } from '@/components/ui/Orbs';
 import { Sheet } from '@/components/ui/Sheet';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Avatar } from '@/components/ui/Avatar';
@@ -19,7 +20,7 @@ import { useAttendance, useEvent, useRegisterEvent, useUnregisterEvent } from '@
 import { useArrivals } from '@/hooks/use-presence';
 import { useUiStore } from '@/stores/ui.store';
 import { cancelEventReminder, notifyRegistrationConfirmed, scheduleEventReminder } from '@/lib/notifications';
-import { formatEventDateTime, formatLongDate, formatTime } from '@/utils/date';
+import { formatLongDate, formatTime, isPast } from '@/utils/date';
 import { formatCount } from '@/utils/format';
 import type { ArrivalEta, GdgEvent } from '@/types';
 
@@ -101,61 +102,105 @@ export default function EventDetailScreen() {
     router.push({ pathname: '/ticket/[id]', params: { id: event.id } });
   };
 
+  const seatsLeft = Math.max(0, event.capacity - event.registeredCount);
+  const fill = event.capacity > 0 ? Math.min(1, event.registeredCount / event.capacity) : 0;
+  const ended = isPast(event.endsAt);
+  const track = TRACKS[event.track];
+  const category = EVENT_CATEGORIES[event.category];
+
   return (
     <Sheet
-      showHandle={false}
       contentContainerStyle={{ paddingBottom: 20 }}
       footer={
-        registered ? (
-          <XStack gap={8}>
-            <Button label="View ticket" icon="qrCode" onPress={onViewTicket} style={{ flex: 1 }} />
-            <Button label="Registered ✓" onPress={onToggleRegistration} loading={busy} variant="container" />
-          </XStack>
-        ) : (
-          <Button
-            label={`Register · ${formatCount(event.registeredCount)}${event.registeredCount >= event.capacity ? ' (full)' : ''}`}
-            onPress={onToggleRegistration}
-            loading={busy}
-          />
-        )
+        <YStack gap={10}>
+          <YStack gap={6}>
+            <XStack justifyContent="space-between">
+              <XStack alignItems="center" gap={6}>
+                <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
+                <Text variant="codeSm" weight="bold">
+                  {event.registeredCount}/{event.capacity} seats filled
+                </Text>
+              </XStack>
+              {!ended ? (
+                <Text variant="codeSm" weight="bold" color={seatsLeft <= 10 ? 'error' : 'tertiary'}>
+                  {seatsLeft > 0 ? `${seatsLeft} SPOTS LEFT` : 'WAITLIST'}
+                </Text>
+              ) : null}
+            </XStack>
+            <YStack height={6} borderRadius={3} backgroundColor="surfaceContainerHigh" overflow="hidden">
+              <YStack width={`${fill * 100}%`} height="100%" backgroundColor="primary" />
+            </YStack>
+          </YStack>
+          {registered ? (
+            <XStack gap={8}>
+              <Button label="View ticket" icon="qrCode" onPress={onViewTicket} style={{ flex: 1 }} />
+              <Button label="Leave" onPress={onToggleRegistration} loading={busy} variant="container" fullWidth={false} />
+            </XStack>
+          ) : ended ? (
+            <Button label="Event has ended" icon="history" variant="container" disabled onPress={() => undefined} />
+          ) : (
+            <Button label={seatsLeft > 0 ? 'Confirm RSVP' : 'Join waitlist'} icon="bolt" onPress={onToggleRegistration} loading={busy} />
+          )}
+        </YStack>
       }
     >
-      <YStack height={240} backgroundColor="surfaceContainerHigh">
-        <Image
-          source={{ uri: event.coverImage }}
-          style={{ width: '100%', height: '100%' }}
-          contentFit="cover"
-          transition={200}
-        />
-        <YStack position="absolute" top={12} left={12}>
-          <IconButton name="close" onPress={() => router.back()} accessibilityLabel="Close" color="onPrimary" backgroundColor="overlay" />
+      <YStack paddingHorizontal={16} gap={16}>
+        <YStack borderRadius="card" overflow="hidden">
+          <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+            <Orbs />
+            <YStack padding={16} gap={12}>
+              <XStack alignItems="center" gap={6} flexWrap="wrap">
+                <XStack alignItems="center" gap={5} paddingHorizontal={8} paddingVertical={3} borderRadius="full" backgroundColor="primaryFixed">
+                  <YStack width={6} height={6} borderRadius={3} backgroundColor={track?.color ?? 'live'} />
+                  <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+                    {(track?.label ?? event.track).toUpperCase()}
+                  </Text>
+                </XStack>
+                <YStack paddingHorizontal={8} paddingVertical={3} borderRadius="full" backgroundColor="secondaryContainer">
+                  <Text variant="codeSm" weight="bold" color="onSecondaryContainer">
+                    {(category?.label ?? event.category).toUpperCase()}
+                  </Text>
+                </YStack>
+                {event.flagship ? (
+                  <YStack paddingHorizontal={8} paddingVertical={3} borderRadius="full" backgroundColor="tertiaryFixed">
+                    <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                      FLAGSHIP
+                    </Text>
+                  </YStack>
+                ) : null}
+              </XStack>
+              <XStack alignItems="flex-end" justifyContent="space-between" gap={12}>
+                <YStack flex={1}>
+                  <Text variant="codeSm" weight="bold" color="onPrimary">
+                    GDG ON CAMPUS EPI
+                  </Text>
+                  <Text variant="bodySm" color="onPrimary">
+                    {event.durationLabel} · {event.venue || event.location}
+                  </Text>
+                </YStack>
+                <XStack gap={8}>
+                  <IconButton name="calendarMonth" onPress={onAddToCalendar} accessibilityLabel="Add to calendar" color="onPrimary" backgroundColor="overlay" />
+                  <IconButton name="share" onPress={onShare} accessibilityLabel="Share event" color="onPrimary" backgroundColor="overlay" />
+                </XStack>
+              </XStack>
+            </YStack>
+          </Gradient>
         </YStack>
-        <YStack position="absolute" top={12} right={12} gap={8}>
-          <IconButton name="calendarMonth" onPress={onAddToCalendar} accessibilityLabel="Add to calendar" color="onPrimary" backgroundColor="overlay" />
-          <IconButton name="share" onPress={onShare} accessibilityLabel="Share event" color="onPrimary" backgroundColor="overlay" />
-        </YStack>
-      </YStack>
 
-      <YStack padding={16} gap={16}>
+        <Text variant="headlineSm" weight="bold">
+          {event.title}
+        </Text>
+
+        {event.speaker ? <SpeakerCard event={event} /> : null}
+
         <YStack gap={8}>
-          <XStack alignItems="center" gap={6} flexWrap="wrap">
-            <Pill label={EVENT_CATEGORIES[event.category].label} color={EVENT_CATEGORIES[event.category].color} dot uppercase />
-            <Pill label={TRACKS[event.track].label} color={TRACKS[event.track].color} />
-            {event.flagship ? <SolidPill label="Flagship" icon="flag" /> : null}
-          </XStack>
-          <Text variant="headlineMd" weight="bold">
-            {event.title}
-          </Text>
-          <Text variant="bodySm" muted style={{ ...textTransformUppercase, letterSpacing: 0.5 }}>
-            {formatEventDateTime(event.startsAt)} · {event.durationLabel}
-          </Text>
+          <InfoRow icon="calendarMonth" label="Date" value={formatLongDate(event.startsAt).toUpperCase()} />
+          <InfoRow icon="schedule" label="Time" value={`${formatTime(event.startsAt)} – ${formatTime(event.endsAt)} GMT+1`} />
+          <InfoRow icon="location" label="Location" value={[event.venue, event.location].filter(Boolean).join(' · ')} />
+          {event.prize ? <InfoRow icon="emojiEvents" label="Prize" value={event.prize} /> : null}
         </YStack>
 
-        <InfoRow icon="location" label="Location" value={`${event.location} — ${event.venue}`} />
-        <InfoRow icon="groups" label="Attendance" value={`${formatCount(event.registeredCount)} of ${formatCount(event.capacity)} registered`} />
-        {event.prize ? <InfoRow icon="emojiEvents" label="Prize" value={event.prize} /> : null}
-
-        {registered ? (
+        {registered && !ended ? (
           <Button
             label="On my way? Share your ETA"
             icon="directionsCar"
@@ -166,36 +211,24 @@ export default function EventDetailScreen() {
 
         {isOrganizer ? <ArrivalsSection eventId={event.id} /> : null}
 
-        {event.speaker ? <SpeakerCard event={event} /> : null}
-
-        {event.highlights.length ? (
-          <XStack flexWrap="wrap" gap={8}>
-            {event.highlights.map((highlight) => (
-              <XStack
-                key={highlight.label}
-                alignItems="center"
-                gap={6}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                borderRadius="base"
-                backgroundColor="surfaceContainerLow"
-                minWidth="47%"
-                flexGrow={1}
-              >
-                <Icon name={iconName(highlight.icon)} size={16} color="primary" />
-                <YStack gap={1}>
-                  <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.3 }}>{highlight.label}</Text>
-                  <Text variant="labelMd" weight="semibold" numberOfLines={1}>{highlight.value}</Text>
-                </YStack>
-              </XStack>
-            ))}
+        <YStack padding={16} gap={10} borderRadius="card" backgroundColor="surfaceContainerLow">
+          <XStack alignItems="center" gap={8}>
+            <Icon name="info" size={18} color="primary" />
+            <Text variant="titleSm" weight="bold">
+              About this event
+            </Text>
           </XStack>
-        ) : null}
-
-        <Section title="About this event">
           <Text variant="bodyMd">{event.description}</Text>
+          {event.organizerNote ? (
+            <XStack gap={10} padding={12} borderRadius={14} backgroundColor="surfaceContainerHigh">
+              <Icon name="editNote" size={18} color="onSurfaceVariant" />
+              <Text variant="bodySm" muted style={{ flex: 1 }}>
+                {event.organizerNote}
+              </Text>
+            </XStack>
+          ) : null}
           {event.perks?.length ? (
-            <YStack gap={6} marginTop={4}>
+            <YStack gap={6}>
               {event.perks.map((perk) => (
                 <XStack key={perk} alignItems="center" gap={8}>
                   <Icon name="checkCircle" size={16} color="tertiary" />
@@ -204,64 +237,98 @@ export default function EventDetailScreen() {
               ))}
             </YStack>
           ) : null}
-        </Section>
+        </YStack>
 
         {event.agenda && event.agenda.length ? (
-          <Section title="Agenda">
-            <YStack gap={0}>
-              {event.agenda.map((row, index) => (
+          <YStack gap={8}>
+            <XStack alignItems="center" justifyContent="space-between">
+              <Text variant="titleMd" weight="bold">
+                Session Agenda
+              </Text>
+              <Text variant="codeSm" muted>
+                {event.durationLabel.toUpperCase()}
+              </Text>
+            </XStack>
+            <YStack>
+              {event.agenda.map((row, index, rows) => (
                 <XStack key={`${row.time}-${index}`} gap={12}>
-                  <YStack alignItems="center">
-                    <YStack flex={1} width={2} backgroundColor="outlineVariant" borderRadius={1} />
-                    <YStack width={10} height={10} borderRadius={5} backgroundColor="primaryContainer" marginVertical={6} />
+                  <YStack alignItems="center" width={28}>
+                    <YStack width={28} height={28} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor={AGENDA_TONES[index % AGENDA_TONES.length]}>
+                      <Icon name={AGENDA_ICONS[index % AGENDA_ICONS.length]} size={14} color="onSurface" />
+                    </YStack>
+                    {index < rows.length - 1 ? <YStack flex={1} width={2} marginVertical={2} backgroundColor="outlineVariant" /> : null}
                   </YStack>
-                  <YStack flex={1} paddingVertical={10} gap={2}>
-                    <Text variant="codeSm" primary weight="medium">{row.time}</Text>
-                    <Text variant="labelMd" weight="semibold">{row.title}</Text>
-                    {row.speaker ? <Text variant="bodySm" muted>{row.speaker}</Text> : null}
+                  <YStack flex={1} paddingBottom={14} gap={2}>
+                    <XStack gap={8} alignItems="baseline">
+                      <Text variant="codeSm" weight="bold" primary>
+                        {row.time}
+                      </Text>
+                      <Text variant="labelLg" weight="bold" style={{ flex: 1 }}>
+                        {row.title}
+                      </Text>
+                    </XStack>
+                    {row.speaker ? (
+                      <Text variant="bodySm" muted>
+                        {row.speaker}
+                      </Text>
+                    ) : null}
                   </YStack>
                 </XStack>
               ))}
             </YStack>
-          </Section>
-        ) : null}
-
-        {event.organizerNote ? (
-          <YStack padding={14} borderRadius="card" backgroundColor="primaryFixed">
-            <XStack alignItems="center" gap={8} marginBottom={6}>
-              <Icon name="editNote" size={18} color="primary" />
-              <Text variant="labelMd" primary weight="semibold">Organizer note</Text>
-            </XStack>
-            <Text variant="bodySm" color="onPrimaryFixed">{event.organizerNote}</Text>
           </YStack>
         ) : null}
+
+        {event.highlights.length ? (
+          <XStack flexWrap="wrap" gap={8}>
+            {event.highlights.map((highlight) => (
+              <XStack key={highlight.label} alignItems="center" gap={8} padding={12} borderRadius={14} backgroundColor="surfaceContainerLow" minWidth="47%" flexGrow={1}>
+                <Icon name={iconName(highlight.icon)} size={16} color="primary" />
+                <YStack gap={1}>
+                  <Text variant="codeSm" muted>
+                    {highlight.label.toUpperCase()}
+                  </Text>
+                  <Text variant="labelMd" weight="semibold" numberOfLines={1}>
+                    {highlight.value}
+                  </Text>
+                </YStack>
+              </XStack>
+            ))}
+          </XStack>
+        ) : null}
+
+        <XStack alignItems="center" justifyContent="space-between" padding={16} borderRadius="card" backgroundColor="surfaceContainerLow">
+          <YStack gap={2}>
+            <Text variant="titleSm" weight="bold">
+              Who&apos;s going
+            </Text>
+            <Text variant="codeSm" muted>
+              {formatCount(event.registeredCount)} confirmed{registered ? ' · including you' : ''}
+            </Text>
+          </YStack>
+          <Text variant="codeSm" weight="bold" color="tertiary">
+            CONFIRMED
+          </Text>
+        </XStack>
       </YStack>
     </Sheet>
   );
 }
 
-const textTransformUppercase: { textTransform: 'uppercase' } = { textTransform: 'uppercase' };
+const AGENDA_ICONS = ['flag', 'code', 'cloudDone', 'emojiEvents'] as const;
+const AGENDA_TONES = ['primaryFixed', 'tertiaryFixed', 'secondaryContainer', 'surfaceContainerHigh'] as const;
 
-function InfoRow({ icon, label, value }: { icon: 'location' | 'groups' | 'emojiEvents'; label: string; value: string }) {
+function InfoRow({ icon, label, value }: { icon: 'location' | 'groups' | 'emojiEvents' | 'calendarMonth' | 'schedule'; label: string; value: string }) {
   return (
-    <XStack alignItems="center" gap={12}>
-      <YStack width={36} height={36} borderRadius={10} backgroundColor="surfaceContainerLow" alignItems="center" justifyContent="center">
+    <XStack alignItems="center" gap={12} padding={12} borderRadius={16} backgroundColor="surfaceContainerLow">
+      <YStack width={36} height={36} borderRadius={10} backgroundColor="surfaceContainerLowest" alignItems="center" justifyContent="center">
         <Icon name={icon} size={18} color="primary" />
       </YStack>
       <YStack flex={1}>
         <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>{label}</Text>
-        <Text variant="bodyMd" weight="semibold">{value}</Text>
+        <Text variant="codeSm" weight="bold">{value}</Text>
       </YStack>
     </XStack>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <YStack gap={8}>
-      <Text variant="titleMd" weight="bold">{title}</Text>
-      {children}
-    </YStack>
   );
 }
 

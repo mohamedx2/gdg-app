@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React from 'react';
 import { XStack, YStack } from 'tamagui';
@@ -5,23 +6,27 @@ import { XStack, YStack } from 'tamagui';
 import { Avatar } from '@/components/ui/Avatar';
 import { Gradient } from '@/components/ui/Gradient';
 import { Icon } from '@/components/ui/Icon';
+import { IconButton } from '@/components/ui/IconButton';
 import { Orbs } from '@/components/ui/Orbs';
 import { PressableScale } from '@/components/ui/PressableScale';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { Sheet } from '@/components/ui/Sheet';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Surface } from '@/components/ui/Surface';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useAchievementSummary, useProfile } from '@/hooks/use-community';
-import { useUiConfig } from '@/hooks/use-content';
+import { useMemories, useUiConfig } from '@/hooks/use-content';
 import { ACCESS_LEVELS } from '@/lib/auth/permissions';
-import { useUiStore } from '@/stores/ui.store';
+import { useThemeStore, type ThemePreference } from '@/stores/theme.store';
 import { useTheme } from '@/theme';
+import type { ColorToken } from '@/theme/colors';
+
+const GOOGLE_DOTS: ColorToken[] = ['error', 'info', 'warning', 'success'];
 
 /**
- * Profile bottom sheet (route `/me`, `transparentModal`). Presents the member
- * hero, access level, organizer shortcut and the server-driven profile menu
- * filtered through the user's permissions.
+ * Profile bottom sheet (route `/me`, `transparentModal`): identity hero, stats,
+ * organizer console, memories, the server-driven profile menu and appearance.
  */
 export default function MeSheet() {
   const theme = useTheme();
@@ -29,6 +34,9 @@ export default function MeSheet() {
   const { data: summary } = useAchievementSummary();
   const { signOut, isOrganizer, access, can } = useAuth();
   const { profileMenu: MENU } = useUiConfig();
+  const memories = useMemories();
+  const preference = useThemeStore((state) => state.preference);
+  const setPreference = useThemeStore((state) => state.setPreference);
   const level = ACCESS_LEVELS[access];
 
   const menu = MENU.map((group) => ({
@@ -44,70 +52,150 @@ export default function MeSheet() {
     );
 
   return (
-    <Sheet contentContainerStyle={{ paddingBottom: 12 }}>
-      <ProfileHero profile={profile} isPending={isPending} summary={summary} />
+    <Sheet
+      title="Profile"
+      headerRight={<IconButton name="close" onPress={() => router.back()} accessibilityLabel="Close profile" />}
+      contentContainerStyle={{ paddingBottom: 12 }}
+    >
+      <YStack paddingHorizontal={16} gap={16}>
+        <YStack borderRadius="card" overflow="hidden">
+          <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+            <Orbs />
+            <YStack padding={16} gap={14}>
+              <XStack alignItems="center" justifyContent="space-between">
+                <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="overlay">
+                  <XStack gap={3}>
+                    {GOOGLE_DOTS.map((color) => (
+                      <YStack key={color} width={6} height={6} borderRadius={3} backgroundColor={color} />
+                    ))}
+                  </XStack>
+                  <Text variant="codeSm" weight="bold" color="onPrimary">
+                    {level.label.toUpperCase()}
+                  </Text>
+                </XStack>
+                <YStack paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="overlay">
+                  <Text variant="codeSm" weight="bold" color="onPrimary">
+                    EPI SOUSSE
+                  </Text>
+                </YStack>
+              </XStack>
 
-      <YStack padding={16} paddingTop={18} gap={20}>
-        <XStack
-          alignItems="center"
-          gap={10}
-          padding={12}
-          borderRadius="card"
-          backgroundColor={access === 'member' ? 'surfaceContainerLow' : 'primaryFixed'}
-        >
-          <Icon name={level.icon} size={20} color={access === 'member' ? 'onSurfaceVariant' : 'primary'} />
-          <YStack flex={1}>
-            <Text variant="labelLg" weight="bold">
-              {level.label}
-            </Text>
-            <Text variant="bodyXs" muted>
-              {level.description}
-            </Text>
-          </YStack>
-        </XStack>
+              <XStack alignItems="center" gap={14}>
+                {isPending || !profile ? (
+                  <>
+                    <Skeleton width={76} height={76} radius={38} />
+                    <YStack gap={8} flex={1}>
+                      <Skeleton height={18} width="60%" />
+                      <Skeleton height={12} width="80%" />
+                    </YStack>
+                  </>
+                ) : (
+                  <>
+                    <YStack>
+                      <YStack borderRadius={42} borderWidth={3} borderColor="onPrimary" overflow="hidden">
+                        <Avatar uri={profile.avatar} name={profile.name} size={72} />
+                      </YStack>
+                      <YStack position="absolute" right={-2} bottom={-2} width={26} height={26} borderRadius={13} alignItems="center" justifyContent="center" backgroundColor="secondaryContainer" borderWidth={2} borderColor="onPrimary">
+                        <Icon name={level.icon} size={13} color="onSecondaryContainer" />
+                      </YStack>
+                    </YStack>
+                    <YStack flex={1} gap={4}>
+                      <Text variant="headlineSm" weight="bold" color="onPrimary" numberOfLines={1}>
+                        {profile.name}
+                      </Text>
+                      <Text variant="bodySm" color="onPrimary" numberOfLines={2}>
+                        {profile.headline}
+                      </Text>
+                    </YStack>
+                  </>
+                )}
+              </XStack>
+
+              <XStack alignSelf="flex-start" alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="tertiaryFixed">
+                <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
+                <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                  {access === 'member' ? 'Member · Welcome aboard' : `${level.label} · Access granted`}
+                </Text>
+              </XStack>
+            </YStack>
+          </Gradient>
+        </YStack>
+
+        {summary ? (
+          <PressableScale onPress={() => router.push('/achievements')} accessibilityLabel="View achievements">
+            <XStack gap={10}>
+              <StatTile value={String(summary.eventsAttended)} label="EVENTS" color="primary" />
+              <StatTile value={`${summary.badgesUnlocked}/${summary.badgesTotal}`} label="BADGES" color="tertiary" />
+              <StatTile value={summary.points.toLocaleString('en-US')} label="XP POINTS" color="warning" />
+            </XStack>
+          </PressableScale>
+        ) : (
+          <Skeleton height={76} radius={18} />
+        )}
 
         {isOrganizer ? (
-          <PressableScale
-            onPress={() => router.push('/admin')}
-            accessibilityLabel="Organizer dashboard"
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-              padding: 14,
-              borderRadius: theme.radius.card,
-              backgroundColor: theme.colors.surfaceContainerHigh,
-            }}
-          >
-            <YStack
-              width={40}
-              height={40}
-              borderRadius={12}
-              backgroundColor="surfaceContainerLowest"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Icon name="barChart" size={20} color="primary" />
+          <PressableScale onPress={() => router.push('/admin')} accessibilityLabel="Open organizer console">
+            <YStack borderRadius="card" overflow="hidden">
+              <Gradient token="night" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+                <XStack alignItems="center" gap={12} padding={16}>
+                  <YStack width={48} height={48} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+                    <Icon name="qrCodeScanner" size={22} color="inverseOnSurface" />
+                  </YStack>
+                  <YStack flex={1} gap={2}>
+                    <XStack alignItems="center" gap={8}>
+                      <Text variant="titleMd" weight="bold" color="inverseOnSurface">
+                        Organizer Console
+                      </Text>
+                      <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor="secondaryContainer">
+                        <Text variant="codeSm" weight="bold" color="onSecondaryContainer">
+                          {access === 'super-admin' ? 'ADMIN' : 'CORE'}
+                        </Text>
+                      </YStack>
+                    </XStack>
+                    <Text variant="bodySm" color="outline">
+                      Manage events, QR gate scanner, broadcasts & members
+                    </Text>
+                  </YStack>
+                  <YStack width={36} height={36} borderRadius={18} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+                    <Icon name="chevronRight" size={18} color="inverseOnSurface" />
+                  </YStack>
+                </XStack>
+              </Gradient>
             </YStack>
-            <YStack flex={1}>
-              <Text variant="labelLg" weight="bold">
-                Organizer dashboard
-              </Text>
-              <Text variant="bodySm" muted>
-                Manage events, announcements & stats
-              </Text>
+          </PressableScale>
+        ) : null}
+
+        {memories.length ? (
+          <PressableScale onPress={() => router.push('/memories' as never)} accessibilityLabel="Open campus memories">
+            <YStack padding={14} gap={12} borderRadius="card" backgroundColor="surfaceContainerLow">
+              <XStack alignItems="center" justifyContent="space-between">
+                <XStack alignItems="center" gap={8}>
+                  <Icon name="autoAwesome" size={18} color="primary" />
+                  <Text variant="titleSm" weight="bold">
+                    Campus Memories
+                  </Text>
+                </XStack>
+                <Text variant="codeSm" weight="bold" primary>
+                  {memories.length} PHOTOS
+                </Text>
+              </XStack>
+              <XStack gap={8}>
+                {memories.slice(0, 3).map((memory) => (
+                  <Image
+                    key={memory.id}
+                    source={memory.source}
+                    contentFit="cover"
+                    style={{ flex: 1, height: 72, borderRadius: 12, backgroundColor: theme.colors.surfaceContainer }}
+                  />
+                ))}
+              </XStack>
             </YStack>
-            <Icon name="chevronRight" size={18} color="secondary" />
           </PressableScale>
         ) : null}
 
         {menu.map((group) => (
           <YStack key={group.group} gap={8}>
-            <Text
-              variant="codeSm"
-              muted
-              style={{ textTransform: 'uppercase', letterSpacing: 0.5, paddingLeft: 4 }}
-            >
+            <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.5, paddingLeft: 4 }}>
               {group.group}
             </Text>
             <Surface style={{ overflow: 'hidden' }}>
@@ -126,21 +214,50 @@ export default function MeSheet() {
                     borderTopColor: theme.colors.outlineVariant,
                   }}
                 >
-                  <Icon name={item.icon} size={20} color={item.danger ? 'error' : 'secondary'} />
+                  <YStack width={40} height={40} borderRadius={12} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+                    <Icon name={item.icon} size={20} color={item.danger ? 'error' : 'onSurface'} />
+                  </YStack>
                   <YStack flex={1} gap={2}>
-                    <Text variant="labelLg" weight="medium" color={item.danger ? 'error' : 'onSurface'}>
+                    <Text variant="labelLg" weight="bold" color={item.danger ? 'error' : 'onSurface'}>
                       {item.label}
                     </Text>
                     <Text variant="bodySm" muted>
                       {item.description}
                     </Text>
                   </YStack>
-                  <Icon name="chevronRight" size={18} color="secondary" />
+                  <Icon name="chevronRight" size={18} color="onSurfaceVariant" />
                 </PressableScale>
               ))}
             </Surface>
           </YStack>
         ))}
+
+        <Surface style={{ padding: 14, gap: 12 }}>
+          <XStack alignItems="center" gap={12}>
+            <YStack width={40} height={40} borderRadius={12} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+              <Icon name="palette" size={20} color="onSurface" />
+            </YStack>
+            <YStack flex={1}>
+              <Text variant="labelLg" weight="bold">
+                Appearance
+              </Text>
+              <Text variant="bodySm" muted>
+                Theme preference
+              </Text>
+            </YStack>
+          </XStack>
+          <SegmentedControl<ThemePreference>
+            segments={[
+              { value: 'system', label: 'System' },
+              { value: 'light', label: 'Light' },
+              { value: 'dark', label: 'Dark' },
+            ]}
+            value={preference}
+            onChange={setPreference}
+            size="sm"
+            accessibilityLabel="Theme preference"
+          />
+        </Surface>
 
         <PressableScale
           onPress={() => void signOut()}
@@ -157,164 +274,13 @@ export default function MeSheet() {
   );
 }
 
-function ProfileHero({
-  profile,
-  isPending,
-  summary,
-}: {
-  profile: { avatar?: string | null; name: string; headline?: string } | undefined;
-  isPending: boolean;
-  summary:
-    | {
-        tier: string;
-        points: number;
-        xp: number;
-        xpGoal: number;
-        badgesUnlocked: number;
-        badgesTotal: number;
-        eventsAttended: number;
-      }
-    | undefined;
-}) {
-  const theme = useTheme();
-  const toast = useUiStore((state) => state.toast);
-  const progress = summary && summary.xpGoal > 0 ? Math.min(1, summary.xp / summary.xpGoal) : 0;
-
+function StatTile({ value, label, color }: { value: string; label: string; color: ColorToken }) {
   return (
-    <YStack
-      borderBottomLeftRadius={theme.radius.xl}
-      borderBottomRightRadius={theme.radius.xl}
-      overflow="hidden"
-    >
-      <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        <Orbs />
-
-        <YStack paddingTop={16} paddingHorizontal={16} paddingBottom={22} gap={18}>
-          <XStack alignItems="center" justifyContent="space-between">
-            <Text
-              variant="codeSm"
-              weight="semibold"
-              style={{ textTransform: 'uppercase', letterSpacing: 0.8, color: 'rgba(255,255,255,0.85)' }}
-            >
-              My Profile
-            </Text>
-            <PressableScale
-              onPress={() => router.push('/settings/appearance')}
-              accessibilityLabel="Appearance settings"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(255,255,255,0.16)',
-              }}
-            >
-              <Icon name="settings" size={20} color="onPrimaryContainer" />
-            </PressableScale>
-          </XStack>
-
-          <XStack alignItems="center" gap={14}>
-            {isPending || !profile ? (
-              <>
-                <Skeleton width={76} height={76} radius={38} />
-                <YStack gap={8} flex={1}>
-                  <Skeleton height={18} width="60%" />
-                  <Skeleton height={12} width="80%" />
-                </YStack>
-              </>
-            ) : (
-              <>
-                <YStack borderRadius={42} borderWidth={3} borderColor="rgba(255,255,255,0.85)" overflow="hidden">
-                  <Avatar uri={profile.avatar} name={profile.name} size={72} />
-                </YStack>
-                <YStack flex={1} gap={4}>
-                  <Text variant="headlineSm" weight="bold" color="onPrimaryContainer" numberOfLines={1}>
-                    {profile.name}
-                  </Text>
-                  <Text variant="bodySm" numberOfLines={2} style={{ color: 'rgba(255,255,255,0.86)' }}>
-                    {profile.headline}
-                  </Text>
-                </YStack>
-              </>
-            )}
-          </XStack>
-
-          {summary ? (
-            <YStack gap={12}>
-              <XStack alignItems="center" justifyContent="space-between">
-                <XStack alignItems="center" gap={8}>
-                  <Icon name="stars" size={17} color="onPrimaryContainer" />
-                  <Text variant="labelLg" weight="bold" color="onPrimaryContainer">
-                    {summary.tier} Builder
-                  </Text>
-                </XStack>
-                <Text variant="codeSm" weight="semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                  {summary.xp}/{summary.xpGoal || '∞'} XP
-                </Text>
-              </XStack>
-
-              {summary.xpGoal > 0 ? (
-                <YStack height={8} borderRadius={4} backgroundColor="rgba(255,255,255,0.25)" overflow="hidden">
-                  <YStack width={`${progress * 100}%`} height="100%" borderRadius={4} backgroundColor="#FFFFFF" />
-                </YStack>
-              ) : null}
-
-              <XStack gap={8}>
-                <HeroStat label="Events" value={summary.eventsAttended} />
-                <HeroStat label="Badges" value={`${summary.badgesUnlocked}/${summary.badgesTotal}`} />
-                <HeroStat label="Points" value={summary.points} />
-              </XStack>
-
-              <PressableScale
-                onPress={() => router.push('/achievements')}
-                accessibilityLabel="View achievements"
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6,
-                  paddingVertical: 11,
-                  borderRadius: theme.radius.base,
-                  backgroundColor: 'rgba(255,255,255,0.18)',
-                }}
-              >
-                <Text variant="labelMd" weight="semibold" color="onPrimaryContainer">
-                  View achievements
-                </Text>
-                <Icon name="chevronRight" size={16} color="onPrimaryContainer" />
-              </PressableScale>
-            </YStack>
-          ) : (
-            <PressableScale
-              onPress={() => toast('Edit profile arriving soon', 'info')}
-              accessibilityLabel="Edit profile"
-              style={{
-                alignSelf: 'flex-start',
-                paddingHorizontal: 12,
-                paddingVertical: 6,
-                borderRadius: theme.radius.full,
-                backgroundColor: 'rgba(255,255,255,0.18)',
-              }}
-            >
-              <Text variant="labelSm" weight="semibold" color="onPrimaryContainer">
-                Edit profile
-              </Text>
-            </PressableScale>
-          )}
-        </YStack>
-      </Gradient>
-    </YStack>
-  );
-}
-
-function HeroStat({ label, value }: { label: string; value: number | string }) {
-  return (
-    <YStack flex={1} padding={10} borderRadius={10} backgroundColor="rgba(255,255,255,0.14)" gap={2}>
-      <Text variant="labelLg" weight="bold" color="onPrimaryContainer" style={{ lineHeight: 18 }}>
+    <YStack flex={1} alignItems="center" paddingVertical={14} gap={4} borderRadius={18} backgroundColor="surfaceContainerLow">
+      <Text variant="titleMd" weight="bold" color={color} style={{ fontFamily: 'JetBrainsMono_700Bold' }}>
         {value}
       </Text>
-      <Text variant="bodySm" style={{ lineHeight: 14, color: 'rgba(255,255,255,0.82)' }}>
+      <Text variant="codeSm" muted>
         {label}
       </Text>
     </YStack>
