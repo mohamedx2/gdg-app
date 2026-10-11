@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-bright": "#f9f9ff", "primary-fixed-dim": "#b1c5ff", "on-background": "#1a1b21", "tertiary": "#654900", "outline": "#737785", "surface-container-highest": "#e2e2e9", "on-primary-fixed-variant": "#00419f", "secondary-container": "#95f4a6", "on-surface-variant": "#424654", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffdfa0", "surface": "#f9f9ff", "secondary": "#006d31", "on-secondary-fixed-variant": "#005323", "secondary-fixed": "#98f7a9", "primary": "#0047ae", "inverse-on-surface": "#f0f0f7", "on-tertiary-fixed": "#261a00", "surface-container-high": "#e8e7ef", "error-container": "#ffdad6", "background": "#f9f9ff", "primary-container": "#1a5fd6", "surface-container-low": "#f3f3fa", "on-secondary": "#ffffff", "on-tertiary-fixed-variant": "#5c4300", "surface-tint": "#0457ce", "surface-variant": "#e2e2e9", "on-surface": "#1a1b21", "error": "#ba1a1a", "on-secondary-fixed": "#00210a", "secondary-fixed-dim": "#7cda8f", "inverse-surface": "#2e3036", "on-primary-fixed": "#001946", "surface-dim": "#d9d9e1", "primary-fixed": "#dae2ff", "tertiary-container": "#836000", "surface-container-lowest": "#ffffff", "outline-variant": "#c3c6d6", "inverse-primary": "#b1c5ff", "surface-container": "#ededf5", "on-tertiary-container": "#ffe1a7", "on-secondary-container": "#017233", "on-primary-container": "#dde4ff", "on-error-container": "#93000a", "tertiary-fixed-dim": "#fbbc05", "on-primary": "#ffffff", "on-error": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "2rem", "margin-desktop": "3rem", "space-xl": "2.5rem", "space-lg": "1.5rem", "margin-tablet": "2rem", "space-md": "1rem", "space-sm": "0.5rem", "gutter": "1rem", "margin": "1rem", "gutter-tablet": "1.5rem", "space-xs": "0.25rem" }, "fontFamily": { "label-code-lg": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "label-code-sm": ["JetBrains Mono"], "body-sm": ["Inter"], "display": ["Plus Jakarta Sans"], "label-code-md": ["JetBrains Mono"] }, "fontSize": { "label-code-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.011em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.006em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-code-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-code-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }] } } } }</script><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all rounded-full" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Inbox &amp; Chat Thread</h1></div><div class="flex items-center gap-space-xs"><button aria-label="More options" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all rounded-full" type="button"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-safe bg-surface"><div class="flex flex-col w-full pb-28">
+<!-- Top Auxiliary Action Banner -->
+<div class="px-gutter pt-space-xs pb-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label-code-sm text-label-code-sm uppercase tracking-wider">
+        Live Feed
+      </span>
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+</div>
+<button class="flex items-center gap-1 text-primary hover:text-primary-container active:scale-95 transition-all text-label-code-md font-label-code-md" id="markAllReadBtn" onclick="markAllAsRead()" type="button">
+<span class="material-symbols-outlined text-[16px]">done_all</span>
+<span>Mark all read</span>
+</button>
+</div>
+<!-- Segmented Control Switcher -->
+<div class="px-gutter mb-space-md">
+<div class="bg-surface-container-high p-1 rounded-full flex items-center">
+<button class="flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all bg-inverse-surface text-inverse-on-surface shadow-sm flex items-center justify-center gap-1.5" id="tabMessages" onclick="switchMainTab('messages')" type="button">
+<span>Messages</span>
+<span class="bg-primary text-on-primary text-[10px] px-1.5 py-0.5 rounded-full font-label-code-sm" id="messagesBadge">3</span>
+</button>
+<button class="flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5" id="tabNotifications" onclick="switchMainTab('notifications')" type="button">
+<span>Notifications</span>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-label-code-sm">5</span>
+</button>
+</div>
+</div>
+<!-- Messages Tab View Container -->
+<div class="flex flex-col w-full" id="messagesView">
+<!-- Search Bar -->
+<div class="px-gutter mb-space-md">
+<div class="relative w-full">
+<span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="w-full h-11 pl-10 pr-10 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md shadow-sm outline-none focus:bg-surface-container-low transition-all" placeholder="Search conversations and direct chats..." type="text"/>
+<button class="absolute inset-y-0 right-3 flex items-center text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Filter Category Chips -->
+<div class="w-full overflow-x-auto no-scrollbar pl-gutter pr-gutter pb-space-sm mb-space-xs flex items-center gap-2">
+<button class="chip-filter active whitespace-nowrap px-4 py-1.5 rounded-full bg-on-surface text-surface text-label-code-md font-label-code-md shadow-sm" onclick="setFilter(this, 'all')" type="button">
+        All
+      </button>
+<button class="chip-filter whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-lowest text-on-surface text-label-code-md font-label-code-md shadow-sm hover:bg-surface-container" onclick="setFilter(this, 'direct')" type="button">
+        Direct
+      </button>
+<button class="chip-filter whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-lowest text-on-surface text-label-code-md font-label-code-md shadow-sm hover:bg-surface-container flex items-center gap-1" onclick="setFilter(this, 'squad')" type="button">
+<span>Squad HQ</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</button>
+<button class="chip-filter whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-lowest text-on-surface text-label-code-md font-label-code-md shadow-sm hover:bg-surface-container" onclick="setFilter(this, 'organizers')" type="button">
+        Organizers
+      </button>
+</div>
+<!-- Pinned / Active Squad Announcement Pill -->
+<div class="px-gutter mb-space-md">
+<div class="bg-gradient-to-r from-primary-container/15 via-surface-container to-secondary-container/20 rounded-xl p-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">campaign</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface truncate">
+<strong class="font-semibold text-primary">DevFest Sousse:</strong> Call for Speakers ends in 4 days!
+          </p>
+</div>
+<span class="material-symbols-outlined text-primary shrink-0 text-[18px]">chevron_right</span>
+</div>
+</div>
+<!-- Messages List Section -->
+<div class="flex flex-col px-gutter gap-2.5" id="conversationsContainer">
+<!-- Row 1 (Unread): Sarra B. -->
+<div class="conversation-item unread-item bg-surface-container-lowest p-3.5 rounded-2xl shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all cursor-pointer flex items-start gap-3 relative overflow-hidden group" onclick="openChatDrawer('Sarra B.', 'Hydra Squad Core', 'online')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close-up portrait of Tunisian female software developer wearing round glasses with playful smile in brightly lit campus lab room, warm natural light, cinematic, photorealistic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKjvu46dBRhPo2tGSkZ_ehGDfSW9CJiWJ-RQRUr5b2zqunKd7akmH8KBv2PzrAyWTAISCeJqudMS7d3ROGtr0ytb5ug0WeFgF4GvyIMSSA40HkJnERNZOrSTI1W1By1WF9PBQNXsd7a6O9jQQ-P769vwhxKwTJWbCp7wQfvEwQkuNYmcyKCHgcZxMPHrGmaahc4r-DQ0BWf1JHgTmyHHkBBepZAKn4mplcfW5QPyZ9Bkax6G-blT8w"/>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-secondary rounded-full ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between gap-1 mb-0.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Sarra B.</span>
+<span class="shrink-0 px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-code-sm text-label-code-sm font-medium">Hydra Squad</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold shrink-0">10:42 AM</span>
+</div>
+<p class="font-body-md text-body-md font-medium text-on-surface line-clamp-1 mb-1">
+            Did you review the Riverpod PR for Lab 04?
+          </p>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">reply</span>
+              Branch <code class="font-label-code-sm text-label-code-sm text-primary">feat/state-lab4</code>
+</span>
+<span class="unread-pill px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-code-sm text-label-code-sm font-bold shadow-sm">2</span>
+</div>
+</div>
+</div>
+<!-- Row 2 (Unread): Falcon Squad HQ -->
+<div class="conversation-item unread-item bg-surface-container-lowest p-3.5 rounded-2xl shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all cursor-pointer flex items-start gap-3 relative overflow-hidden group" onclick="openChatDrawer('Falcon Squad HQ', '18 members · DevFest Team', 'active')">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="relative shrink-0">
+<div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-secondary-container flex items-center justify-center text-on-secondary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">cloud_queue</span>
+</div>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 bg-surface-container-lowest rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[13px]">groups</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between gap-1 mb-0.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Falcon Squad HQ</span>
+<span class="shrink-0 px-1.5 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-code-sm text-label-code-sm">Squad</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-primary font-semibold shrink-0">09:15 AM</span>
+</div>
+<p class="font-body-md text-body-md font-medium text-on-surface line-clamp-1 mb-1">
+<span class="text-on-surface-variant font-normal">Yassine:</span> Meeting tomorrow at Amphi B before DevFest kickoff...
+          </p>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">event</span>
+              Campus EPI · Sousse
+            </span>
+<span class="unread-pill px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-code-sm text-label-code-sm font-bold shadow-sm">1</span>
+</div>
+</div>
+</div>
+<!-- Row 3: Yassine Mansour (Lead) -->
+<div class="conversation-item bg-surface-container-lowest p-3.5 rounded-2xl shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all cursor-pointer flex items-start gap-3 group" onclick="openChatDrawer('Yassine Mansour', 'GDG Campus EPI Lead', 'offline')">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of young North African male community organizer wearing navy blue developer hoodie, friendly expression, modern campus atrium background, soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4-n3PBP-wAA2-eJuj_Mq9wd0dOPKjoXQRgDqJh8zimjUEAKGWtqBBh6_YXfG3gxnt0rzWZeeb0PsmTOsejByKFc9CC9pLT-tNwPSwiBs1d4sb4D57kVVM14qfrREHXqbN23lLdUhd1_nPMp05nP6YabkzJR5qbzBnND-8O5fABv3hVnlMh-7IovCO4l7XOkQkgQMmr7SUYQVdnuBDPy4eC75RnLTVvuJHT0wabWrt6R5IyOn13QOm"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between gap-1 mb-0.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Yassine Mansour</span>
+<span class="shrink-0 px-1.5 py-0.5 rounded bg-tertiary-fixed/60 text-on-tertiary-fixed font-label-code-sm text-label-code-sm font-bold">LEAD</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant shrink-0">YESTERDAY</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1 mb-1">
+            Great job on the e-ticket QR test run yesterday!
+          </p>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">done_all</span>
+              Delivered
+            </span>
+<span class="text-label-code-sm font-label-code-sm text-on-surface-variant/70">14:02</span>
+</div>
+</div>
+</div>
+<!-- Row 4: Nour E. (Design Lead) -->
+<div class="conversation-item bg-surface-container-lowest p-3.5 rounded-2xl shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all cursor-pointer flex items-start gap-3 group" onclick="openChatDrawer('Nour E.', 'Product &amp; UI Lead', 'offline')">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Creative female designer in stylish modern attire smiling with headphones around neck, colorful graphic design studio background, warm pastel lighting, photorealistic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhEK7iqqtjl2p29k8q5w5kD1N0a_Qv1Qz6xKObo2RhF7fsDIUXzNEMlp5qK-gSGMg3j0jT0WKX_olOXxO_a50WxK6KmLYGWKxaXweK9npncN3v_jXhDrd0xSvWJW7JggWYd9OGCPv97_CLbQ8Yq01gBebzKSjb2enNRR5WzQf910Py-eoHoN8-EnByikjq9ixym2zkTvU4n7oGWmrM58SKtIAvvYDnbhStgClsttzJqMh_fv-SnAkx"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 bg-surface-container-highest text-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[13px]">palette</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between gap-1 mb-0.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Nour E.</span>
+<span class="shrink-0 px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-code-sm text-label-code-sm">Design Lead</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant shrink-0">WED</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1 mb-1">
+            Sent 4 carousel Figma components for Flutter workshop
+          </p>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">done_all</span>
+              Figma link attached
+            </span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">attachment</span>
+</div>
+</div>
+</div>
+<!-- Row 5: GDG Bot / System -->
+<div class="conversation-item bg-surface-container-lowest p-3.5 rounded-2xl shadow-sm hover:bg-surface-container-low active:scale-[0.99] transition-all cursor-pointer flex items-start gap-3 group" onclick="openChatDrawer('GDG EPI Bot', 'Automated Campus Helper', 'system')">
+<div class="relative shrink-0">
+<div class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-primary-fixed-dim flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">smart_toy</span>
+</div>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between gap-1 mb-0.5">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">GDG EPI Bot</span>
+<span class="shrink-0 px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-code-sm text-label-code-sm font-semibold uppercase">BOT</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant shrink-0">MON</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1 mb-1">
+            Your RSVP for Flutter Clean Architecture is confirmed!
+          </p>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">confirmation_number</span>
+              Ticket #EPI-FLUTTER-88
+            </span>
+<span class="text-label-code-sm font-label-code-sm text-on-surface-variant/70">Verified</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notifications Tab View Container (Initially Hidden) -->
+<div class="hidden flex-col w-full px-gutter gap-2.5" id="notificationsView">
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Badge Earned!</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">2h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">You achieved the <strong class="text-on-surface">Flutter Pioneer</strong> level badge for completing 3 lab PRs.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">event_available</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Hackathon Check-in</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">5h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">DevFest Sousse Hackathon submissions are now open on Git repository.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim/30 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Leaderboard Rank Up</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">1d ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Hydra Squad surged to #2 in Sousse student chapters this week.</p>
+</div>
+</div>
+</div>
+<!-- Floating Action Button: New Message -->
+<div class="fixed bottom-6 right-5 z-40">
+<button class="h-14 px-5 rounded-full bg-primary text-on-primary shadow-xl hover:bg-primary-container active:scale-95 transition-all flex items-center gap-2 group" onclick="triggerNewMessageModal()" type="button">
+<span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">edit_square</span>
+<span class="font-headline-sm text-label-code-md font-semibold tracking-wide">New Chat</span>
+</button>
+</div>
+<!-- Interactive Slide-Up Chat Drawer / Active Thread Modal -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden flex-col justify-end transition-opacity duration-200" id="chatDrawer">
+<!-- Modal Clickaway Area -->
+<div class="flex-1" onclick="closeChatDrawer()"></div>
+<!-- Drawer Container -->
+<div class="bg-surface rounded-t-3xl shadow-2xl max-h-[82vh] flex flex-col w-full overflow-hidden animate-in slide-in-from-bottom duration-300">
+<!-- Drawer Top Grab Bar & Header -->
+<div class="pt-3 pb-3 px-gutter bg-surface-container-lowest flex flex-col shadow-sm">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full mx-auto mb-3"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-headline-sm" id="drawerAvatar">
+                S
+              </div>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary rounded-full ring-2 ring-surface-container-lowest" id="drawerStatusDot"></span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="drawerName">Sarra B.</h3>
+<span class="font-label-code-sm text-label-code-sm text-primary bg-primary/10 px-1.5 py-0.5 rounded">Hydra</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary flex items-center gap-1" id="drawerSub">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Active now · Flutter Lab
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</button>
+<button class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center text-on-surface-variant" onclick="closeChatDrawer()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Drawer Messages Scroll Body -->
+<div class="flex-1 p-gutter overflow-y-auto flex flex-col gap-3 max-h-[50vh]" id="chatMessagesScroll">
+<!-- Timestamp separator -->
+<div class="flex justify-center my-1">
+<span class="px-3 py-1 rounded-full bg-surface-container font-label-code-sm text-label-code-sm text-on-surface-variant">
+            TODAY · CAMPUS LAB 04
+          </span>
+</div>
+<!-- Incoming message -->
+<div class="flex items-end gap-2 max-w-[85%]">
+<div class="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center text-body-sm shrink-0 font-bold">
+            SB
+          </div>
+<div class="bg-surface-container-lowest p-3 rounded-2xl rounded-bl-xs shadow-sm">
+<p class="font-body-md text-body-md text-on-surface">
+              Hey! Did you review the Riverpod PR for Lab 04? We need to merge it before tomorrow's session at Amphi B.
+            </p>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant block text-right mt-1">10:41 AM</span>
+</div>
+</div>
+<!-- Outgoing message -->
+<div class="flex items-end gap-2 max-w-[85%] self-end">
+<div class="bg-primary text-on-primary p-3 rounded-2xl rounded-br-xs shadow-sm">
+<p class="font-body-md text-body-md">
+              Just tested the code generator branch. Tests pass cleanly! Checking provider scoping now.
+            </p>
+<div class="flex items-center justify-end gap-1 mt-1 text-on-primary/80">
+<span class="font-label-code-sm text-label-code-sm">10:42 AM</span>
+<span class="material-symbols-outlined text-[13px]">done_all</span>
+</div>
+</div>
+</div>
+<!-- Incoming message with code / attachment preview -->
+<div class="flex items-end gap-2 max-w-[85%]">
+<div class="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center text-body-sm shrink-0 font-bold">
+            SB
+          </div>
+<div class="bg-surface-container-lowest p-3 rounded-2xl rounded-bl-xs shadow-sm">
+<p class="font-body-md text-body-md text-on-surface mb-2">
+              Super! Here is the latest commit diff snippet:
+            </p>
+<div class="bg-inverse-surface text-inverse-on-surface p-2.5 rounded-xl font-label-code-sm text-label-code-sm">
+<div class="text-secondary-fixed">@riverpod</div>
+<div class="text-inverse-on-surface/90">class SquadNotifier extends _$SquadNotifier { ... }</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant block text-right mt-1.5">10:42 AM</span>
+</div>
+</div>
+</div>
+<!-- Quick Action / Chip Prompts inside Drawer -->
+<div class="px-gutter py-1.5 bg-surface-container-low flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+<button class="whitespace-nowrap px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface font-label-code-sm text-label-code-sm shadow-xs hover:bg-surface-container" onclick="insertQuickReply('LGTM! Merging now 🚀')" type="button">
+          LGTM! Merging now 🚀
+        </button>
+<button class="whitespace-nowrap px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface font-label-code-sm text-label-code-sm shadow-xs hover:bg-surface-container" onclick="insertQuickReply('On my way to EPI lab')" type="button">
+          On my way to EPI lab
+        </button>
+<button class="whitespace-nowrap px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface font-label-code-sm text-label-code-sm shadow-xs hover:bg-surface-container" onclick="insertQuickReply('Can we sync in 10 mins?')" type="button">
+          Sync in 10 mins?
+        </button>
+</div>
+<!-- Drawer Input Bar -->
+<div class="p-gutter bg-surface-container-lowest flex items-center gap-2">
+<button class="w-10 h-10 rounded-full hover:bg-surface-container flex items-center justify-center text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[22px]">add_circle</span>
+</button>
+<div class="flex-1 relative">
+<input class="w-full h-11 pl-4 pr-10 rounded-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md outline-none focus:bg-surface-container transition-all" id="drawerChatInput" placeholder="Type a message to Sarra..." type="text"/>
+<button class="absolute inset-y-0 right-3 flex items-center text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">sentiment_satisfied</span>
+</button>
+</div>
+<button class="w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-all" onclick="sendDrawerMessage()" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function switchMainTab(tab) {
+    const messagesView = document.getElementById('messagesView');
+    const notificationsView = document.getElementById('notificationsView');
+    const tabMessages = document.getElementById('tabMessages');
+    const tabNotifications = document.getElementById('tabNotifications');
+
+    if (tab === 'messages') {
+      messagesView.classList.remove('hidden');
+      notificationsView.classList.add('hidden');
+      tabMessages.className = 'flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all bg-inverse-surface text-inverse-on-surface shadow-sm flex items-center justify-center gap-1.5';
+      tabNotifications.className = 'flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5';
+    } else {
+      messagesView.classList.add('hidden');
+      notificationsView.classList.remove('hidden');
+      tabNotifications.className = 'flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all bg-inverse-surface text-inverse-on-surface shadow-sm flex items-center justify-center gap-1.5';
+      tabMessages.className = 'flex-1 py-2 rounded-full font-headline-sm text-label-code-md font-semibold text-center transition-all text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1.5';
+    }
+  }
+
+  function setFilter(el, type) {
+    document.querySelectorAll('.chip-filter').forEach(chip => {
+      chip.className = 'chip-filter whitespace-nowrap px-4 py-1.5 rounded-full bg-surface-container-lowest text-on-surface text-label-code-md font-label-code-md shadow-sm hover:bg-surface-container';
+    });
+    el.className = 'chip-filter active whitespace-nowrap px-4 py-1.5 rounded-full bg-on-surface text-surface text-label-code-md font-label-code-md shadow-sm';
+  }
+
+  function markAllAsRead() {
+    const unreadPills = document.querySelectorAll('.unread-pill');
+    unreadPills.forEach(pill => pill.remove());
+
+    const unreadItems = document.querySelectorAll('.unread-item');
+    unreadItems.forEach(item => {
+      const bar = item.querySelector('.bg-primary.w-1');
+      if (bar) bar.remove();
+    });
+
+    const badge = document.getElementById('messagesBadge');
+    if (badge) {
+      badge.textContent = '0';
+      badge.className = 'bg-surface-container-highest text-on-surface-variant text-[10px] px-1.5 py-0.5 rounded-full font-label-code-sm';
+    }
+
+    const markBtn = document.getElementById('markAllReadBtn');
+    if (markBtn) {
+      markBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-secondary">check</span><span class="text-secondary">All read</span>';
+      markBtn.disabled = true;
+    }
+  }
+
+  function openChatDrawer(name, sub, status) {
+    const drawer = document.getElementById('chatDrawer');
+    const drawerName = document.getElementById('drawerName');
+    const drawerSub = document.getElementById('drawerSub');
+    const drawerAvatar = document.getElementById('drawerAvatar');
+    const drawerStatusDot = document.getElementById('drawerStatusDot');
+
+    drawerName.textContent = name;
+    drawerSub.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${status === 'online' ? 'bg-secondary' : 'bg-on-surface-variant'}"></span> ${sub}`;
+    drawerAvatar.textContent = name.substring(0, 1);
+
+    if (status === 'online') {
+      drawerStatusDot.className = 'absolute bottom-0 right-0 w-3 h-3 bg-secondary rounded-full ring-2 ring-surface-container-lowest';
+    } else {
+      drawerStatusDot.className = 'absolute bottom-0 right-0 w-3 h-3 bg-on-surface-variant/40 rounded-full ring-2 ring-surface-container-lowest';
+    }
+
+    drawer.classList.remove('hidden');
+    drawer.classList.add('flex');
+    setTimeout(() => {
+      const scroll = document.getElementById('chatMessagesScroll');
+      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    }, 50);
+  }
+
+  function closeChatDrawer() {
+    const drawer = document.getElementById('chatDrawer');
+    drawer.classList.add('hidden');
+    drawer.classList.remove('flex');
+  }
+
+  function insertQuickReply(text) {
+    const input = document.getElementById('drawerChatInput');
+    input.value = text;
+    input.focus();
+  }
+
+  function sendDrawerMessage() {
+    const input = document.getElementById('drawerChatInput');
+    const val = input.value.trim();
+    if (!val) return;
+
+    const scrollContainer = document.getElementById('chatMessagesScroll');
+    const newBubble = document.createElement('div');
+    newBubble.className = 'flex items-end gap-2 max-w-[85%] self-end animate-in fade-in duration-200';
+    newBubble.innerHTML = `
+      <div class="bg-primary text-on-primary p-3 rounded-2xl rounded-br-xs shadow-sm">
+        <p class="font-body-md text-body-md">${val}</p>
+        <div class="flex items-center justify-end gap-1 mt-1 text-on-primary/80">
+          <span class="font-label-code-sm text-label-code-sm">Just now</span>
+          <span class="material-symbols-outlined text-[13px]">check</span>
+        </div>
+      </div>
+    `;
+    scrollContainer.appendChild(newBubble);
+    input.value = '';
+    scrollContainer.scrollTop = scrollContainer.scrollHeight;
+  }
+
+  function triggerNewMessageModal() {
+    openChatDrawer('Falcon Squad HQ', '18 members · DevFest Team', 'online');
+  }
+</script></main></body></html>

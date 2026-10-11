@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_dark_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#282a30", "on-tertiary-fixed-variant": "#930004", "secondary-fixed-dim": "#6ddd81", "inverse-surface": "#e2e2eb", "on-primary-fixed-variant": "#004494", "surface-tint": "#adc6ff", "secondary-fixed": "#89fa9b", "on-secondary-fixed": "#002108", "on-primary-container": "#00285c", "surface": "#111319", "on-surface-variant": "#c2c6d5", "surface-container-highest": "#33343b", "on-secondary": "#003914", "surface-container-low": "#191b22", "surface-bright": "#373940", "primary-fixed-dim": "#adc6ff", "inverse-on-surface": "#2e3037", "on-primary": "#002e69", "secondary-container": "#30a550", "tertiary-fixed": "#ffdad5", "primary": "#adc6ff", "error": "#ffb4ab", "on-primary-fixed": "#001a41", "error-container": "#93000a", "tertiary-fixed-dim": "#ffb4a9", "secondary": "#6ddd81", "on-secondary-fixed-variant": "#005320", "surface-variant": "#33343b", "on-tertiary-fixed": "#410001", "tertiary-container": "#ff5544", "on-secondary-container": "#003210", "primary-container": "#4d8efe", "outline": "#8c909f", "surface-container": "#1e1f26", "on-tertiary": "#690002", "outline-variant": "#424753", "surface-dim": "#111319", "on-error": "#690005", "background": "#111319", "on-surface": "#e2e2eb", "primary-fixed": "#d8e2ff", "inverse-primary": "#005ac1", "on-tertiary-container": "#5c0001", "surface-container-lowest": "#0c0e14", "tertiary": "#ffb4a9", "on-error-container": "#ffdad6", "on-background": "#e2e2eb" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem", "space-xl": "2rem", "margin-desktop": "2.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "label-code": ["JetBrains Mono"], "body-sm": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "label-metric": ["JetBrains Mono"], "body-lg": ["Plus Jakarta Sans"], "label-tag": ["JetBrains Mono"] }, "fontSize": { "label-code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "600" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-metric": ["20px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "label-tag": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface-container-lowest text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary"><header class="fixed top-0 inset-x-0 z-50 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.35)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-primary-container"></span><span class="w-2 h-2 rounded-full bg-tertiary-container"></span><span class="w-2 h-2 rounded-full bg-secondary-container"></span><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-tag text-label-tag tracking-wider text-on-surface uppercase pl-0.5">GDG EPI</span></div><h1 class="font-headline-sm text-headline-sm text-on-surface truncate tracking-tight">Today</h1></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="min-w-[44px] min-h-[44px] relative flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">inbox</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span></button><a aria-label="User Profile" class="min-w-[44px] min-h-[44px] flex items-center justify-center" data-path="account-settings" href="#"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></a></div></div></header><main class="flex-1 flex flex-col w-full pt-16 pb-36 bg-surface-container-lowest px-margin"><div class="flex flex-col w-full space-y-5 pb-6">
+<!-- Personalized User Header Greeting -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img class="w-11 h-11 rounded-full object-cover shadow-md" data-alt="Close up modern editorial portrait of a young North African male developer smiling warmly wearing tech hoodie, studio lighting with ambient cyan and electric indigo edge light, clean dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLTtt4VpMH2U94F35hgmSNfF7yrZpkLQp87022N1q7K8pB48oYPnNNwn7bFy73VRLcxh9X6zhh8LeVPb8kdCJUMraPwDjJy4BUVxEARsGV_JUQaGd-dQ-RMc6Gh_fxTxmvdk0xcZVwspDcsdQaZPU04VBkQznGme3uKZAsa4MtlsJbdtEf6m87g1HUp6nbBo_P2wJ6dwmMbhcPWC4u4fwxmy26mls1N_-mSVucK1SaLrToBVPI8QZi"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary-container rounded-full ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Ahmed Ben Salah</span>
+<span class="font-label-tag text-label-tag px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary">CORE</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-code text-label-code">
+<span class="text-primary text-[10px]">●</span>
+<span>FRI 28 MAR • 2025</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Quick Calendar" class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+</button>
+<button aria-label="Inbox updates" class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center relative text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+</button>
+</div>
+</div>
+<!-- Hero Up Next Ticket Card -->
+<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1e1b4b] via-[#171c2d] to-[#0f172a] shadow-xl text-on-surface">
+<!-- Ambient mesh glow overlays -->
+<div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-secondary-container/15 blur-2xl pointer-events-none"></div>
+<div class="p-4 flex flex-col space-y-3 relative z-10">
+<!-- Top ticket info -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="flex h-2 w-2 rounded-full bg-secondary-container animate-ping"></span>
+<span class="font-label-tag text-label-tag uppercase tracking-wider text-secondary px-2 py-0.5 rounded-full bg-secondary-container/10">CONFIRMED SEAT #A-42</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant text-[11px] bg-surface-container-highest/60 px-2 py-0.5 rounded">IN 2H 15M</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">
+          Flutter & Firebase Workshop: Clean Architecture
+        </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          Hands-on state management with Riverpod, Cloud Firestore caching & telemetry pipelines.
+        </p>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1 font-label-code text-label-code text-on-surface-variant">
+<div class="flex items-center gap-1.5 bg-surface-container-low/70 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-[17px]">schedule</span>
+<span class="truncate text-[12px]">16:30 GMT+1</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-low/70 p-2 rounded-xl">
+<span class="material-symbols-outlined text-tertiary text-[17px]">location_on</span>
+<span class="truncate text-[12px]">Lab 04 • EPI</span>
+</div>
+</div>
+</div>
+<!-- Ticket Perforation Separator -->
+<div class="relative flex items-center justify-between px-3 py-1">
+<div class="w-4 h-8 bg-surface-container-lowest rounded-r-full -ml-4 shadow-inner"></div>
+<div class="flex-1 border-b border-dashed border-outline-variant/40 mx-2"></div>
+<div class="w-4 h-8 bg-surface-container-lowest rounded-l-full -mr-4 shadow-inner"></div>
+</div>
+<!-- Ticket Bottom Action Strip -->
+<div class="p-4 pt-2 bg-surface-container-lowest/40 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="flex flex-col font-label-code">
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Fast Track Pass</span>
+<span class="text-[11px] text-on-surface font-semibold">GDG-EPI-2025-42F</span>
+</div>
+</div>
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-on-primary font-body-md text-[13px] font-semibold hover:bg-primary-fixed shadow-[0_0_16px_rgba(66,133,244,0.35)] transition-all active:scale-95">
+<span class="material-symbols-outlined text-[17px]">qr_code_2</span>
+<span>Show Ticket</span>
+</button>
+</div>
+</div>
+<!-- Aurora Gamification Level Strip -->
+<div class="p-4 rounded-2xl bg-surface-container shadow-md relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-surface-container-highest to-surface-bright flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface text-[15px]">Silver Builder</span>
+<span class="font-label-tag text-label-tag px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-bold">LVL 7</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant text-[11px]">+360 XP to Gold Architect</span>
+</div>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high">
+<span class="text-tertiary-container text-[14px]">🔥</span>
+<span class="font-label-tag text-label-tag text-on-surface font-bold">5-DAY (1.5x)</span>
+</div>
+</div>
+<!-- Progress Gauge -->
+<div class="space-y-1.5 mt-3">
+<div class="flex justify-between font-label-code text-label-code text-[11px] text-on-surface-variant">
+<span>Current: 2,840 XP</span>
+<span class="text-on-surface font-medium">3,200 XP Tier Goal</span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container-highest overflow-hidden p-0.5">
+<div class="h-full rounded-full bg-gradient-to-r from-primary-container via-primary to-secondary transition-all duration-500 shadow-[0_0_10px_rgba(77,142,254,0.5)]" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<!-- Daily Actions Row: 3 Tactical Square Tiles -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-[16px] text-on-surface font-semibold tracking-tight">Daily Micro-Sprints</h3>
+<span class="font-label-code text-label-code text-primary text-[11px] cursor-pointer hover:underline">RESET 00:00</span>
+</div>
+<div class="grid grid-cols-3 gap-2.5">
+<!-- Tile 1: Daily Quiz -->
+<button class="flex flex-col justify-between p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-all text-left relative overflow-hidden group shadow-sm active:scale-95">
+<div class="flex items-center justify-between w-full">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">psychology</span>
+</div>
+<span class="font-label-tag text-label-tag text-secondary font-bold">+50 XP</span>
+</div>
+<div class="mt-4">
+<span class="font-body-md text-[13px] font-semibold text-on-surface block leading-tight">Kotlin Quiz</span>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant font-label-code text-[10px]">
+<span class="material-symbols-outlined text-[12px] text-tertiary">timer</span>
+<span>4h left</span>
+</div>
+</div>
+</button>
+<!-- Tile 2: Falcon PR Review Quest -->
+<button class="flex flex-col justify-between p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-all text-left relative overflow-hidden group shadow-sm active:scale-95">
+<div class="flex items-center justify-between w-full">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">rate_review</span>
+</div>
+<span class="font-label-tag text-label-tag text-secondary font-bold">+60 XP</span>
+</div>
+<div class="mt-4">
+<span class="font-body-md text-[13px] font-semibold text-on-surface block leading-tight">PR Review</span>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant font-label-code text-[10px]">
+<span class="text-primary font-bold">2/4</span>
+<span>Falcon PRs</span>
+</div>
+</div>
+</button>
+<!-- Tile 3: Community Vote -->
+<button class="flex flex-col justify-between p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-all text-left relative overflow-hidden group shadow-sm active:scale-95">
+<div class="flex items-center justify-between w-full">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">how_to_vote</span>
+</div>
+<span class="font-label-tag text-label-tag text-on-surface-variant">OPEN</span>
+</div>
+<div class="mt-4">
+<span class="font-body-md text-[13px] font-semibold text-on-surface block leading-tight">Track Vote</span>
+<div class="flex items-center gap-1 mt-1 text-tertiary font-label-code text-[10px]">
+<span>Ends 23:59</span>
+</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Campus Announcement Banner -->
+<div class="p-4 rounded-2xl bg-gradient-to-r from-surface-container via-surface-container-high to-surface-container relative overflow-hidden shadow-md">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-tag text-label-tag tracking-wider text-tertiary font-bold uppercase">CAMPUS ANNOUNCEMENT</span>
+</div>
+<span class="font-label-code text-label-code text-[11px] text-tertiary px-2 py-0.5 rounded-full bg-tertiary-container/15 font-semibold">APPLY BY APR 02</span>
+</div>
+<h4 class="font-headline-sm text-[16px] text-on-surface font-bold leading-snug">
+      DevFest Sousse '25 Call for Speakers is Officially Live!
+    </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 leading-relaxed">
+      Submit your technical talks on Generative AI, Go microservices, or WebAssembly. Student tracks coached by Google Developer Experts.
+    </p>
+<div class="mt-3 flex items-center justify-between pt-2">
+<div class="flex -space-x-1.5 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-container-high" data-alt="Portrait of an experienced female Tunisian software engineer wearing glasses smiling in an auditorium setting, natural indoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpASOh6hfld_KrCxqH5jwmVtQgQ3t32dW7WzALtE67oC31kg6yVsuADEEP79i5nEsdplyFG1PE8EHT7N-XIMPbpzCMzyrjiFshe3DuoVCQPY3i3rlsrkHr47RN5A441dNtiB29nTm3c2D8Ip6ZN5kct_rTjTbXX7ZYUsrdpqOZSxziAZdXMR4TwbazVGr2PONAJqb_QOQHRYD_TplGPZAfxAhCH8hmPh4Dhz4MB4K_gyIYK6P1fGqz"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-container-high" data-alt="Portrait of a young male data scientist tech mentor in front of dual monitors displaying code in dark studio setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXzddJzI0ck6AUvhBbygD-q3KlILCmsPUQgz_14MdLrvsblR1ApBicFS-AiRUIdECSiU24E8cHxVTSM0WWVpqvPh4sP0YdTwBBLpUar9ydgZu-I_en2yIUt7nDrfU7QR4NIktGbnZjZB9SuWMphN63DZjKHnVc_hqQ9cJf8DkXGhCXptT8PtTrBkS5lYgb6AnCZ2p6bPUaKIYySjb8zLO5SFn1s34DV9v-2VuH1s_wHeG8GLnX23Ll"/>
+<div class="h-6 w-6 rounded-full bg-surface-container-highest flex items-center justify-center font-label-tag text-[9px] text-on-surface ring-2 ring-surface-container-high">+14</div>
+</div>
+<button class="font-body-md text-[13px] font-bold text-primary flex items-center gap-1 hover:text-primary-fixed transition-colors">
+<span>Submit Proposal</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Happening this week (Compact Horizontal Carousel) -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-[16px] text-on-surface font-semibold tracking-tight">Happening This Week</h3>
+<span class="w-5 h-5 rounded-full bg-surface-container flex items-center justify-center font-label-tag text-[10px] text-on-surface-variant">3</span>
+</div>
+<a class="font-label-code text-label-code text-primary text-[11px] hover:underline" href="#">VIEW SCHEDULE</a>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar -mx-margin px-margin pb-1">
+<!-- Event 1: Cloud Run -->
+<div class="min-w-[240px] max-w-[240px] p-3.5 rounded-2xl bg-surface-container flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-tag text-label-tag px-2 py-0.5 rounded-full bg-primary-container/20 text-primary">CLOUD TRACK</span>
+<span class="font-label-code text-[11px] text-on-surface-variant">SAT • 10:00</span>
+</div>
+<h5 class="font-body-md text-[14px] font-bold text-on-surface leading-tight">
+            Cloud Run & Serverless Microservices at Scale
+          </h5>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1 line-clamp-1">
+            Zero-to-deploy containers with custom domains and SSL.
+          </p>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2">
+<span class="font-label-code text-[11px] text-on-surface-variant">Amphi B</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-highest text-primary font-label-tag text-label-tag hover:bg-primary hover:text-on-primary transition-all">
+            RSVP
+          </button>
+</div>
+</div>
+<!-- Event 2: TensorFlow Vision -->
+<div class="min-w-[240px] max-w-[240px] p-3.5 rounded-2xl bg-surface-container flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-tag text-label-tag px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary">AI / ML LAB</span>
+<span class="font-label-code text-[11px] text-on-surface-variant">MON • 14:00</span>
+</div>
+<h5 class="font-body-md text-[14px] font-bold text-on-surface leading-tight">
+            TensorFlow Edge Vision on Android Devices
+          </h5>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1 line-clamp-1">
+            Quantized neural networks running real-time inference.
+          </p>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2">
+<span class="font-label-code text-[11px] text-on-surface-variant">Lab 02</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-highest text-primary font-label-tag text-label-tag hover:bg-primary hover:text-on-primary transition-all">
+            RSVP
+          </button>
+</div>
+</div>
+<!-- Event 3: Git & OSS Open Mic -->
+<div class="min-w-[240px] max-w-[240px] p-3.5 rounded-2xl bg-surface-container flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-all">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-tag text-label-tag px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary">COMMUNITY</span>
+<span class="font-label-code text-[11px] text-on-surface-variant">WED • 18:00</span>
+</div>
+<h5 class="font-body-md text-[14px] font-bold text-on-surface leading-tight">
+            Open Source Speed Dating: Find Your Hack Squad
+          </h5>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-1 line-clamp-1">
+            Matchmaking session for GDG Solution Challenge.
+          </p>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2">
+<span class="font-label-code text-[11px] text-on-surface-variant">Cowork Hub</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-highest text-primary font-label-tag text-label-tag hover:bg-primary hover:text-on-primary transition-all">
+            RSVP
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Continue Learning Tracks -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-[16px] text-on-surface font-semibold tracking-tight">Active Learning Tracks</h3>
+<span class="font-label-code text-label-code text-on-surface-variant text-[11px]">2 IN PROGRESS</span>
+</div>
+<div class="space-y-2">
+<!-- Course 1 -->
+<div class="p-3.5 rounded-2xl bg-surface-container flex items-center justify-between gap-3 shadow-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">developer_mode</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<h5 class="font-body-md text-[13px] font-bold text-on-surface truncate">Google Cloud Associate Pathway</h5>
+<span class="font-label-code text-[11px] text-primary shrink-0 font-medium">72%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 72%;"></div>
+</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-on-surface-variant font-label-code">
+<span>Module 9: IAM & Security Roles</span>
+<span>12m remaining</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary transition-colors shrink-0">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+</div>
+<!-- Course 2 -->
+<div class="p-3.5 rounded-2xl bg-surface-container flex items-center justify-between gap-3 shadow-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[22px]">devices</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<h5 class="font-body-md text-[13px] font-bold text-on-surface truncate">Fullstack Flutter with Appwrite</h5>
+<span class="font-label-code text-[11px] text-secondary shrink-0 font-medium">45%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full rounded-full bg-secondary" style="width: 45%;"></div>
+</div>
+<div class="flex items-center justify-between mt-1 text-[11px] text-on-surface-variant font-label-code">
+<span>Module 4: Realtime Websockets</span>
+<span>25m remaining</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface hover:text-secondary transition-colors shrink-0">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Memories Community Photo Rail -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-[16px] text-on-surface font-semibold tracking-tight">Campus Memories</h3>
+<span class="material-symbols-outlined text-secondary text-[16px]">camera</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant text-[11px]">#GDGEPI</span>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar -mx-margin px-margin pb-2">
+<!-- Photo Card 1 -->
+<div class="min-w-[150px] max-w-[150px] rounded-2xl overflow-hidden bg-surface-container flex flex-col shadow-sm">
+<div class="relative h-44 w-full">
+<img class="w-full h-full object-cover" data-alt="Dynamic shot of collegiate students at a hackathon table collaborating late night with laptops, sticker decorated macbooks, energy drinks, cinematic high contrast neon lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0uSiGUg45MD_VsRzwhUQ8c6dvvkAeIKHR2snUz-sq_b_sk9rYbusY3sMfvUmJKTSLQsHYXGRsucIH_ghgRj4Dy9GeOPGIwskfjIMlf6_1t5X7qO1m3ayOdY-p56WKFpUBYi6zheSlh2ZNjY1EEBSdE5Y0wlkler-B2gZe-RKtzsHUpsdhMutrYpHua3WBXnELYDy-2yU5yyvQLGNjlpgmy0QBvDkOTVoB8gfbm4ABid9mg6fK7hls"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<span class="absolute bottom-2 left-2 font-label-tag text-[10px] text-on-surface bg-surface-container-high/80 backdrop-blur-md px-1.5 py-0.5 rounded">#HackNight</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-on-surface-variant font-label-code text-[10px]">
+<span>Lab 04 • 02:40 AM</span>
+<span class="flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span>48</span>
+</span>
+</div>
+</div>
+<!-- Photo Card 2 -->
+<div class="min-w-[150px] max-w-[150px] rounded-2xl overflow-hidden bg-surface-container flex flex-col shadow-sm">
+<div class="relative h-44 w-full">
+<img class="w-full h-full object-cover" data-alt="University auditorium presentation stage showing student speaker pointing at Flutter code slides on wide projector screen, ambient blue stage lighting and attentive audience silhouettes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCener1n_YrDsFy0i2cY0O2507n66OrqMF0cMfvlo4xJ-29LpkyYw_MNPQI4vgqdvS72-xJLR2XvU_I_SLHLTjKcQhDXWdiQ6aP4mKrVrJiDrN_TF5V0aq3Q3PeVITWGEDmfMXAUMYlaB1H9-kqe2yIKKeJSxStP6msNHuUa3Cx4lsUUjY_YCQapYmiMzybJkr0yi5GMw__fKGYUHjUtkwQTq9jfvt-diURTdAZwSTsRCteLUx4rwLh"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<span class="absolute bottom-2 left-2 font-label-tag text-[10px] text-on-surface bg-surface-container-high/80 backdrop-blur-md px-1.5 py-0.5 rounded">#TechTalk</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-on-surface-variant font-label-code text-[10px]">
+<span>Amphi EPI • Wed</span>
+<span class="flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span>92</span>
+</span>
+</div>
+</div>
+<!-- Photo Card 3 -->
+<div class="min-w-[150px] max-w-[150px] rounded-2xl overflow-hidden bg-surface-container flex flex-col shadow-sm">
+<div class="relative h-44 w-full">
+<img class="w-full h-full object-cover" data-alt="Student developer team smiling holding up custom GDG stickers and branded 3D printed trophy badge, natural ambient cafe lighting with bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYQbplYrC398xxUQQny-uXcbtntarDfM412mN0rWYyf-3eyyuOK5mEEZjdQTZsHPThMGfv7HiWG7NgFiQyRvz7z-Jrnl8pQgEU3fFvnWU9f1lHpPbp40V4w4HhWsL_w1KBm-DmOelRaa9rg0wRukdsdjSmJnqIpbAjUFByg7zdl7WLPaBpejc2ODRc-7utZoXTCJH-LpLXOOPKPvKQ6VTvhxTZm-tonaBQBc3aFcPcutd9A6p-ljvg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<span class="absolute bottom-2 left-2 font-label-tag text-[10px] text-on-surface bg-surface-container-high/80 backdrop-blur-md px-1.5 py-0.5 rounded">#DemoDay</span>
+</div>
+<div class="p-2.5 flex items-center justify-between text-on-surface-variant font-label-code text-[10px]">
+<span>Terrace • Sousse</span>
+<span class="flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span>120</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction: RSVP button feedback and fast-track ticket preview
+  document.addEventListener('DOMContentLoaded', () => {
+    const rsvpButtons = document.querySelectorAll('button:has(span:contains("RSVP")), button:has(span:contains("Show Ticket"))');
+    rsvpButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const originalText = btn.innerHTML;
+        btn.classList.add('scale-95');
+        setTimeout(() => {
+          btn.classList.remove('scale-95');
+        }, 150);
+      });
+    });
+  });
+</script></main><aside class="fixed bottom-20 inset-x-0 z-40 px-margin pointer-events-none"><div class="max-w-md mx-auto pointer-events-auto"><button aria-label="Command Search" class="w-full h-11 px-space-md rounded-xl bg-surface-container-high/90 backdrop-blur-md flex items-center justify-between text-on-surface-variant hover:text-on-surface shadow-[0_4px_16px_rgba(0,0,0,0.4)] transition-all group active:scale-[0.99]"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">terminal</span><span class="font-label-code text-label-code text-on-surface-variant group-hover:text-on-surface">gdg://command search...</span></div><div class="flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-tag text-label-tag"><span class="text-[10px]">⌘</span><span>K</span></div></button></div></aside><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.4)]" data-active-classes="text-primary font-semibold"><div class="flex justify-around items-center h-16 px-space-xs max-w-md mx-auto"><a aria-current="page" class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 transition-all text-primary font-semibold" data-path="today" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-tag text-label-tag uppercase tracking-wide">Today</span></a><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-all" data-path="explore" href="#"><span class="material-symbols-outlined text-[22px]">explore</span><span class="font-label-tag text-label-tag uppercase tracking-wide">Explore</span></a><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-all" data-path="arena" href="#"><span class="material-symbols-outlined text-[22px]">trophy</span><span class="font-label-tag text-label-tag uppercase tracking-wide">Arena</span></a><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-all" data-path="voice" href="#"><span class="material-symbols-outlined text-[22px]">forum</span><span class="font-label-tag text-label-tag uppercase tracking-wide">Voice</span></a></div></nav></body></html>

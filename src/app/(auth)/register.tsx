@@ -36,7 +36,7 @@ export default function RegisterScreen() {
     setErrorText(null);
     try {
       await signUp(values.name, values.email, values.password);
-      router.replace('/(tabs)');
+      router.replace('/(spaces)');
     } catch (error) {
       setErrorText(error instanceof Error ? error.message : 'Registration failed. Try again.');
       setSubmitting(false);

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-bright": "#f9f9ff", "primary-fixed-dim": "#b1c5ff", "on-background": "#1a1b21", "tertiary": "#654900", "outline": "#737785", "surface-container-highest": "#e2e2e9", "on-primary-fixed-variant": "#00419f", "secondary-container": "#95f4a6", "on-surface-variant": "#424654", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffdfa0", "surface": "#f9f9ff", "secondary": "#006d31", "on-secondary-fixed-variant": "#005323", "secondary-fixed": "#98f7a9", "primary": "#0047ae", "inverse-on-surface": "#f0f0f7", "on-tertiary-fixed": "#261a00", "surface-container-high": "#e8e7ef", "error-container": "#ffdad6", "background": "#f9f9ff", "primary-container": "#1a5fd6", "surface-container-low": "#f3f3fa", "on-secondary": "#ffffff", "on-tertiary-fixed-variant": "#5c4300", "surface-tint": "#0457ce", "surface-variant": "#e2e2e9", "on-surface": "#1a1b21", "error": "#ba1a1a", "on-secondary-fixed": "#00210a", "secondary-fixed-dim": "#7cda8f", "inverse-surface": "#2e3036", "on-primary-fixed": "#001946", "surface-dim": "#d9d9e1", "primary-fixed": "#dae2ff", "tertiary-container": "#836000", "surface-container-lowest": "#ffffff", "outline-variant": "#c3c6d6", "inverse-primary": "#b1c5ff", "surface-container": "#ededf5", "on-tertiary-container": "#ffe1a7", "on-secondary-container": "#017233", "on-primary-container": "#dde4ff", "on-error-container": "#93000a", "tertiary-fixed-dim": "#fbbc05", "on-primary": "#ffffff", "on-error": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "2rem", "margin-desktop": "3rem", "space-xl": "2.5rem", "space-lg": "1.5rem", "margin-tablet": "2rem", "space-md": "1rem", "space-sm": "0.5rem", "gutter": "1rem", "margin": "1rem", "gutter-tablet": "1.5rem", "space-xs": "0.25rem" }, "fontFamily": { "label-code-lg": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "label-code-sm": ["JetBrains Mono"], "body-sm": ["Inter"], "display": ["Plus Jakarta Sans"], "label-code-md": ["JetBrains Mono"] }, "fontSize": { "label-code-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.011em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.006em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-code-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-code-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }] } } } }</script><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center text-on-surface hover:bg-surface-container active:scale-95 transition-all rounded-full" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Inbox &amp; Chat Thread</h1></div><div class="flex items-center gap-space-xs"><button aria-label="More options" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all rounded-full" type="button"><span class="material-symbols-outlined text-[22px]">more_vert</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-space-xs"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-safe bg-surface"><div class="flex flex-col w-full relative">
+<!-- Interactive Confetti / Sparks Canvas Container for Quick Reactions -->
+<div class="pointer-events-none fixed inset-0 z-40 overflow-hidden" id="reaction-layer"></div>
+<!-- Sub-Header / Companion Identity Banner -->
+<div class="px-gutter py-space-sm bg-surface-container-low shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative shrink-0">
+<div class="w-11 h-11 rounded-full overflow-hidden shadow-sm bg-surface-container-high flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Portrait of Sarra B., a young Tunisian female university student wearing modern spectacles and a warm navy GDG collegiate hoodie, smiling in a brightly lit modern tech laboratory with ambient cyan and gold workshop lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZwrQZwSyr3aenYEeAelgQgUsJn5eJlp5DyRamrmD2qHc4QLps4sT6pGxe8mD39VHv8yvdrlTyyIgyjMjhG2EA7N3_CT2C6EKK0fV0V33GJKrmYQCccAwZf2TQYF7W4_OSNgqE6Da9llqegDJ74wW1y53xhDlnRXX8kL2r9WhwuyUN-SJzBZ2B6WfAN_9vRylYKcfu7ldZbnQqtCYHSJSHZHAvKWIGfHfKDLeChF2rFn0HEK1HJuPh"/>
+</div>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface" title="Online now"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Sarra B.</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm uppercase">Active</span>
+</div>
+<div class="flex items-center gap-1.5 truncate mt-0.5">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-code-sm text-label-code-sm truncate">AI/ML Lead • Hydra Squad</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button aria-label="Audio Call" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</button>
+<button aria-label="Shared Lab Repositories" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">folder_code</span>
+</button>
+</div>
+</div>
+<!-- Thread Workspace Context Callout -->
+<div class="mx-gutter mt-space-sm p-space-sm bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed shrink-0">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+        Sprint: <span class="font-label-code-sm text-label-code-sm text-on-surface font-semibold">EPI-Sousse Lab 04 • Flutter &amp; Riverpod</span>
+</p>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-code-sm text-label-code-sm shrink-0">SYNCED</span>
+</div>
+<!-- Chat Message Stream -->
+<div class="px-gutter pt-space-md pb-32 flex flex-col gap-space-md" id="message-container">
+<!-- Day Divider -->
+<div class="flex items-center justify-center my-space-xs">
+<div class="h-px bg-surface-container-highest flex-1"></div>
+<span class="mx-space-sm px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-code-sm text-label-code-sm tracking-wider shadow-sm uppercase">
+        TODAY • FRI 28 MAR
+      </span>
+<div class="h-px bg-surface-container-highest flex-1"></div>
+</div>
+<!-- Message 1 (Incoming: Sarra B.) -->
+<div class="flex items-end gap-space-xs max-w-[85%] self-start group">
+<div class="w-7 h-7 rounded-full overflow-hidden shrink-0 mb-1 shadow-sm bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Small thumbnail avatar of Sarra B. with glasses and navy hoodie" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxGzk4aMV10huL-DoFua05Ks1wsxlOTQq2C9Mo54Mk3_iHNA6PLMd0Y3ijq1jq__dzkYrlFtGOXnQejQmtslmt7Wp5lfAlHafavn4yhumI02LhagNx8O84HJV_IJ9Q22tOqL_iQkLSVvt_Gjyvt4Ndsa5R9isxvlRbjzIJ4y6gVNXlGfCCJFY2dMAWHijePWS9Be3-qk6mWgF7MnA5pBcqbAfqIw9yM_sPSJMgs0W5lJjyO5wcrcGJ"/>
+</div>
+<div class="flex flex-col items-start gap-1">
+<div class="bg-surface-container p-3.5 rounded-2xl rounded-bl-sm shadow-sm text-on-surface transition-all">
+<p class="font-body-md text-body-md leading-relaxed">Hey Ahmed! Are you heading to Lab 04 early for the Flutter setup?</p>
+</div>
+<div class="flex items-center gap-1.5 px-1">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">10:35 AM</span>
+<span class="text-on-surface-variant text-[10px]">• EPI Hub WiFi</span>
+</div>
+</div>
+</div>
+<!-- Message 2 (Outgoing: Ahmed) -->
+<div class="flex items-end gap-space-xs max-w-[85%] self-end flex-row-reverse group">
+<div class="flex flex-col items-end gap-1">
+<div class="bg-primary-container p-3.5 rounded-2xl rounded-br-sm shadow-sm text-on-primary">
+<p class="font-body-md text-body-md leading-relaxed">Hey Sarra! Yes, arriving around 15:30. Need to test the local Docker cache server first.</p>
+</div>
+<div class="flex items-center gap-1 px-1">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">10:38 AM</span>
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</div>
+<!-- Message 3 (Incoming: Sarra B. with Code Attachment Snippet) -->
+<div class="flex items-end gap-space-xs max-w-[90%] self-start group">
+<div class="w-7 h-7 rounded-full overflow-hidden shrink-0 mb-1 shadow-sm bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Small thumbnail avatar of Sarra B." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9_BUuAizQfsddpO_0L52RBZsW1XWzluobCFWEX1ymWt7am0o3aPIZHYZU7GY9qH4MAvGxGqInf0Y2IJemBSt2dIZyRI3PLBmORCySFDBJSZvAemNwqS53ogfnMr4YCDyu0ilT1SCQ-87FJg5e_wHc4ECW6h6QGeI8ZFiPBUHHsUMN7LfV_kswmGx6Ez3A__QgSgtGUTB73VywHjvZ3PIfCq-cW4ukKQ-Lo7gryp6zk0KQvMeID6dk"/>
+</div>
+<div class="flex flex-col items-start gap-1 w-full">
+<div class="bg-surface-container p-3.5 rounded-2xl rounded-bl-sm shadow-sm text-on-surface w-full space-y-2.5">
+<!-- Code Card Embedded -->
+<div class="bg-inverse-surface rounded-xl p-3 shadow-md overflow-hidden text-inverse-on-surface">
+<div class="flex items-center justify-between pb-2 mb-2 bg-inverse-surface">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-label-code-sm text-label-code-sm text-surface-container-highest ml-1">riverpod_stream_provider.dart</span>
+</div>
+<button class="text-surface-container-highest hover:text-surface-lowest transition-colors p-1" onclick="navigator.clipboard?.writeText('final telemetryFeed = ref.watch(sensorProvider);');" title="Copy code" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<pre class="font-label-code-md text-label-code-md overflow-x-auto py-1 text-on-primary-fixed-variant leading-relaxed"><code><span class="text-outline-variant">// riverpod_stream_provider.dart</span>
+<span class="text-tertiary-fixed">final</span> telemetryFeed = ref.<span class="text-primary-fixed-dim">watch</span>(sensorProvider);</code></pre>
+</div>
+<p class="font-body-md text-body-md leading-relaxed">Did you review the Riverpod PR for Lab 04? We want to merge before attendees arrive.</p>
+</div>
+<div class="flex items-center gap-1.5 px-1">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">10:42 AM</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-label-code-sm text-[9px] uppercase font-semibold">PR #14</span>
+</div>
+</div>
+</div>
+<!-- Message 4 (Outgoing: Ahmed) -->
+<div class="flex items-end gap-space-xs max-w-[85%] self-end flex-row-reverse group">
+<div class="flex flex-col items-end gap-1">
+<div class="bg-primary-container p-3.5 rounded-2xl rounded-br-sm shadow-sm text-on-primary">
+<p class="font-body-md text-body-md leading-relaxed">Just checked it, looks clean! Merging right now so the cache pulls it.</p>
+</div>
+<div class="flex items-center gap-1 px-1">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">10:44 AM</span>
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</div>
+<!-- Typing Indicator Wave -->
+<div class="flex items-center gap-space-xs self-start opacity-90 transition-all" id="typing-indicator">
+<div class="w-7 h-7 rounded-full overflow-hidden shrink-0 shadow-sm bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Small circular avatar of Sarra B." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1uJDG0zudH6TWp1nKZKuHU7jhDMmzoB_eiQrgC-iLKR5gq61zP70I6B4FWtiPpkVuLSvwSd1evVK7awRdsMTTMRw_scN_hta7rGXkpCoxR956wn5SNwBIPZX2yISIuXTLwITPpwwLHnUxKb8R7A_6vUBk6xT82JO3ShgpC1Cew9Uoe8tjWrhYw9BGeARPu6-K1MEyWONyuMhU5t7IfFYrLGqK_sHy4Tdn5ZDAmR5IfSwntO4K2Bb5"/>
+</div>
+<div class="bg-surface-container-high px-3 py-2 rounded-2xl rounded-bl-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-pulse"></span>
+<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-pulse" style="animation-delay: 200ms;"></span>
+<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-pulse" style="animation-delay: 400ms;"></span>
+</div>
+</div>
+</div>
+<!-- Bottom Sticky Floating Composer Area -->
+<div class="fixed bottom-0 left-0 right-0 z-30 bg-surface/95 backdrop-blur-md pb-safe">
+<!-- Quick Reply / Context Action Pills -->
+<div class="px-gutter pt-2 pb-1.5 flex items-center gap-2 overflow-x-auto no-scrollbar">
+<button class="px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high active:scale-95 transition-all text-on-surface font-body-sm text-body-sm shadow-sm flex items-center gap-1 shrink-0" onclick="sendQuickReply('👍 Looks good')" type="button">
+<span>👍</span>
+<span>Looks good</span>
+</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high active:scale-95 transition-all text-on-surface font-body-sm text-body-sm shadow-sm flex items-center gap-1 shrink-0" onclick="sendQuickReply('On my way!')" type="button">
+<span class="material-symbols-outlined text-[14px] text-secondary">directions_walk</span>
+<span>On my way!</span>
+</button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high active:scale-95 transition-all text-on-surface font-body-sm text-body-sm shadow-sm flex items-center gap-1 shrink-0" onclick="sendQuickReply('Check PR #14')" type="button">
+<span class="material-symbols-outlined text-[14px] text-primary">merge_type</span>
+<span class="font-label-code-sm text-label-code-sm">Check PR #14</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-code-sm text-label-code-sm shadow-sm flex items-center gap-1 shrink-0 active:scale-95 transition-all" onclick="triggerPraiseConfetti()" title="Send GDG Star Badge" type="button">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+<span>Send XP +20</span>
+</button>
+</div>
+<!-- Main Message Input Pill -->
+<div class="px-gutter py-2">
+<form class="flex items-center gap-2 bg-surface-container-lowest p-1.5 rounded-full shadow-md" id="chat-form" onsubmit="event.preventDefault(); handleSend();">
+<!-- Code / Attachment Action Triggers -->
+<button aria-label="Attach code or logs" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-90 transition-all shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">code_blocks</span>
+</button>
+<button aria-label="Attach file" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-90 transition-all shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+<!-- Message Field -->
+<input autocomplete="off" class="flex-1 bg-transparent px-2 font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none min-w-0" id="chat-input" placeholder="Message Sarra..." type="text"/>
+<!-- Audio Input / Dictation -->
+<button aria-label="Voice memo" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-90 transition-all shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<!-- Action Send Button -->
+<button aria-label="Send message" class="w-10 h-10 rounded-full bg-primary hover:bg-primary-container text-on-primary flex items-center justify-center shadow-md active:scale-90 transition-all shrink-0" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+<script>
+  function handleSend() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    appendOutgoingBubble(text);
+    input.value = '';
+  }
+
+  function sendQuickReply(text) {
+    appendOutgoingBubble(text);
+  }
+
+  function appendOutgoingBubble(text) {
+    const container = document.getElementById('message-container');
+    const typing = document.getElementById('typing-indicator');
+
+    const bubbleWrapper = document.createElement('div');
+    bubbleWrapper.className = 'flex items-end gap-space-xs max-w-[85%] self-end flex-row-reverse group animate-fadeIn';
+
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    bubbleWrapper.innerHTML = `
+      <div class="flex flex-col items-end gap-1">
+        <div class="bg-primary-container p-3.5 rounded-2xl rounded-br-sm shadow-sm text-on-primary">
+          <p class="font-body-md text-body-md leading-relaxed">${escapeHtml(text)}</p>
+        </div>
+        <div class="flex items-center gap-1 px-1">
+          <span class="font-label-code-sm text-label-code-sm text-on-surface-variant">${timeString}</span>
+          <span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done</span>
+        </div>
+      </div>
+    `;
+
+    container.insertBefore(bubbleWrapper, typing);
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  function escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function triggerPraiseConfetti() {
+    const layer = document.getElementById('reaction-layer');
+    for (let i = 0; i < 16; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'absolute font-label-code-sm text-label-code-sm font-bold pointer-events-none transition-all duration-700 ease-out';
+      spark.textContent = ['+20 XP', '⚡', 'GDG', '🚀'][Math.floor(Math.random() * 4)];
+      spark.style.color = ['#1a5fd6', '#006d31', '#fbbc05', '#ba1a1a'][Math.floor(Math.random() * 4)];
+      spark.style.left = (Math.random() * 70 + 15) + '%';
+      spark.style.bottom = '100px';
+      spark.style.transform = 'translateY(0px) scale(0.8)';
+      spark.style.opacity = '1';
+      layer.appendChild(spark);
+
+      requestAnimationFrame(() => {
+        spark.style.transform = `translate(${(Math.random() - 0.5) * 80}px, -${120 + Math.random() * 80}px) scale(1.2)`;
+        spark.style.opacity = '0';
+      });
+
+      setTimeout(() => spark.remove(), 750);
+    }
+  }
+</script></main></body></html>

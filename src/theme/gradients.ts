@@ -17,6 +17,10 @@ export const gradients = {
   google: ['#4285F4', '#EA4335', '#FBBC04', '#34A853'] as Gradient,
   /** Deep night panel for dark immersive surfaces. */
   night: ['#0B0D12', '#1A2A4A'] as Gradient,
+  /** Blue → violet hero highlight (TODAY / event heroes). */
+  hero: ['#1A5FD6', '#6C5CE7'] as Gradient,
+  /** Multi-hue gamified aura for XP / level milestone containers. */
+  xp: ['#1A5FD6', '#8E44AD', '#F39C12', '#27AE60'] as Gradient,
 } as const;
 
 export type GradientToken = keyof typeof gradients;

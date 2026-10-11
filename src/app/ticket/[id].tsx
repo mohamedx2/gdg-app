@@ -1,8 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
 import { Gradient } from '@/components/ui/Gradient';
@@ -11,6 +9,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import { Orbs } from '@/components/ui/Orbs';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { QRCode } from '@/components/ui/QRCode';
+import { Sheet } from '@/components/ui/Sheet';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { EmptyState } from '@/components/ui/States';
 import { Text } from '@/components/ui/Text';
@@ -21,7 +20,6 @@ import { formatEventDateTime } from '@/utils/date';
 
 export default function TicketScreen() {
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -43,13 +41,13 @@ export default function TicketScreen() {
   };
 
   return (
-    <YStack flex={1} backgroundColor="background">
+    <Sheet showHandle={false} contentContainerStyle={{ paddingBottom: 40 }}>
       <YStack overflow="hidden">
         <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
           <Orbs />
-          <XStack paddingTop={insets.top + 4} paddingHorizontal={8} alignItems="center">
-            <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" color="onPrimary" />
-            <Text variant="labelLg" weight="semibold" style={{ color: '#FFFFFF', marginLeft: 4 }}>
+          <XStack paddingTop={12} paddingHorizontal={8} alignItems="center">
+            <IconButton name="close" onPress={() => router.back()} accessibilityLabel="Close" color="onPrimary" />
+            <Text variant="labelLg" weight="semibold" color="onPrimaryContainer" style={{ marginLeft: 4 }}>
               Your ticket
             </Text>
           </XStack>
@@ -57,14 +55,14 @@ export default function TicketScreen() {
             <Text variant="codeSm" style={{ color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', letterSpacing: 0.6 }}>
               GDG on Campus EPI
             </Text>
-            <Text variant="headlineSm" weight="bold" style={{ color: '#FFFFFF' }} numberOfLines={2}>
+            <Text variant="headlineSm" weight="bold" color="onPrimaryContainer" numberOfLines={2}>
               {event?.title ?? ticket?.eventTitle ?? 'Event ticket'}
             </Text>
           </YStack>
         </Gradient>
       </YStack>
 
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+      <YStack padding={16} gap={16}>
         {isError ? (
           <EmptyState
             icon="qrCode"
@@ -152,8 +150,8 @@ export default function TicketScreen() {
             </YStack>
           </>
         )}
-      </ScrollView>
-    </YStack>
+      </YStack>
+    </Sheet>
   );
 }
 

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-container": "#836000", "on-secondary": "#ffffff", "surface-bright": "#f9f9ff", "on-background": "#1a1b21", "secondary": "#006d31", "on-tertiary-container": "#ffe1a7", "surface-container-low": "#f3f3fa", "tertiary-fixed-dim": "#fbbc05", "surface-container-high": "#e8e7ef", "primary-container": "#1a5fd6", "on-primary-container": "#dde4ff", "on-primary-fixed": "#001946", "on-surface": "#1a1b21", "inverse-on-surface": "#f0f0f7", "on-tertiary-fixed": "#261a00", "surface": "#f9f9ff", "surface-variant": "#e2e2e9", "inverse-surface": "#2e3036", "surface-container": "#ededf5", "tertiary-fixed": "#ffdfa0", "surface-tint": "#0457ce", "primary-fixed-dim": "#b1c5ff", "primary-fixed": "#dae2ff", "error-container": "#ffdad6", "surface-container-highest": "#e2e2e9", "outline-variant": "#c3c6d6", "on-secondary-container": "#017233", "on-surface-variant": "#424654", "background": "#f9f9ff", "inverse-primary": "#b1c5ff", "error": "#ba1a1a", "on-tertiary": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "secondary-container": "#95f4a6", "on-tertiary-fixed-variant": "#5c4300", "on-secondary-fixed-variant": "#005323", "secondary-fixed": "#98f7a9", "tertiary": "#654900", "secondary-fixed-dim": "#7cda8f", "on-secondary-fixed": "#00210a", "on-error-container": "#93000a", "primary": "#0047ae", "on-primary-fixed-variant": "#00419f", "outline": "#737785", "on-error": "#ffffff", "surface-dim": "#d9d9e1" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "margin-desktop": "3rem", "space-md": "1rem", "space-xl": "2.5rem", "gutter-tablet": "1.5rem", "margin": "1rem", "gutter": "1rem", "gutter-desktop": "2rem", "space-xs": "0.25rem", "margin-tablet": "2rem", "space-sm": "0.5rem" }, "fontFamily": { "headline-lg-mobile": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "label-code-lg": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "display": ["Plus Jakarta Sans"], "label-code-sm": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "body-lg": ["Inter"], "body-md": ["Inter"] }, "fontSize": { "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-code-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-code-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-code-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.011em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.006em", "fontWeight": "400" }] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; } body { overscroll-behavior-y: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary ring-2 ring-primary/20 shrink-0"><span class="material-symbols-outlined text-[20px]">person</span></div><div class="flex flex-col text-left"><div class="flex items-center gap-1.5"><div class="flex items-center gap-1 shrink-0"><span class="w-2 h-2 rounded-full bg-[#1A5FD6]"></span><span class="w-2 h-2 rounded-full bg-[#EA4335]"></span><span class="w-2 h-2 rounded-full bg-[#FBBC04]"></span><span class="w-2 h-2 rounded-full bg-[#137A3A]"></span></div><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Voice</h1></div><span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase tracking-wider">COMMUNITY • GDG EPI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Notifications" class="relative w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-all"><span class="material-symbols-outlined text-[24px]">inbox</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-36 px-gutter bg-surface"><div class="flex flex-col w-full pb-12 gap-space-lg">
+<!-- Banner & Live Pulse -->
+<section class="flex flex-col gap-space-sm pt-2">
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md shadow-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-secondary font-bold">Campus Consensus Engine</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Community Voice</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-snug">Shape events, vote on track curricula, and take on campus tasks.</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0 shadow-sm text-primary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">how_to_vote</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex flex-wrap items-center gap-2">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm text-on-surface">
+<span class="font-label-code-sm text-label-code-sm font-semibold text-primary">84</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Ideas</span>
+</div>
+<span class="text-outline-variant font-label-code-sm">•</span>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm text-on-surface">
+<span class="font-label-code-sm text-label-code-sm font-semibold text-tertiary">3</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Open Polls</span>
+</div>
+<span class="text-outline-variant font-label-code-sm">•</span>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm text-on-surface">
+<span class="font-label-code-sm text-label-code-sm font-semibold text-secondary">12</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Micro-Tasks</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Segmented Space Switcher & Taxonomy Scroller -->
+<section class="flex flex-col gap-space-sm">
+<!-- Top-level Segments -->
+<div class="flex items-center p-1 rounded-full bg-surface-container shadow-sm">
+<button class="flex-1 py-2 px-4 rounded-full bg-inverse-surface text-inverse-on-surface font-label-code-md text-label-code-md font-semibold text-center shadow-sm transition-all">
+        Ideas (84)
+      </button>
+<button class="flex-1 py-2 px-4 rounded-full text-on-surface-variant hover:text-on-surface font-label-code-md text-label-code-md font-medium text-center transition-all">
+        Decisions (3)
+      </button>
+<button class="flex-1 py-2 px-4 rounded-full text-on-surface-variant hover:text-on-surface font-label-code-md text-label-code-md font-medium text-center transition-all">
+        Tasks (12)
+      </button>
+</div>
+<!-- Filter chips scroll list -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+<button class="h-8 px-4 rounded-full bg-inverse-surface text-inverse-on-surface font-label-code-sm text-label-code-sm shrink-0 flex items-center justify-center shadow-sm font-bold">
+        All (32)
+      </button>
+<button class="h-8 px-3.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-code-sm text-label-code-sm shrink-0 flex items-center gap-1.5 shadow-sm transition-all">
+<span>🔥</span>
+<span>Trending</span>
+</button>
+<button class="h-8 px-3.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-code-sm text-label-code-sm shrink-0 flex items-center gap-1.5 shadow-sm transition-all">
+<span>✨</span>
+<span>Hackathon</span>
+</button>
+<button class="h-8 px-3.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-code-sm text-label-code-sm shrink-0 flex items-center gap-1.5 shadow-sm transition-all">
+<span>🎓</span>
+<span>Workshops</span>
+</button>
+<button class="h-8 px-3.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-code-sm text-label-code-sm shrink-0 flex items-center gap-1.5 shadow-sm transition-all">
+<span>⚡</span>
+<span>Campus Life</span>
+</button>
+</div>
+</section>
+<!-- Community Ideas Feed -->
+<section class="flex flex-col gap-space-md" id="ideas-feed">
+<!-- Card 1: AI Agent Sprint (Active Upvoted) -->
+<article class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm relative overflow-hidden">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-label-code-sm text-label-code-sm font-bold tracking-wide">
+          HACKATHON
+        </span>
+<span class="flex items-center gap-1 text-secondary font-label-code-sm text-label-code-sm font-semibold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> Hot This Week
+        </span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up warm portrait of Sarra, a Tunisian female computer science student and GDG AI lead with glasses smiling against bright library background, natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7QXn0K0C4rO1UmJwFDSfEYOIVlWhtRc4n11UudKeAme2BBNrcGSH8a2Bq5fB8aGd_xWxldNkwSgFJJ8x01fkVPiMB2y4c5EcQ4Xt4vs1xj2kqWR7fbi1MLebXYw3MES4E_saiFlDg5z5jj7WvwlET0zFk07wgtpOAngyLc_85HR40A-kCeW0mcnHhpDnN6V80YC1NzTq9OV0Zp8KUzY0ITUtGJpWfVUtpIMMRy4WnDORyPASnuISD"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Sarra B.</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium">(AI/ML Lead)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">2h ago • Sousse Amphitheatre</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">
+          24h AI Agent Sprint on Google Cloud Vertex AI
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+          Host an overnight offline sprint where squads build autonomous multi-agent systems using Gemini 1.5 Pro &amp; LangGraph at EPI amphitheatre.
+        </p>
+</div>
+<!-- Card Graphic / Visual Peek -->
+<div class="w-full h-32 rounded-lg overflow-hidden relative shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Modern hackathon workshop space inside EPI campus amphitheatre, students gathered around laptops with Google Cloud stickers, warm ambient lighting, code projections on main screen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg32rrNEHotlt8i05KPl4ZQ8_vmypUsBWDbax68xMVF9cD0_aJlxWKcpViKo8swfKu49R-tnbVcAL16nkj1tC2zySxRJWcK9x1AhjlVMppM1GmA1oisoKqiBAKCMLEvFDL-Mo9hTaAVanbYPiMs9MWwTcIuCIi9yq75x19_D0_BoqbP2ANw8p9wOgOyM4IMZR9JyS5pQNdLaCQuU5fR0fDiGASdSAdOGEngupsyo9c6y9Vmjfn-gcg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/60 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-label-code-sm text-label-code-sm text-surface-bright font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">psychology</span> Vertex AI + LangGraph Starter Kit Included
+          </span>
+</div>
+</div>
+<!-- Action & Metrics Bar -->
+<div class="flex items-center justify-between pt-1">
+<button class="upvote-btn active-state h-9 px-3 rounded-full bg-primary text-on-primary flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-code-md text-label-code-md font-bold upvote-count">142</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-code-sm text-label-code-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+<span>+15 XP</span>
+</div>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface font-label-code-sm text-label-code-sm py-1 px-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">mode_comment</span>
+<span>28</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 2: Rust & WebAssembly Circle -->
+<article class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm relative">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-code-sm text-label-code-sm font-bold tracking-wide">
+          WORKSHOPS
+        </span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-code-sm text-label-code-sm font-medium">
+          UNDER REVIEW BY LEADS
+        </span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Portrait of Karim, a Tunisian software engineer and GDE community mentor smiling warmly in a dark tech hoodie in front of a whiteboard filled with systems architecture diagrams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIITpToLup4qkCvn0NyhNgrRMESU5tjsyU6xwX2kUvIIJUcTlryct70ZWxVk2r1fnglz4V_YwLzLTURowYnatZu8rU078nEKDT2nQVfJCeTKrTVCn_6w1WWO-_aI3yc2aRUYe_jNhLyjTcRzHslB7UcK6l_b-hKA_6el5XsAFm70XMXgf5i-fQJ3YxMjBLz8UKVlreAMBjJr99K3U88azueXX8FjiKOXbGCJFT3msO_1XRDzIBPLAr"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Karim D.</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary font-medium">(GDE Speaker)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">1d ago • Bi-weekly Sync</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">
+          Bi-weekly Rust &amp; WebAssembly Study Circle
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+          Peer study group for systems programming and compiling high-performance modules into browser frontends for robotics.
+        </p>
+</div>
+<div class="flex items-center justify-between pt-1">
+<button class="upvote-btn h-9 px-3 rounded-full bg-surface-container-high text-on-surface flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-code-md text-label-code-md font-bold upvote-count">89</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface font-label-code-sm text-label-code-sm py-1 px-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">mode_comment</span>
+<span>14 comments</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 3: GDG Hardware Lab & Lending Library (Accepted) -->
+<article class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm relative">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold tracking-wide">
+          CAMPUS LIFE
+        </span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-code-sm text-label-code-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> ACCEPTED FOR S2
+        </span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Vibrant portrait of Amina, an engineering student in a workshop apron with safety glasses resting on head, holding a micro-controller circuit board in campus laboratory." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpj6eqRixbEbI4wv7KP7MMRESHfvqHhB_NoGlc6tB82A3eyRUKMilPEJGYwIRxbZLW3Lbg1fafE29gSDZvWAV_QqymQTpj_ygCGdoFl5R52FR3BXDqoHS2cthH9QKaLdDcWz6hiKm1M4aQkglO9jTDvz3kATLWAw0nEODg3HjVjLkdtdNqrZHvXFGywJuaJeV-kahnwhzNEDHM4Pqv-iWGG7zi7oSLKb4oR-lQT_y5SoZh8g3S2Alc"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Amina T.</span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium">(Core Dev)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">3d ago • Lab 04 Facility</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">
+          GDG Hardware Lab &amp; Arduino/ESP32 Lending Library
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+          Set up a shared hardware locker in Lab 04 with sensors, ESP32 boards, and soldering irons accessible to all registered GDG EPI members.
+        </p>
+</div>
+<div class="flex items-center justify-between pt-1">
+<button class="upvote-btn h-9 px-3 rounded-full bg-surface-container-high text-on-surface flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-code-md text-label-code-md font-bold upvote-count">116</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface font-label-code-sm text-label-code-sm py-1 px-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">mode_comment</span>
+<span>35 comments</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 4: Alumni Mock Technical Interviews -->
+<article class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm relative">
+<div class="flex items-center justify-between gap-2">
+<span class="px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-code-sm text-label-code-sm font-bold tracking-wide">
+          CAREERS
+        </span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Active Discussion</span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Portrait of Mehdi, a smiling software alumni professional in a clean minimalist tech office with Sousse city sunset visible through window behind him." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR0DN_Avmn-p8o57jSQgr88gY9ed9GFCQ4t24N69cFgh_V32SSOldgQewz9NRgbQ5j_MlZ_DcrnKvmDdDwA9zMqvxqs-YBOu2AOeMEhDD0q8QFJlrfqigxm73Q1kolT3VJ7LC0AXrfdBNtLDoLisjp6R_DXL-NeNiDWfw9k5aaSUiTBwCgBnca4gTgTW-9Yh5A1vYIwH-cWwRtLMd3KgGbqyf_Khiknh78_owImikvi2fYVe6vEG7a"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Mehdi K.</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-medium">(Alumni '24)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">4d ago • Career Mentorship</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">
+          Alumni Mock Technical Interviews &amp; Resume Clinic
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+          1-on-1 45min mock algorithm and system design interviews with Sousse alumni currently at top tech startups.
+        </p>
+</div>
+<div class="flex items-center justify-between pt-1">
+<button class="upvote-btn h-9 px-3 rounded-full bg-surface-container-high text-on-surface flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span class="font-label-code-md text-label-code-md font-bold upvote-count">64</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface font-label-code-sm text-label-code-sm py-1 px-2 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">mode_comment</span>
+<span>9 comments</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Campus Wisdom Micro-banner (Delight touch) -->
+<aside class="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container text-on-surface shadow-sm">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">lightbulb</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-primary font-bold">Pro-tip for proposals</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Ideas with clear campus resource estimates reach review 3x faster.</p>
+</div>
+</aside>
+<!-- Floating Submission Action Button (Pill above thumb zone) -->
+<div class="fixed bottom-24 right-4 z-40">
+<button class="h-12 px-5 rounded-full bg-primary text-on-primary flex items-center gap-2 shadow-[0_8px_20px_rgba(0,71,174,0.35)] active:scale-95 transition-all font-headline-sm text-[15px] font-bold" id="propose-idea-btn">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>Propose Idea</span>
+<span class="ml-1 px-1.5 py-0.5 rounded-full bg-surface-container-lowest/20 font-label-code-sm text-[10px] text-on-primary">+20 XP</span>
+</button>
+</div>
+</div>
+<script>
+  // Simple interactive upvote toggle logic for mobile delight
+  document.querySelectorAll('.upvote-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const countEl = btn.querySelector('.upvote-count');
+      let currentVal = parseInt(countEl.textContent, 10);
+      const isVoted = btn.classList.contains('active-state');
+
+      if (isVoted) {
+        btn.classList.remove('active-state', 'bg-primary', 'text-on-primary');
+        btn.classList.add('bg-surface-container-high', 'text-on-surface');
+        countEl.textContent = currentVal - 1;
+      } else {
+        btn.classList.add('active-state', 'bg-primary', 'text-on-primary');
+        btn.classList.remove('bg-surface-container-high', 'text-on-surface');
+        countEl.textContent = currentVal + 1;
+        
+        // Haptic feel via slight pop animation
+        btn.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.15)' },
+          { transform: 'scale(1)' }
+        ], { duration: 200, easing: 'ease-out' });
+      }
+    });
+  });
+
+  // Highlight active shell nav tab
+  const voiceNav = document.querySelector('nav a[data-path="voice"]');
+  if (voiceNav) {
+    document.querySelectorAll('nav a').forEach(el => {
+      el.classList.remove('bg-inverse-surface', 'text-inverse-on-surface', 'shadow-sm');
+      el.classList.add('text-on-surface-variant');
+    });
+    voiceNav.classList.add('bg-inverse-surface', 'text-inverse-on-surface', 'shadow-sm');
+    voiceNav.classList.remove('text-on-surface-variant');
+  }
+</script></main><div class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none"><div class="px-gutter pb-space-sm flex flex-col items-center gap-space-sm max-w-md mx-auto"><button class="pointer-events-auto w-full h-11 px-4 rounded-full bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] flex items-center justify-between text-on-surface-variant hover:text-on-surface transition-all active:scale-[0.99]"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[20px] text-primary">search</span><span class="font-body-sm text-body-sm">Search or jump to...</span></div><kbd class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">⌘K</kbd></button><nav class="pointer-events-auto w-full h-[52px] rounded-full p-1 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_12px_32px_-4px_rgba(17,19,24,0.12)] flex items-center justify-between" data-active-classes="bg-inverse-surface text-inverse-on-surface shadow-sm"><a class="flex-1 h-full rounded-full flex items-center justify-center font-label-code-md text-label-code-md tracking-wider text-on-surface-variant hover:text-on-surface transition-all" data-path="today" href="#">TODAY</a><a class="flex-1 h-full rounded-full flex items-center justify-center font-label-code-md text-label-code-md tracking-wider text-on-surface-variant hover:text-on-surface transition-all" data-path="explore" href="#">EXPLORE</a><a class="flex-1 h-full rounded-full flex items-center justify-center font-label-code-md text-label-code-md tracking-wider text-on-surface-variant hover:text-on-surface transition-all" data-path="arena" href="#">ARENA</a><a aria-current="page" class="flex-1 h-full rounded-full flex items-center justify-center font-label-code-md tracking-wider transition-all bg-inverse-surface text-inverse-on-surface shadow-sm" data-path="voice" href="#">VOICE</a></nav></div></div></body></html>

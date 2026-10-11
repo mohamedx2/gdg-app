@@ -1,14 +1,14 @@
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Linking, ScrollView, Share } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Linking, Share } from 'react-native';
 import { XStack, YStack } from 'tamagui';
 
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { Button } from '@/components/ui/Button';
 import { TagPill } from '@/components/ui/Chip';
+import { Sheet } from '@/components/ui/Sheet';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
@@ -19,7 +19,6 @@ import { formatCount } from '@/utils/format';
 
 export default function ResourceDetailScreen() {
   const { resourceTypes: RESOURCE_TYPES, difficulties: DIFFICULTIES } = useTaxonomy();
-  const insets = useSafeAreaInsets();
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
   const toast = useUiStore((state) => state.toast);
@@ -32,25 +31,21 @@ export default function ResourceDetailScreen() {
 
   if (isError) {
     return (
-      <YStack flex={1} backgroundColor="background" padding={16}>
-        <BackButton />
+      <Sheet title="Resource">
         <ErrorState message={error?.message} onRetry={() => refetch()} />
-      </YStack>
+      </Sheet>
     );
   }
 
   if (isPending || !resource) {
     return (
-      <YStack flex={1} backgroundColor="background">
-        <YStack paddingTop={insets.top + 4} paddingHorizontal={8}>
-          <BackButton />
-        </YStack>
-        <YStack padding={16} gap={12}>
+      <Sheet title="Resource">
+        <YStack gap={12}>
           <Skeleton height={160} radius={12} />
           <Skeleton height={20} width="70%" />
           <Skeleton height={120} radius={12} />
         </YStack>
-      </YStack>
+      </Sheet>
     );
   }
 
@@ -98,72 +93,69 @@ export default function ResourceDetailScreen() {
   const completed = progress === 'completed';
 
   return (
-    <YStack flex={1} backgroundColor="background">
-      <ScrollView contentContainerStyle={{ paddingBottom: 130 }} showsVerticalScrollIndicator={false}>
-        <YStack height={180} backgroundColor="surfaceContainerHigh">
-          <Image source={{ uri: resource.coverImage }} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={200} />
-          <YStack position="absolute" top={insets.top + 4} left={12}>
-            <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" color="onPrimary" backgroundColor="overlay" />
-          </YStack>
-          <YStack position="absolute" top={insets.top + 4} right={12} gap={8}>
-            <IconButton name="bookmark" onPress={onBookmark} accessibilityLabel="Bookmark resource" color="onPrimary" backgroundColor="overlay" />
-            <IconButton name="share" onPress={onShare} accessibilityLabel="Share resource" color="onPrimary" backgroundColor="overlay" />
-          </YStack>
-        </YStack>
-
-        <YStack padding={16} gap={14}>
-          <XStack alignItems="center" gap={6} flexWrap="wrap">
-            <TagPill label={type.label} color={type.color} dot />
-            <TagPill label={difficulty.label} color={difficulty.color} />
-            <TagPill label={resource.category} color="secondary" radius="full" />
-          </XStack>
-          <Text variant="headlineMd" weight="bold">
-            {resource.title}
-          </Text>
-          <Text variant="bodySm" muted>
-            {resource.summary}
-          </Text>
-
-          <XStack gap={8}>
-            <MetaTile icon="account" label="Author" value={resource.author} />
-            <MetaTile icon="timer" label="Duration" value={`${Math.round(resource.durationMins / 60)}h ${resource.durationMins % 60}m`} />
-            <MetaTile icon="stars" label="Reward" value={`+${formatCount(resource.points)} XP`} />
-          </XStack>
-
-          {resource.technologies.length ? (
-            <XStack flexWrap="wrap" gap={8}>
-              {resource.technologies.map((tech) => (
-                <TagPill key={tech} label={tech} color="primary" radius="full" />
-              ))}
-            </XStack>
+    <Sheet
+      showHandle={false}
+      contentContainerStyle={{ paddingBottom: 20 }}
+      footer={
+        <YStack gap={8}>
+          <Button label="Start learning" onPress={onOpen} icon="playCircle" iconRight="openInNew" />
+          {progress !== 'none' ? (
+            <Button
+              label={completed ? 'Mark not completed' : 'Mark as completed'}
+              variant="container"
+              onPress={onMarkComplete}
+              loading={busy}
+              icon={completed ? 'history' : 'checkCircle'}
+            />
           ) : null}
-
-          <YStack gap={6}>
-            <Text variant="titleMd" weight="bold">What you&apos;ll learn</Text>
-            <Text variant="bodyMd">{resource.description}</Text>
-          </YStack>
         </YStack>
-      </ScrollView>
-
-      <YStack position="absolute" left={12} right={12} bottom={insets.bottom + 10} gap={8}>
-        <Button label="Start learning" onPress={onOpen} icon="playCircle" iconRight="openInNew" />
-        {progress !== 'none' ? (
-          <Button
-            label={completed ? 'Mark not completed' : 'Mark as completed'}
-            variant="container"
-            onPress={onMarkComplete}
-            loading={busy}
-            icon={completed ? 'history' : 'checkCircle'}
-          />
-        ) : null}
+      }
+    >
+      <YStack height={180} backgroundColor="surfaceContainerHigh">
+        <Image source={{ uri: resource.coverImage }} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={200} />
+        <YStack position="absolute" top={12} left={12}>
+          <IconButton name="close" onPress={() => router.back()} accessibilityLabel="Close" color="onPrimary" backgroundColor="overlay" />
+        </YStack>
+        <YStack position="absolute" top={12} right={12} gap={8}>
+          <IconButton name="bookmark" onPress={onBookmark} accessibilityLabel="Bookmark resource" color="onPrimary" backgroundColor="overlay" />
+          <IconButton name="share" onPress={onShare} accessibilityLabel="Share resource" color="onPrimary" backgroundColor="overlay" />
+        </YStack>
       </YStack>
-    </YStack>
-  );
-}
 
-function BackButton() {
-  const router = useRouter();
-  return <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />;
+      <YStack padding={16} gap={14}>
+        <XStack alignItems="center" gap={6} flexWrap="wrap">
+          <TagPill label={type.label} color={type.color} dot />
+          <TagPill label={difficulty.label} color={difficulty.color} />
+          <TagPill label={resource.category} color="secondary" radius="full" />
+        </XStack>
+        <Text variant="headlineMd" weight="bold">
+          {resource.title}
+        </Text>
+        <Text variant="bodySm" muted>
+          {resource.summary}
+        </Text>
+
+        <XStack gap={8}>
+          <MetaTile icon="account" label="Author" value={resource.author} />
+          <MetaTile icon="timer" label="Duration" value={`${Math.round(resource.durationMins / 60)}h ${resource.durationMins % 60}m`} />
+          <MetaTile icon="stars" label="Reward" value={`+${formatCount(resource.points)} XP`} />
+        </XStack>
+
+        {resource.technologies.length ? (
+          <XStack flexWrap="wrap" gap={8}>
+            {resource.technologies.map((tech) => (
+              <TagPill key={tech} label={tech} color="primary" radius="full" />
+            ))}
+          </XStack>
+        ) : null}
+
+        <YStack gap={6}>
+          <Text variant="titleMd" weight="bold">What you&apos;ll learn</Text>
+          <Text variant="bodyMd">{resource.description}</Text>
+        </YStack>
+      </YStack>
+    </Sheet>
+  );
 }
 
 function MetaTile({ icon, label, value }: { icon: 'account' | 'timer' | 'stars'; label: string; value: string }) {

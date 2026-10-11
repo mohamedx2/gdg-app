@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "on-secondary-fixed": "#00210a",
+        "error": "#ba1a1a",
+        "inverse-on-surface": "#f0f0f7",
+        "surface": "#f9f9ff",
+        "on-primary": "#ffffff",
+        "outline": "#737785",
+        "on-background": "#1a1b21",
+        "surface-dim": "#d9d9e1",
+        "tertiary-fixed": "#ffdfa0",
+        "surface-bright": "#f9f9ff",
+        "primary-fixed-dim": "#b1c5ff",
+        "secondary-fixed-dim": "#7cda8f",
+        "on-error-container": "#93000a",
+        "primary": "#0047ae",
+        "surface-container-highest": "#e2e2e9",
+        "secondary-fixed": "#98f7a9",
+        "surface-tint": "#0457ce",
+        "on-surface": "#1a1b21",
+        "on-tertiary": "#ffffff",
+        "inverse-primary": "#b1c5ff",
+        "secondary-container": "#95f4a6",
+        "on-error": "#ffffff",
+        "on-primary-fixed-variant": "#00419f",
+        "on-secondary-fixed-variant": "#005323",
+        "outline-variant": "#c3c6d6",
+        "on-tertiary-container": "#ffe1a7",
+        "on-tertiary-fixed-variant": "#5c4300",
+        "inverse-surface": "#2e3036",
+        "tertiary-fixed-dim": "#fbbc05",
+        "primary-fixed": "#dae2ff",
+        "tertiary-container": "#836000",
+        "on-tertiary-fixed": "#261a00",
+        "secondary": "#006d31",
+        "surface-container-high": "#e8e7ef",
+        "surface-container-lowest": "#ffffff",
+        "on-surface-variant": "#424654",
+        "surface-container": "#ededf5",
+        "on-primary-fixed": "#001946",
+        "on-secondary": "#ffffff",
+        "background": "#f9f9ff",
+        "on-primary-container": "#dde4ff",
+        "error-container": "#ffdad6",
+        "on-secondary-container": "#017233",
+        "surface-variant": "#e2e2e9",
+        "primary-container": "#1a5fd6",
+        "tertiary": "#654900",
+        "surface-container-low": "#f3f3fa"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "gutter": "1rem",
+        "space-xs": "0.25rem",
+        "margin-desktop": "3rem",
+        "space-xl": "2.5rem",
+        "gutter-desktop": "2rem",
+        "space-sm": "0.5rem",
+        "space-md": "1rem",
+        "gutter-tablet": "1.5rem",
+        "margin": "1rem",
+        "space-lg": "1.5rem",
+        "margin-tablet": "2rem"
+      },
+      "fontFamily": {
+        "display": ["Plus Jakarta Sans"],
+        "body-sm": ["Inter"],
+        "body-lg": ["Inter"],
+        "label-code-lg": ["JetBrains Mono"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "body-md": ["Inter"],
+        "label-code-md": ["JetBrains Mono"],
+        "label-code-sm": ["JetBrains Mono"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "display": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.011em", "fontWeight": "400"}],
+        "label-code-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.006em", "fontWeight": "400"}],
+        "label-code-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500"}],
+        "label-code-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+        "headline-lg": ["32px", {"lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+        "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;background-color:#FAFAF7;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-on-surface flex flex-col antialiased selection:bg-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(26,27,33,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go back" class="w-11 h-11 -ml-2 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface leading-tight tracking-tight">Workshop Detail</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="flex flex-col relative w-full pt-16 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Dimmed Peek of the Explore screen beneath -->
+<div aria-hidden="true" class="w-full px-gutter pt-3 pb-8 opacity-40 blur-[1px] select-none pointer-events-none">
+<div class="flex items-center justify-between mb-4">
+<div class="h-6 w-32 bg-surface-container-highest rounded-full"></div>
+<div class="h-8 w-8 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-full h-28 bg-surface-container-high rounded-xl mb-3"></div>
+<div class="grid grid-cols-2 gap-3">
+<div class="h-20 bg-surface-container rounded-xl"></div>
+<div class="h-20 bg-surface-container rounded-xl"></div>
+</div>
+</div>
+<!-- Bottom Sheet Overlay Container -->
+<div class="w-full bg-surface-container-lowest rounded-t-[32px] shadow-2xl flex flex-col relative -mt-10 overflow-hidden pb-24 transition-all">
+<!-- Drag Handle Indicator Area -->
+<div class="w-full flex justify-center items-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
+<div class="w-12 h-1.5 bg-outline-variant/70 rounded-full"></div>
+</div>
+<!-- Sheet Content Body -->
+<div class="px-gutter flex flex-col gap-space-lg">
+<!-- Visual Header Cover: Deep Blue-to-Indigo Gradient with glowing mesh -->
+<div class="relative w-full rounded-2xl overflow-hidden p-5 bg-gradient-to-br from-primary via-primary-container to-[#1c1b3d] text-on-primary shadow-md">
+<!-- Ambient Glowing Mesh Elements -->
+<div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-tertiary-fixed-dim/20 blur-2xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-10 w-44 h-44 rounded-full bg-secondary-fixed-dim/20 blur-3xl pointer-events-none"></div>
+<!-- Floating Badges Pill Row -->
+<div class="relative z-10 flex flex-wrap items-center gap-space-xs mb-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur-md text-on-primary font-label-code-sm text-label-code-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+            Mobile Track
+          </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-tertiary-fixed/25 text-tertiary-fixed font-label-code-sm text-label-code-sm uppercase tracking-wider backdrop-blur-md">
+            Intermediate
+          </span>
+</div>
+<!-- Big Card Punchline Mini-Banner -->
+<div class="relative z-10 flex items-center justify-between">
+<div>
+<p class="font-label-code-md text-label-code-md text-primary-fixed uppercase tracking-wider">GDG On Campus Sousse</p>
+<p class="font-body-sm text-body-sm text-on-primary/80 mt-0.5">Session 04 • Autumn Cohort</p>
+</div>
+<div class="w-11 h-11 rounded-xl bg-surface-container-lowest/10 backdrop-blur-lg flex items-center justify-center text-secondary-fixed shadow-sm">
+<span class="material-symbols-outlined text-[24px]">terminal</span>
+</div>
+</div>
+</div>
+<!-- Workshop Title & Speaker Block -->
+<div class="flex flex-col gap-space-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-tight tracking-tight">
+          Flutter &amp; Firebase Workshop: Clean Architecture
+        </h2>
+<!-- Speaker / Host Row -->
+<div class="flex items-center gap-3 pt-1">
+<div class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 shadow-sm">
+<img alt="Yassine Mansour" class="w-full h-full object-cover" data-alt="Close-up portrait of a young North African male software engineer smiling warmly wearing spectacles and a collegiate navy GDG hoodie against bright natural campus lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwsy7BhyVrKneMK8I1Nd9eI2Dm_Jtuhm9M9un8Beg9D4sn2oBfDgnf7az2hFtrXLrJIINPld8P5ygP-IKNS_xcrQmy6A01AK7Og_Jn9U-ypffPhhIasbLFEyThhc-RrmVZAa42tVrIGqBxE32JYr8cpHyORAvUjhpW483YF06IhgdoV3C5utugBmM3vZfhGjAJoFMcBA7sj34FIaSdIPKViRFcJvnN0FYjd74rIli3YGwm8nbMipRa"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Yassine Mansour</span>
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0" style="font-variation-settings: 'FILL' 1;" title="Verified Speaker">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+              GDG Campus Lead • Flutter Specialist
+            </p>
+</div>
+</div>
+</div>
+<!-- Date, Time, Venue Chips (JetBrains Mono) -->
+<div class="flex flex-col gap-2">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+<!-- Calendar Chip -->
+<div class="flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-low text-on-surface shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</div>
+<div class="min-w-0">
+<span class="block font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Date</span>
+<span class="block font-label-code-md text-label-code-md text-on-surface truncate">FRI, 28 MAR 2025</span>
+</div>
+</div>
+<!-- Time Chip -->
+<div class="flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-low text-on-surface shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+</div>
+<div class="min-w-0">
+<span class="block font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Time</span>
+<span class="block font-label-code-md text-label-code-md text-on-surface truncate">16:30 - 18:30 GMT+1</span>
+</div>
+</div>
+<!-- Venue Chip -->
+<div class="flex items-center gap-2.5 p-3 rounded-xl bg-surface-container-low text-on-surface shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<div class="min-w-0">
+<span class="block font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Location</span>
+<span class="block font-label-code-md text-label-code-md text-on-surface truncate">Lab 04, EPI Campus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- About / Description Card -->
+<div class="flex flex-col gap-2 p-4 rounded-2xl bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+          About the Workshop
+        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Master multi-tier clean architecture in Flutter 3.x using Riverpod state management and Firebase Cloud Firestore. Bring your laptop with Flutter SDK installed.
+        </p>
+<div class="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-[18px] shrink-0">laptop_chromebook</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Prerequisite: Git repo cloned locally before start. Wi-Fi provided on site.</span>
+</div>
+</div>
+<!-- Agenda Timeline -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Session Agenda</h3>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase tracking-wider">120 Minutes</span>
+</div>
+<div class="flex flex-col">
+<!-- Item 1 -->
+<div class="flex items-start gap-3 relative pb-6">
+<div class="absolute left-3 top-6 bottom-0 w-0.5 border-l-2 border-dotted border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-primary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">flag</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-baseline gap-2">
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase">16:30</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Setup check &amp; Architecture overview</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Repository validation, dependency checks, and layer boundaries discussion.</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-start gap-3 relative pb-6">
+<div class="absolute left-3 top-6 bottom-0 w-0.5 border-l-2 border-dotted border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">code</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-baseline gap-2">
+<span class="font-label-code-sm text-label-code-sm text-secondary uppercase">17:00</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Hands-on: Domain &amp; Data layers</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Implementing Repositories, UseCases, and Riverpod StateNotifier providers.</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-start gap-3 relative pb-6">
+<div class="absolute left-3 top-6 bottom-0 w-0.5 border-l-2 border-dotted border-outline-variant"></div>
+<div class="w-6 h-6 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary z-10 shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">cloud_sync</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-baseline gap-2">
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase">17:50</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Firebase offline sync &amp; error handling</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Firestore cache persistence, failure unions, and mock service testing.</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex items-start gap-3 relative">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-on-primary z-10 shrink-0 mt-0.5 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">military_tech</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-baseline gap-2">
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase">18:15</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Q&amp;A, Squad code review &amp; XP award</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Peer code critique session followed by student badge XP distribution.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Who's Going Section (Facepile Stack) -->
+<div class="flex flex-col gap-3 p-4 rounded-2xl bg-surface-container-low shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Who's Going</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary uppercase font-semibold">Confirmed Guests</span>
+</div>
+<div class="flex items-center gap-3">
+<!-- Overlapping Avatars (6 members) -->
+<div class="flex -space-x-2.5 overflow-hidden py-1">
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Salma" class="h-full w-full object-cover" data-alt="Portrait of a female Tunisian computer science student with a friendly smile, curly hair, wearing a white t-shirt in a modern collaborative tech campus lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS3tRiwBpME0nJy6FJZJUG62IpjdpJozHEM8WzPyEWbh39Bz-1Sp8hcPwJoCV_blpg17H9TRdHSGSRbue8TDaT8Qb74FEV-cQMj3hMpz3QyATf8S98WEO5OfSOPv-km-OVS6ml7B6KFxcGT2bJVPm2f-eMstWOObfiBuBeWtJVSMKKwsuU_g2k3zQZnz5P_cQ6xlKyHwQkF3beGAdI2ro4yIFS2ydsFSDQ5WiSJYdbXCmEWxkg9-VE"/>
+</div>
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Aziz" class="h-full w-full object-cover" data-alt="Portrait of an energetic North African male engineering student with short haircut wearing a mustard yellow casual hoodie in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm1CdKhqh_2CoFD4L4kvoGmzKi0P7kkSd7FLckwg-88j3KiiY2FlWOhL4GjZ5PwPKbkT4OCPwhHK6QLdLV82pqdvzvxX4QfN9v-Fl4thTvD39FRS2gXUjwIXYQJTPLsOs5Wsz57JWHIKo1PDrmYyLsJROJwrMTveW82TjZbKd72XMND3M6TIQJK33zZXhHEsRTqEgR5Oy_5m5yf-qN27aNw4ziUEwjFcg572C7WLhRdsivbuL9fdh5"/>
+</div>
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Nour" class="h-full w-full object-cover" data-alt="Portrait of a young woman university student wearing glasses and an indigo collared shirt against a subtle background of computer monitors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsNcxKWcw5q87e0wi0dwkyoWtLZmxbqD8eab-GhPO9xIuZXI89HBgy85LnrgQuggmbwmb205nANQBJVMhITMt0PvcgChn_liJoGIMlFaroMFPo-2JyjH_M9WeloKaXGHGzA1oyWgyRsFEyqC123J6iAtNh_6QWwFJBIjfLGGiqrj1l8L3ixzPSMb2soPQsCikh7KcTx8s1yHB8E4_4seMJInEp1U69_IIB3xWTAoi0k8ANf9NRqwAV"/>
+</div>
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Karim" class="h-full w-full object-cover" data-alt="Portrait of a young male software developer with dark hair and a joyful expression, wearing an olive green casual shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHsUtTR3JlBbyVuARCqhZkiFR-oTv-FnUgKK8rcbEdmvsTf-RzhdwN-cGSe85sUWvaHMSf6GT0ls0xOxy10ILbKrI3UZvgef62uFWm4kxdhQgHDosIC9ZioROpgFjDeTnle5t1_JFBAOWBie-vpiTh-ky5lTMQNX9ZAmAiieeGXpEdU8VVA3nS7s-kIav1mGtt9FqO9-WdSmq4OGftJLsnuSQz18QAqAILbUfWPy0Wemc8_XBCKe8X"/>
+</div>
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Mariem" class="h-full w-full object-cover" data-alt="Portrait of a young female engineering student wearing a light blue hijab smiling confidently at the camera in a modern campus auditorium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiJo-yEwj1qLJuSNr9N2LQGBGzEUuL0Z1GxTdwE0r9uwL6ZO6b7D75ovHEybK-jG2oJ0pXfzmUjxZfI9aCSOUHtkCvxBy_yyoJY7yhrJZOpWZr6cauSoLGYjZPHP6iK1UH9kDDkVGpV7P-Xf163mrHdkyTlrdeKAjFM_9uPJktrP_kSviVbB3xFA4Ki5V4dLh4hrQzYJ33bdUp2IlCn6S2UVjaNU9Th2t5W1TJWsoDZBJ2asMi2Hhl"/>
+</div>
+<div class="inline-block h-9 w-9 rounded-full bg-surface shadow-sm overflow-hidden shrink-0">
+<img alt="Attendee Firas" class="h-full w-full object-cover" data-alt="Portrait of a smiling North African young man wearing a denim shirt in an open-space hackathon venue with soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrAILJDoQysyFDv7-c08YAXYf1PID8K7YYJW7tkPedkg1rsc_aUeHT0IWcibNC9jMJE1U720OxfyWgumWF-lNpxUrM_v0dFv0M4AERr8nNyYNYZ3uiVubvZ6fACk7KvmoqiwC9cbU__U1pv16zS2mmDyyK0bJJIs76TGRBe9EQ_zEVb_lrF2zw3AkBgLCQ_aQ45f8PGaU773OfciqPDWb_jd_ouADkc6GZwN-IYBwrwNBY5p2UC91m"/>
+</div>
+</div>
+<!-- Counter description -->
+<div class="flex items-center min-w-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">
+<strong class="text-on-surface font-semibold">+42 others</strong> confirmed
+            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Bar with Seat Capacity & RSVP CTA -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-xl px-gutter py-3 shadow-[0_-4px_24px_rgba(26,27,33,0.08)] flex flex-col gap-2">
+<!-- Progress Track & Monospace Stats -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-label-code-md text-label-code-md text-on-surface">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-semibold text-primary">48/60</span>
+<span class="text-on-surface-variant">seats filled</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error uppercase font-semibold">12 spots left</span>
+</div>
+<!-- Capacity Bar -->
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 80%;"></div>
+</div>
+<!-- Main Action Button -->
+<button class="w-full h-12 bg-primary-container hover:bg-primary active:scale-[0.98] transition-all rounded-xl text-on-primary flex items-center justify-center gap-2 shadow-md cursor-pointer" id="rsvpBtn" onclick="toggleRSVP(this)">
+<span class="material-symbols-outlined text-[20px]" id="rsvpIcon">bolt</span>
+<span class="font-headline-sm text-headline-sm tracking-wide" id="rsvpText">Confirm RSVP (+100 XP)</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  function toggleRSVP(btn) {
+    const icon = document.getElementById('rsvpIcon');
+    const text = document.getElementById('rsvpText');
+    const isConfirmed = btn.dataset.confirmed === 'true';
+
+    if (!isConfirmed) {
+      btn.dataset.confirmed = 'true';
+      btn.classList.remove('bg-primary-container', 'hover:bg-primary');
+      btn.classList.add('bg-secondary', 'text-on-secondary');
+      icon.textContent = 'check_circle';
+      text.textContent = 'You are In! (+100 XP Added)';
+      
+      // Micro spark effect
+      btn.classList.add('scale-105');
+      setTimeout(() => btn.classList.remove('scale-105'), 200);
+    } else {
+      btn.dataset.confirmed = 'false';
+      btn.classList.remove('bg-secondary', 'text-on-secondary');
+      btn.classList.add('bg-primary-container', 'hover:bg-primary');
+      icon.textContent = 'bolt';
+      text.textContent = 'Confirm RSVP (+100 XP)';
+    }
+  }
+</script></main></body></html>

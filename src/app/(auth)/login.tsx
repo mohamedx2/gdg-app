@@ -34,7 +34,7 @@ export default function LoginScreen() {
     setErrorText(null);
     try {
       await signIn(values.email, values.password);
-      router.replace('/(tabs)');
+      router.replace('/(spaces)');
     } catch (error) {
       setErrorText(error instanceof Error ? error.message : 'Sign in failed. Try again.');
       setSubmitting(false);
@@ -46,7 +46,7 @@ export default function LoginScreen() {
     setErrorText(null);
     try {
       await signInWithGoogle();
-      router.replace('/(tabs)');
+      router.replace('/(spaces)');
     } catch (error) {
       setErrorText(error instanceof Error ? error.message : 'Google sign in failed.');
       setSubmitting(false);

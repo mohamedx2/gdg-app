@@ -72,6 +72,9 @@ const lightColors = {
   success: '#1E8E3E',
   warning: '#E8A200',
   info: '#1A73E8',
+  spark: '#6C5CE7',
+  live: '#34A853',
+  gold: '#FBBC04',
 
   overlay: 'rgba(15, 23, 42, 0.40)',
   skeleton: '#EDECE5',
@@ -140,6 +143,9 @@ const darkColors: ColorTokens = {
   success: '#81C995',
   warning: '#FDD663',
   info: '#8AB4F8',
+  spark: '#B39DFF',
+  live: '#6DDD81',
+  gold: '#FDD663',
 
   overlay: 'rgba(2, 6, 23, 0.60)',
   skeleton: '#1A1D25',

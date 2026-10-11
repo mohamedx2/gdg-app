@@ -1,14 +1,12 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Pill, TagPill } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
-import { IconButton } from '@/components/ui/IconButton';
+import { Sheet } from '@/components/ui/Sheet';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
@@ -20,7 +18,6 @@ import type { Project } from '@/types';
 
 export default function MemberDetailScreen() {
   const { memberRoles: MEMBER_ROLES } = useTaxonomy();
-  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ id: string }>();
   const toast = useUiStore((state) => state.toast);
 
@@ -43,35 +40,35 @@ export default function MemberDetailScreen() {
 
   if (isError) {
     return (
-      <YStack flex={1} backgroundColor="background" padding={16}>
-        <BackButton />
+      <Sheet title="Member">
         <ErrorState message={error?.message} onRetry={() => refetch()} />
-      </YStack>
+      </Sheet>
     );
   }
 
   if (isPending || !member) {
     return (
-      <YStack flex={1} backgroundColor="background" padding={16} gap={16}>
-        <BackButton />
+      <Sheet title="Member">
         <YStack alignItems="center" gap={10}>
           <Skeleton width={88} height={88} radius={44} />
           <Skeleton height={18} width="45%" />
           <Skeleton height={14} width="60%" />
         </YStack>
-        <Skeleton height={120} radius={12} />
-      </YStack>
+        <YStack marginTop={20}>
+          <Skeleton height={120} radius={12} />
+        </YStack>
+      </Sheet>
     );
   }
 
   const roleMeta = MEMBER_ROLES[member.role];
 
   return (
-    <YStack flex={1} backgroundColor="background">
-      <YStack paddingTop={insets.top + 4} paddingHorizontal={8}>
-        <BackButton />
-      </YStack>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120, gap: 20 }} showsVerticalScrollIndicator={false}>
+    <Sheet
+      contentContainerStyle={{ paddingBottom: 20 }}
+      footer={<Button label="Connect" onPress={onConnect} loading={busy} icon="personAdd" />}
+    >
+      <YStack padding={16} paddingTop={4} gap={20}>
         <YStack alignItems="center" gap={10}>
           <Avatar uri={member.avatar} name={member.name} size={92} online={member.online} />
           <Text variant="headlineMd" weight="bold">
@@ -125,18 +122,9 @@ export default function MemberDetailScreen() {
             {member.socials.portfolio ? <LinkRow icon="publicIcon" label="Portfolio" url={`https://${member.socials.portfolio}`} /> : null}
           </YStack>
         ) : null}
-      </ScrollView>
-
-      <YStack position="absolute" left={12} right={12} bottom={insets.bottom + 10}>
-        <Button label="Connect" onPress={onConnect} loading={busy} icon="personAdd" />
       </YStack>
-    </YStack>
+    </Sheet>
   );
-}
-
-function BackButton() {
-  const router = useRouter();
-  return <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />;
 }
 
 function StatsRow({ items }: { items: { label: string; value: string }[] }) {

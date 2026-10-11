@@ -65,4 +65,45 @@ export function getShadow(level: ShadowLevel, mode: 'light' | 'dark' = 'light'):
   return mode === 'dark' ? darkShadows[level] : lightShadows[level];
 }
 
+/**
+ * Chromatic edge glows from the dark design system — low-radius luminous
+ * radiance used on focal interactive elements and live status surfaces.
+ */
+export type GlowToken = 'blue' | 'green' | 'red' | 'spark';
+
+const glows: Record<GlowToken, ViewStyle> = {
+  blue: {
+    shadowColor: '#4285F4',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 0,
+  },
+  green: {
+    shadowColor: '#34A853',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 14,
+    elevation: 0,
+  },
+  red: {
+    shadowColor: '#EA4335',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 14,
+    elevation: 0,
+  },
+  spark: {
+    shadowColor: '#6C5CE7',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 0,
+  },
+};
+
+export function getGlow(token: GlowToken): ViewStyle {
+  return glows[token];
+}
+
 export const hairline = Platform.select({ ios: 0.5, android: 0.5, default: 1 });

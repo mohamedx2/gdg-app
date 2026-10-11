@@ -1,7 +1,7 @@
 import { useColorScheme } from 'react-native';
 
 import { Colors, ThemeMode, dark, light } from './colors';
-import { getShadow, ShadowLevel } from './shadows';
+import { getGlow, getShadow, GlowToken, ShadowLevel } from './shadows';
 import { spacing, SpacingToken } from './spacing';
 import { radius, RadiusToken } from './radius';
 import { typography, TypographyToken } from './typography';
@@ -19,6 +19,7 @@ export interface Theme {
   space: (token: SpacingToken) => number;
   round: (token: RadiusToken) => number;
   shadow: (level: ShadowLevel) => ReturnType<typeof getShadow>;
+  glow: (token: GlowToken) => ReturnType<typeof getGlow>;
 }
 
 export type ThemePreference = 'system' | 'light' | 'dark';
@@ -36,6 +37,7 @@ function buildTheme(mode: ThemeMode): Theme {
     space: (token) => spacing[token],
     round: (token) => radius[token],
     shadow: (level) => getShadow(level, mode),
+    glow: (token) => getGlow(token),
   };
 }
 
@@ -53,6 +55,7 @@ export type {
   Colors,
   ThemeMode,
   ShadowLevel,
+  GlowToken,
   TypographyToken,
   SpacingToken,
   RadiusToken,

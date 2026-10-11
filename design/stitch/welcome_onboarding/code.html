@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_auth" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#282a30", "on-tertiary-fixed-variant": "#930004", "secondary-fixed-dim": "#6ddd81", "inverse-surface": "#e2e2eb", "on-primary-fixed-variant": "#004494", "surface-tint": "#adc6ff", "secondary-fixed": "#89fa9b", "on-secondary-fixed": "#002108", "on-primary-container": "#00285c", "surface": "#111319", "on-surface-variant": "#c2c6d5", "surface-container-highest": "#33343b", "on-secondary": "#003914", "surface-container-low": "#191b22", "surface-bright": "#373940", "primary-fixed-dim": "#adc6ff", "inverse-on-surface": "#2e3037", "on-primary": "#002e69", "secondary-container": "#30a550", "tertiary-fixed": "#ffdad5", "primary": "#adc6ff", "error": "#ffb4ab", "on-primary-fixed": "#001a41", "error-container": "#93000a", "tertiary-fixed-dim": "#ffb4a9", "secondary": "#6ddd81", "on-secondary-fixed-variant": "#005320", "surface-variant": "#33343b", "on-tertiary-fixed": "#410001", "tertiary-container": "#ff5544", "on-secondary-container": "#003210", "primary-container": "#4d8efe", "outline": "#8c909f", "surface-container": "#1e1f26", "on-tertiary": "#690002", "outline-variant": "#424753", "surface-dim": "#111319", "on-error": "#690005", "background": "#111319", "on-surface": "#e2e2eb", "primary-fixed": "#d8e2ff", "inverse-primary": "#005ac1", "on-tertiary-container": "#5c0001", "surface-container-lowest": "#0c0e14", "tertiary": "#ffb4a9", "on-error-container": "#ffdad6", "on-background": "#e2e2eb" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "gutter": "1.25rem", "space-xl": "2rem", "margin-desktop": "2.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "label-code": ["JetBrains Mono"], "body-sm": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "label-metric": ["JetBrains Mono"], "body-lg": ["Plus Jakarta Sans"], "label-tag": ["JetBrains Mono"] }, "fontSize": { "label-code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "600" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-metric": ["20px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "label-tag": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface-container-lowest text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased"><header class="fixed top-0 inset-x-0 z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl"><div class="h-14 px-margin flex items-center justify-between"><button aria-label="Go back" class="min-w-[44px] min-h-[44px] -ml-space-xs flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[20px]">arrow_back</span></button><div class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span><span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span><span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span><span class="w-1.5 h-1.5 rounded-full bg-primary"></span></div><a class="min-w-[44px] min-h-[44px] flex items-center justify-end font-label-code text-label-code text-on-surface-variant hover:text-primary transition-colors" data-path="welcome-onboarding" href="#">Skip</a></div></header><main class="flex-1 flex flex-col w-full pt-14 pb-safe bg-surface-container-lowest px-margin"><div class="flex flex-col w-full pb-6 select-none">
+<!-- Campus Location Pill with Google Multi-Color Nodes -->
+<div class="flex items-center justify-between mt-2 mb-4">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">location_on</span>
+        EPI Sousse, Tunisia
+      </span>
+</div>
+<!-- Active telemetry badge -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-tag text-label-tag text-secondary uppercase">DevFest '25</span>
+</div>
+</div>
+<!-- Hero Typography Header -->
+<div class="flex flex-col gap-1.5 mb-5">
+<div class="inline-flex items-center gap-2">
+<span class="font-label-code text-label-code text-primary">gdg://epi.sousse/welcome</span>
+<span class="font-label-tag text-label-tag px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant">v2.5</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">
+      Build, Ship & Grow with Campus Developers
+    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+      Connect with student hackers, learn Google technologies, and launch real-world impact projects together.
+    </p>
+</div>
+<!-- Interactive Terminal Card & Community Proof Bento -->
+<div class="w-full rounded-xl bg-surface-container-low shadow-xl overflow-hidden flex flex-col mb-5">
+<!-- Tab Language Switcher -->
+<div class="flex items-center justify-between px-3 pt-2.5 bg-surface-container-low">
+<div class="flex items-center gap-1" id="tab-group">
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant transition-all hover:text-on-surface" id="tab-python" onclick="switchSnippet('python')" type="button">
+          Python
+        </button>
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code bg-surface-container text-primary font-semibold transition-all" id="tab-flutter" onclick="switchSnippet('flutter')" type="button">
+          Flutter
+        </button>
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant transition-all hover:text-on-surface" id="tab-react" onclick="switchSnippet('react')" type="button">
+          React
+        </button>
+</div>
+<!-- Copy / Run indicator -->
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button aria-label="Terminal status" class="w-6 h-6 flex items-center justify-center rounded hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+</button>
+</div>
+</div>
+<!-- Terminal Window Content -->
+<div class="p-4 bg-surface-container-lowest font-label-code text-label-code overflow-x-auto">
+<!-- Window Controls -->
+<div class="flex items-center justify-between pb-3 mb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error-container"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+</div>
+<span class="font-label-tag text-label-tag text-outline text-[10px]">main.dart — runner</span>
+</div>
+<!-- Dart Code (Default) -->
+<pre class="text-on-surface font-label-code text-label-code leading-relaxed" id="code-snippet"><code><span class="text-outline">// GDG EPI Sousse • Join the squad</span>
+<span class="text-tertiary">void</span> <span class="text-primary">main</span>() <span class="text-tertiary">async</span> {
+  <span class="text-tertiary">final</span> builder = <span class="text-primary-container">Student</span>(
+    name: <span class="text-secondary">"You"</span>,
+    campus: <span class="text-secondary">"EPI"</span>
+  );
+  <span class="text-tertiary">await</span> builder.<span class="text-primary">joinSquad</span>(
+    tracks: [<span class="text-primary-container">Track</span>.flutter, <span class="text-primary-container">Track</span>.ai]
+  );
+  <span class="text-primary">print</span>(<span class="text-secondary">"Welcome to DevFest '25! 🚀"</span>);
+}</code></pre>
+</div>
+<!-- Community Metric Strip -->
+<div class="p-3.5 bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<!-- Avatar Stack using placeholder images with strict data-alt -->
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Member Avatar" class="inline-block h-7 w-7 rounded-full object-cover" data-alt="Portrait photo of a smiling Tunisian collegiate developer wearing headphones in a modern collaborative computer lab, cool cinematic blue lighting with soft rim highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHJttQruBqsTUSPeQcNtap6L7rMtQTin3tYBGZiS5DX3txe70znXVSzyY9U-6Eb52O1gHirdD8wZKun6CT9lwDAF4vYmXESY6zlJK_SLLPCCmxh6SzPmnoKXhVB3Ukgw0xMGI8isMS84BxnxtEbEfjlOWLSahbc_P9f2pU_PmmHQPrkNoFx9L6kOt9aEC4uzO8LTG4TMoTE9xIdzkBUOQGFKNB48UAGl27HGDCUJ6UC-vZ2KUnuVFk"/>
+<img alt="Member Avatar" class="inline-block h-7 w-7 rounded-full object-cover" data-alt="Close-up portrait of a female university computer science student smiling warmly in front of multiple coding monitors, warm tech ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2dnPHGB1AELUFtiV0tzj6oIpmmjVtcY8K7ZixnRcuObHh1sa3B7v-PAnIf9WaFsug7HeFJL9ymK-QndW4lGlu6fDSM_RBerH2VuQg8Y2rA5rKvhHHQypGYaWDOe2jQIaAPimZKhxZTk8_AGyxa2fk2j7OgahYcpMQd9JQlD8phdvZ83hRZonvsAE3H1bqYsQ7BDUQE2wh0pzEZyxAXJK8UdPsWc2w_8cOnjO8Lqf69m1uNBtJ2gHe"/>
+<img alt="Member Avatar" class="inline-block h-7 w-7 rounded-full object-cover" data-alt="Candid portrait of an enthusiastic young software engineer at a hackathon desk with stickers on laptop lid, high-contrast dark ambiance with subtle Google green ambient glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_ozYqK3fPckFrgbscc54UUD2mZVWJot9AAuJDlKWIqcXfU49OIctlpCS8v1vLRMZ-1DtCxtLYq5b9uC3X7v07OHyK7-QT8urUp5CpoFlg9XkphwU0DK7XW-sKgmHG8MZhPtQdkiD7ivlI-SV_DBUaelgIQqmnrHSV5Y_MuA2D0DTySwXfUqj0MESPCplSjZhcyycmj4ZENZ1fgG8V0owwBCU9D3t5gOZcljiJ5eqnj4NgASZkOlwp"/>
+<div class="flex items-center justify-center h-7 w-7 rounded-full bg-surface-container-highest text-primary font-label-code text-[10px] font-bold">
+            +
+          </div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-[13px] leading-tight text-on-surface font-semibold">+420 builders</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">in Sousse & Sahel</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-surface-container-high">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-tag text-label-tag text-on-surface">Active Chapter</span>
+</div>
+</div>
+</div>
+<!-- Carousel Pagination Dots (Slide 1 of 3 Active) -->
+<div aria-label="Page indicator" class="flex items-center justify-center gap-2 mb-6">
+<!-- Active Slide 1: Elongated pill in vibrant Google primary tone -->
+<button aria-label="Slide 1 active" class="h-2 w-6 rounded-full bg-primary transition-all duration-300" type="button"></button>
+<!-- Slide 2 -->
+<button aria-label="Slide 2" class="h-2 w-2 rounded-full bg-surface-container-highest hover:bg-outline-variant transition-all" type="button"></button>
+<!-- Slide 3 -->
+<button aria-label="Slide 3" class="h-2 w-2 rounded-full bg-surface-container-highest hover:bg-outline-variant transition-all" type="button"></button>
+</div>
+<!-- Action CTAs Pinned Container -->
+<div class="flex flex-col gap-3 mt-auto">
+<!-- Primary Join Button with photonic radiance -->
+<button class="w-full h-11 px-5 rounded-lg bg-primary-container text-on-primary font-headline-sm text-[14px] flex items-center justify-center gap-2 shadow-lg hover:opacity-95 active:scale-[0.99] transition-transform" type="button">
+<span>Join GDG EPI</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Secondary Guest Button -->
+<button class="w-full h-11 px-5 rounded-lg bg-surface-container text-on-surface font-headline-sm text-[14px] flex items-center justify-center gap-2 hover:bg-surface-container-high active:scale-[0.99] transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">explore</span>
+<span>Continue as guest</span>
+</button>
+<!-- Tertiary Member Sign-In Link -->
+<div class="flex items-center justify-center pt-1">
+<p class="font-body-md text-body-md text-on-surface-variant">
+        Already a member?
+        <a class="font-headline-sm text-[14px] text-primary hover:underline ml-1" href="#">Sign in</a>
+</p>
+</div>
+</div>
+</div>
+<script>
+  function switchSnippet(lang) {
+    const tabs = {
+      python: document.getElementById('tab-python'),
+      flutter: document.getElementById('tab-flutter'),
+      react: document.getElementById('tab-react')
+    };
+
+    const pre = document.getElementById('code-snippet');
+    if (!pre) return;
+
+    // Reset styles
+    Object.keys(tabs).forEach(key => {
+      const el = tabs[key];
+      if (el) {
+        el.className = "px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant transition-all hover:text-on-surface";
+      }
+    });
+
+    if (tabs[lang]) {
+      tabs[lang].className = "px-3 py-1 rounded-lg font-label-code text-label-code bg-surface-container text-primary font-semibold transition-all";
+    }
+
+    if (lang === 'python') {
+      pre.innerHTML = `<code><span class="text-outline"># GDG EPI Sousse • Join the squad</span>
+<span class="text-tertiary">from</span> gdg <span class="text-tertiary">import</span> CampusChapter, Student
+
+builder = Student(name=<span class="text-secondary">"You"</span>, university=<span class="text-secondary">"EPI"</span>)
+squad = CampusChapter.connect(<span class="text-secondary">"sousse"</span>)
+squad.register_member(builder, tracks=[<span class="text-secondary">"AI"</span>, <span class="text-secondary">"Cloud"</span>])
+<span class="text-primary">print</span>(<span class="text-secondary">"Welcome to DevFest '25! 🚀"</span>)</code>`;
+    } else if (lang === 'flutter') {
+      pre.innerHTML = `<code><span class="text-outline">// GDG EPI Sousse • Join the squad</span>
+<span class="text-tertiary">void</span> <span class="text-primary">main</span>() <span class="text-tertiary">async</span> {
+  <span class="text-tertiary">final</span> builder = <span class="text-primary-container">Student</span>(
+    name: <span class="text-secondary">"You"</span>,
+    campus: <span class="text-secondary">"EPI"</span>
+  );
+  <span class="text-tertiary">await</span> builder.<span class="text-primary">joinSquad</span>(
+    tracks: [<span class="text-primary-container">Track</span>.flutter, <span class="text-primary-container">Track</span>.ai]
+  );
+  <span class="text-primary">print</span>(<span class="text-secondary">"Welcome to DevFest '25! 🚀"</span>);
+}</code>`;
+    } else if (lang === 'react') {
+      pre.innerHTML = `<code><span class="text-outline">// GDG EPI Sousse • Join the squad</span>
+<span class="text-tertiary">export default function</span> <span class="text-primary">Squad</span>() {
+  <span class="text-tertiary">const</span> [joined, setJoined] = useState(<span class="text-secondary">false</span>);
+  <span class="text-tertiary">return</span> (
+    <<span class="text-primary-container">DevFest</span> 
+      chapter=<span class="text-secondary">"GDG EPI Sousse"</span>
+      action={() => setJoined(<span class="text-secondary">true</span>)}
+    />
+  );
+}</code>`;
+    }
+  }
+</script></main></body></html>

@@ -35,6 +35,13 @@ const queryClient = new QueryClient({
   },
 });
 
+/** Routes surfaced as bottom sheets (see `components/ui/Sheet`). */
+const sheetScreenOptions = {
+  presentation: 'transparentModal' as const,
+  animation: 'none' as const,
+  contentStyle: { backgroundColor: 'transparent' },
+};
+
 export default function RootLayout() {
   const theme = useTheme();
   const [loaded, error] = useFonts({
@@ -66,11 +73,14 @@ export default function RootLayout() {
                 }}
               >
                 <Stack.Screen name="(auth)" />
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="events/[id]" />
-                <Stack.Screen name="ticket/[id]" />
-                <Stack.Screen name="resource/[id]" />
-                <Stack.Screen name="community/[id]" />
+                <Stack.Screen name="(spaces)" />
+                <Stack.Screen name="me" options={sheetScreenOptions} />
+                <Stack.Screen name="inbox/index" />
+                <Stack.Screen name="inbox/[id]" />
+                <Stack.Screen name="events/[id]" options={sheetScreenOptions} />
+                <Stack.Screen name="ticket/[id]" options={sheetScreenOptions} />
+                <Stack.Screen name="resource/[id]" options={sheetScreenOptions} />
+                <Stack.Screen name="community/[id]" options={sheetScreenOptions} />
                 <Stack.Screen name="notifications" />
                 <Stack.Screen name="achievements" />
                 <Stack.Screen name="squads" />
