@@ -19,6 +19,7 @@ import { notificationsRouter } from './notifications';
 import { profileRouter } from './profile';
 import { adminRouter } from './admin';
 import { mediaRouter } from './media';
+import { contentRouter } from './content';
 
 /** Every router shares one surface; auth is applied per-route. */
 export const apiRouter = Router();
@@ -42,3 +43,4 @@ apiRouter.use(notificationsRouter);
 apiRouter.use(profileRouter);
 apiRouter.use(adminRouter);
 apiRouter.use(mediaRouter);
+apiRouter.use(contentRouter);

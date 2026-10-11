@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { useTheme } from '@/theme';
 import type { GdgEvent } from '@/types';
-import { EVENT_CATEGORIES, TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { formatDayNumber, formatEventDateTime, formatMonthShort, formatCountdown } from '@/utils/date';
 import { formatCount } from '@/utils/format';
 import { Button } from './ui/Button';
@@ -25,8 +25,9 @@ interface EventCardProps {
 /** Compact event row — date tile + meta + chevron. */
 export const EventCard = memo(function EventCard({ event, horizontal }: EventCardProps) {
   const theme = useTheme();
-  const category = EVENT_CATEGORIES[event.category];
-  const track = TRACKS[event.track];
+  const taxonomy = useTaxonomy();
+  const category = taxonomy.eventCategories[event.category];
+  const track = taxonomy.tracks[event.track];
 
   return (
     <PressableScale
@@ -115,7 +116,8 @@ function formatTimeShort(event: GdgEvent): string {
 /** Full-width hero banner with gradient overlay for the featured event. */
 export const FeaturedEventCard = memo(function FeaturedEventCard({ event }: { event: GdgEvent }) {
   const theme = useTheme();
-  const category = EVENT_CATEGORIES[event.category];
+  const taxonomy = useTaxonomy();
+  const category = taxonomy.eventCategories[event.category];
 
   return (
     <View style={{ borderRadius: theme.radius.card }}>

@@ -29,7 +29,7 @@ import {
 } from '@/hooks/use-community';
 import { useAuth } from '@/features/auth/auth-provider';
 import { Image } from 'expo-image';
-import { MEMORIES } from '@/constants/memories';
+import { useMemories } from '@/hooks/use-content';
 import { useEvents, useUpcomingEvents } from '@/hooks/use-events';
 import { useConversations } from '@/hooks/use-messages';
 import { useRecommendedResources } from '@/hooks/use-resources';
@@ -50,6 +50,7 @@ export default function HomeScreen() {
   const { data: summary } = useAchievementSummary();
   const { data: resources } = useRecommendedResources(4);
   const { data: activity } = useActivity();
+  const memories = useMemories();
 
   const pinned = announcements?.find((item) => item.pinned) ?? announcements?.[0];
   // Between seasons there is nothing upcoming — fall back to the latest activities.
@@ -198,7 +199,7 @@ export default function HomeScreen() {
               <SectionHeader title="Memories" subtitle="Moments from past seasons" accent="warning" actionLabel="See all" onAction={() => router.push('/memories' as never)} />
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingHorizontal: 16 }}>
-              {MEMORIES.slice(0, 6).map((memory) => (
+              {memories.slice(0, 6).map((memory) => (
                 <PressableScale key={memory.id} onPress={() => router.push('/memories' as never)} accessibilityLabel={`Open memories: ${memory.caption}`} style={{ width: 150, height: 190, borderRadius: theme.radius.card, overflow: 'hidden', backgroundColor: theme.colors.surfaceContainer }}>
                   <Image source={memory.source} contentFit="cover" style={{ width: '100%', height: '100%' }} />
                 </PressableScale>

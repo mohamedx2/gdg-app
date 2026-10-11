@@ -13,7 +13,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeader } from '@/components/ui/Screen';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useDailyQuiz, useSubmitQuiz } from '@/hooks/use-quiz';
 import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
@@ -103,6 +103,7 @@ function Question({
   onNext: () => void;
 }) {
   const theme = useTheme();
+  const { tracks: TRACKS } = useTaxonomy();
   const question = quiz.questions[index];
   const track = TRACKS[question.track];
   const selected = answers[question.id];

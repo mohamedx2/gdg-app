@@ -8,6 +8,15 @@ export interface Memory {
   portrait: boolean;
 }
 
+/** One gallery photo as served by the API. */
+export interface MemoryRecord {
+  id: string;
+  imageUrl: string;
+  caption: string;
+  portrait: boolean;
+  sortOrder: number;
+}
+
 /** Photos from past chapter moments, bundled with the app. */
 export const MEMORIES: Memory[] = [
   { id: 'm01', source: require('../../assets/images/memories/memory-01.jpg'), caption: 'Core team on campus', portrait: false },
@@ -24,3 +33,8 @@ export const MEMORIES: Memory[] = [
   { id: 'm11', source: require('../../assets/images/memories/memory-11.jpg'), caption: 'The full stand team', portrait: true },
   { id: 'm09', source: require('../../assets/images/memories/memory-09.jpg'), caption: 'Group photo', portrait: true },
 ];
+
+/** Bundled asset per photo id — used when the API has no image URL yet. */
+export const MEMORY_ASSETS: Record<string, ImageSourcePropType> = Object.fromEntries(
+  MEMORIES.map((memory) => [memory.id, memory.source]),
+);

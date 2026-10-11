@@ -15,6 +15,9 @@ import type {
 } from '@/types';
 import { matchQuery, percentage } from '@/utils/format';
 import { isPast } from '@/utils/date';
+import { APP_BUNDLED, UI_BUNDLED } from '@/constants/content';
+import { TAXONOMY_BUNDLED } from '@/constants/taxonomy';
+import { MEMORIES } from '@/constants/memories';
 
 function delay<T>(value: T, min = 260, max = 620): Promise<T> {
   const ms = min + Math.random() * (max - min);
@@ -552,6 +555,22 @@ export const mockApi: AppApi = {
       const folder = input.folder ?? 'misc';
       return delay({ url: input.uri, path: `mock/${folder}/${Date.now()}` }, 300, 600);
     },
+  },
+
+  content: {
+    config: () => delay({ app: APP_BUNDLED, taxonomy: TAXONOMY_BUNDLED, ui: UI_BUNDLED }, 120, 260),
+    memories: () =>
+      delay(
+        MEMORIES.map((memory, index) => ({
+          id: memory.id,
+          imageUrl: '',
+          caption: memory.caption,
+          portrait: memory.portrait,
+          sortOrder: index,
+        })),
+        120,
+        260,
+      ),
   },
 };
 

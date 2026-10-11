@@ -129,3 +129,50 @@ export const TASK_PRIORITY: Record<TaskPriority, { label: string; color: ColorTo
   medium: { label: 'Medium', color: 'secondary' },
   high: { label: 'High', color: 'error' },
 };
+
+export interface HomeTrackFilter {
+  key: string;
+  label: string;
+  icon?: string;
+  dot?: ColorToken;
+}
+
+/** The full taxonomy payload the API serves (and the client bundles as a fallback). */
+export interface TaxonomyConfig {
+  eventCategories: Record<EventCategory, CategoryMeta>;
+  tracks: Record<Track, { label: string; color: ColorToken }>;
+  trackFilters: Track[];
+  memberRoles: Record<MemberRole, { label: string; chipColor: ColorToken; chipText: ColorToken }>;
+  resourceTypes: Record<ResourceType, { label: string; icon: string; color: ColorToken }>;
+  resourceCategories: readonly string[];
+  difficulties: Record<ResourceDifficulty, { label: string; color: ColorToken }>;
+  presenceStatus: Record<PresenceStatus, CategoryMeta>;
+  presenceOrder: PresenceStatus[];
+  ideaCategories: Record<IdeaCategory, CategoryMeta>;
+  ideaStatus: Record<IdeaStatus, CategoryMeta>;
+  ideaStatusOrder: IdeaStatus[];
+  homeTrackFilters: readonly HomeTrackFilter[];
+  taskStatus: Record<TaskStatus, CategoryMeta>;
+  taskStatusOrder: TaskStatus[];
+  taskPriority: Record<TaskPriority, { label: string; color: ColorToken }>;
+}
+
+/** Bundled defaults; the API value is shallow-merged on top at runtime. */
+export const TAXONOMY_BUNDLED: TaxonomyConfig = {
+  eventCategories: EVENT_CATEGORIES,
+  tracks: TRACKS,
+  trackFilters: TRACK_FILTERS,
+  memberRoles: MEMBER_ROLES,
+  resourceTypes: RESOURCE_TYPES,
+  resourceCategories: RESOURCE_CATEGORIES,
+  difficulties: DIFFICULTIES,
+  presenceStatus: PRESENCE_STATUS,
+  presenceOrder: PRESENCE_ORDER,
+  ideaCategories: IDEA_CATEGORIES,
+  ideaStatus: IDEA_STATUS,
+  ideaStatusOrder: IDEA_STATUS_ORDER,
+  homeTrackFilters: HOME_TRACK_FILTERS,
+  taskStatus: TASK_STATUS,
+  taskStatusOrder: TASK_STATUS_ORDER,
+  taskPriority: TASK_PRIORITY,
+};

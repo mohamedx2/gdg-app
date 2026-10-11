@@ -13,13 +13,14 @@ import { SectionHeader } from '@/components/ui/Screen';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { MEMBER_ROLES, TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useClubStats } from '@/hooks/use-stats';
 import { useTheme } from '@/theme';
 import type { ColorToken } from '@/theme/colors';
 
 export default function ClubStatsScreen() {
   const theme = useTheme();
+  const { memberRoles: MEMBER_ROLES, tracks: TRACKS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const { data: stats, isPending, isError, error, refetch } = useClubStats();
 

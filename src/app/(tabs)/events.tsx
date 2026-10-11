@@ -11,7 +11,7 @@ import { EmptyState, ErrorState } from '@/components/ui/States';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { HOME_TRACK_FILTERS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useDebouncedValue } from '@/hooks/use-misc';
 import { useEvents } from '@/hooks/use-events';
 import { useTheme } from '@/theme';
@@ -19,6 +19,7 @@ import type { GdgEvent, Track } from '@/types';
 
 export default function EventsScreen() {
   const theme = useTheme();
+  const { homeTrackFilters: HOME_TRACK_FILTERS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ search?: string }>();
   const [query, setQuery] = useState(params.search ?? '');

@@ -11,7 +11,7 @@ import { TagPill } from '@/components/ui/Chip';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { DIFFICULTIES, RESOURCE_TYPES } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useResource, useResourceProgress, useSetResourceProgress, useToggleBookmark } from '@/hooks/use-resources';
 import { useUiStore } from '@/stores/ui.store';
 import { formatCount } from '@/utils/format';
@@ -19,6 +19,7 @@ import { useTheme } from '@/theme';
 
 export default function ResourceDetailScreen() {
   const theme = useTheme();
+  const { resourceTypes: RESOURCE_TYPES, difficulties: DIFFICULTIES } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();

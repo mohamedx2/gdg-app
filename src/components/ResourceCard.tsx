@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { useTheme } from '@/theme';
 import type { Resource } from '@/types';
-import { DIFFICULTIES, RESOURCE_TYPES } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { formatCount } from '@/utils/format';
 import { Gradient } from './ui/Gradient';
 import { Icon, IconName } from './ui/Icon';
@@ -28,8 +28,9 @@ const TYPE_ICON: Record<Resource['type'], IconName> = {
 /** Card for the resource library (compact vertical / horizontal variants). */
 export const ResourceCard = memo(function ResourceCard({ resource, horizontal }: ResourceCardProps) {
   const theme = useTheme();
-  const type = RESOURCE_TYPES[resource.type];
-  const difficulty = DIFFICULTIES[resource.difficulty];
+  const taxonomy = useTaxonomy();
+  const type = taxonomy.resourceTypes[resource.type];
+  const difficulty = taxonomy.difficulties[resource.difficulty];
   const imageHeight = horizontal ? 84 : 108;
 
   return (

@@ -6,7 +6,7 @@ import { hexToRgba } from '@/components/ui/Chip';
 import { Icon, iconName } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Text } from '@/components/ui/Text';
-import { TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import type { Squad } from '@/types';
 
@@ -21,7 +21,8 @@ interface SquadCardProps {
 
 export const SquadCard = memo(function SquadCard({ squad, maxXp, onJoin, joining }: SquadCardProps) {
   const theme = useTheme();
-  const track = TRACKS[squad.track];
+  const taxonomy = useTaxonomy();
+  const track = taxonomy.tracks[squad.track];
   const accent = theme.colors[track.color];
   const showAction = Boolean(onJoin) && !squad.isMine;
 

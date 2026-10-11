@@ -16,7 +16,7 @@ import { SectionHeader } from '@/components/ui/Screen';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { IDEA_CATEGORIES, IDEA_STATUS, IDEA_STATUS_ORDER } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useCreateIdea, useIdeas, useToggleIdeaVote, useUpdateIdeaStatus } from '@/hooks/use-ideas';
 import { useUiStore } from '@/stores/ui.store';
@@ -34,6 +34,7 @@ type FilterKey = (typeof FILTERS)[number]['key'];
 
 export default function IdeasScreen() {
   const theme = useTheme();
+  const { ideaStatus: IDEA_STATUS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { can } = useAuth();
@@ -213,6 +214,7 @@ function SummaryTile({ label, value, icon, highlight }: { label: string; value: 
 
 function IdeaComposer({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const theme = useTheme();
+  const { ideaCategories: IDEA_CATEGORIES } = useTaxonomy();
   const toast = useUiStore((state) => state.toast);
   const create = useCreateIdea();
   const [title, setTitle] = useState('');
@@ -319,6 +321,7 @@ function StatusSheet({
   onSave: (status: IdeaStatus, response: string) => void;
 }) {
   const theme = useTheme();
+  const { ideaStatus: IDEA_STATUS, ideaStatusOrder: IDEA_STATUS_ORDER } = useTaxonomy();
   const [status, setStatus] = useState<IdeaStatus>(idea?.status ?? 'new');
   const [response, setResponse] = useState(idea?.response ?? '');
 

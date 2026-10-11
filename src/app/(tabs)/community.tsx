@@ -13,23 +13,16 @@ import { EmptyState, ErrorState } from '@/components/ui/States';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { MEMBER_ROLES } from '@/constants/taxonomy';
+import { useTaxonomy, useUiConfig } from '@/hooks/use-content';
 import { useDebouncedValue } from '@/hooks/use-misc';
 import { useMembers } from '@/hooks/use-members';
 import { useTheme } from '@/theme';
 import type { Member } from '@/types';
 import { PressableScale } from '@/components/ui/PressableScale';
 
-const ROLE_FILTERS = [
-  { key: 'all', label: 'All' },
-  { key: 'core-team', label: 'Core Team' },
-  { key: 'speaker', label: 'Speakers · GDE' },
-  { key: 'alumni', label: 'Alumni' },
-  { key: 'student', label: 'Students' },
-] as const;
-
 export default function CommunityScreen() {
   const theme = useTheme();
+  const { communityRoleFilters: ROLE_FILTERS } = useUiConfig();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -101,6 +94,7 @@ export default function CommunityScreen() {
 
 function MemberCard({ member, onPress }: { member: Member; onPress: () => void }) {
   const theme = useTheme();
+  const { memberRoles: MEMBER_ROLES } = useTaxonomy();
   const roleMeta = MEMBER_ROLES[member.role];
   const accent =
     member.role === 'core-team'

@@ -42,6 +42,8 @@ export const queryKeys = {
   notificationPreferences: ['notifications', 'preferences'] as const,
   profile: ['profile'] as const,
   adminStats: ['admin', 'stats'] as const,
+  appConfig: ['content', 'config'] as const,
+  memories: ['content', 'memories'] as const,
 };
 
 export * from './errors';

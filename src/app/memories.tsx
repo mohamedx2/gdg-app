@@ -9,7 +9,8 @@ import { IconButton } from '@/components/ui/IconButton';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Reveal } from '@/components/ui/Reveal';
 import { Text } from '@/components/ui/Text';
-import { MEMORIES, Memory } from '@/constants/memories';
+import type { Memory } from '@/constants/memories';
+import { useMemories } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 
 const GAP = 10;
@@ -19,12 +20,13 @@ export default function MemoriesScreen() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [open, setOpen] = useState<Memory | null>(null);
+  const memories = useMemories();
 
   const columnWidth = (width - 32 - GAP) / 2;
   // Balance the two masonry columns by accumulated height.
   const columns: Memory[][] = [[], []];
   const heights = [0, 0];
-  for (const memory of MEMORIES) {
+  for (const memory of memories) {
     const tile = memory.portrait ? columnWidth * 1.33 : columnWidth * 0.75;
     const target = heights[0] <= heights[1] ? 0 : 1;
     columns[target].push(memory);
@@ -43,7 +45,7 @@ export default function MemoriesScreen() {
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32, gap: 16 }} showsVerticalScrollIndicator={false}>
         <Reveal>
           <Text variant="bodyMd" muted>
-            {MEMORIES.length} moments from the GDG On Campus EPI story — fairs, workshops and the people who made them.
+            {memories.length} moments from the GDG On Campus EPI story — fairs, workshops and the people who made them.
           </Text>
         </Reveal>
 

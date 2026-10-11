@@ -5,29 +5,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { RequirePermission } from '@/components/RequirePermission';
 import { Button } from '@/components/ui/Button';
-import { Icon, IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { Input } from '@/components/ui/Input';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
+import { useUiConfig } from '@/hooks/use-content';
 import { useCreateAnnouncement, useDeleteAnnouncement, useOrganizerStats } from '@/hooks/use-profile';
 import { useAnnouncements } from '@/hooks/use-community';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useUiStore } from '@/stores/ui.store';
 import { formatCount } from '@/utils/format';
 import { useTheme } from '@/theme';
-import type { Announcement as AnnouncementType, OrganizerStats } from '@/types';
-
-const STATS: { key: keyof OrganizerStats; icon: IconName; label: string }[] = [
-  { key: 'totalEvents', icon: 'event', label: 'Events' },
-  { key: 'upcomingEvents', icon: 'schedule', label: 'Upcoming' },
-  { key: 'totalRegistrations', icon: 'personAdd', label: 'Registrations' },
-  { key: 'activeMembers', icon: 'groups', label: 'Members' },
-  { key: 'announcementReach', icon: 'campaign', label: 'Reach' },
-  { key: 'attendanceRate', icon: 'trendingUp', label: 'Attendance' },
-];
+import type { Announcement as AnnouncementType } from '@/types';
 
 export default function AdminScreen() {
   return (
@@ -41,6 +33,7 @@ function AdminScreenContent() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
+  const { adminStats: STATS } = useUiConfig();
 
   const { data: stats, isPending, isError, error, refetch } = useOrganizerStats();
   const { data: announcements } = useAnnouncements();

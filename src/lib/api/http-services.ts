@@ -141,4 +141,8 @@ export const httpApi: AppApi = {
       return request('/media', { method: 'POST', body: form });
     },
   },
+  content: {
+    config: () => request('/content/config'),
+    memories: () => request('/content/memories'),
+  },
 };

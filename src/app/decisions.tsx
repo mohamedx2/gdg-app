@@ -17,16 +17,10 @@ import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
+import { useUiConfig } from '@/hooks/use-content';
 import { useCreateDecision, useDecisions, useVoteDecision } from '@/hooks/use-decisions';
 import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
-
-const DURATIONS = [
-  { key: '3d', label: '3 days', days: 3 },
-  { key: '1w', label: '1 week', days: 7 },
-  { key: '2w', label: '2 weeks', days: 14 },
-  { key: '1m', label: '1 month', days: 30 },
-] as const;
 
 export default function DecisionsScreen() {
   const theme = useTheme();
@@ -142,6 +136,7 @@ export default function DecisionsScreen() {
 function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const theme = useTheme();
   const toast = useUiStore((state) => state.toast);
+  const { decisionDurations: DURATIONS } = useUiConfig();
   const create = useCreateDecision();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

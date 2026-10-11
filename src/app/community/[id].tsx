@@ -11,7 +11,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { MEMBER_ROLES } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useMember, useToggleConnection } from '@/hooks/use-members';
 import { useUiStore } from '@/stores/ui.store';
 import { formatCount } from '@/utils/format';
@@ -20,6 +20,7 @@ import type { Project } from '@/types';
 
 export default function MemberDetailScreen() {
   const theme = useTheme();
+  const { memberRoles: MEMBER_ROLES } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ id: string }>();
   const toast = useUiStore((state) => state.toast);

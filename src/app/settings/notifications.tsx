@@ -3,26 +3,21 @@ import React, { useState } from 'react';
 import { ScrollView, Switch, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Icon, IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
+import { useUiConfig } from '@/hooks/use-content';
 import { useNotificationPreferences, useSetNotificationPreferences } from '@/hooks/use-community';
 import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
 import type { NotificationPreferences } from '@/types';
 
-const PREFERENCES: { key: keyof NotificationPreferences; icon: IconName; label: string; description: string }[] = [
-  { key: 'eventReminders', icon: 'alarm', label: 'Event reminders', description: '15 min before an event you registered for' },
-  { key: 'registrationUpdates', icon: 'checkCircle', label: 'Seat confirmations', description: 'Approved registrations & waitlists' },
-  { key: 'announcements', icon: 'campaign', label: 'Announcements', description: 'New events & campus-wide updates' },
-  { key: 'communityUpdates', icon: 'groups', label: 'Community updates', description: 'New members, spots & connections' },
-];
-
 export default function NotificationSettingsScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { notificationPreferences: PREFERENCES } = useUiConfig();
   const toast = useUiStore((state) => state.toast);
   const { data, isPending, isError, error, refetch } = useNotificationPreferences();
   const { mutateAsync: setPreferences } = useSetNotificationPreferences();

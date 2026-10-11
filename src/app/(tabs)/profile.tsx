@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { Gradient } from '@/components/ui/Gradient';
-import { Icon, IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { Orbs } from '@/components/ui/Orbs';
 import { Reveal } from '@/components/ui/Reveal';
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -14,59 +14,16 @@ import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useAchievementSummary, useProfile } from '@/hooks/use-community';
 import { useUiStore } from '@/stores/ui.store';
-import { ACCESS_LEVELS, Permission } from '@/lib/auth/permissions';
+import { ACCESS_LEVELS } from '@/lib/auth/permissions';
+import { useUiConfig } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
-
-type MenuItem = { icon: IconName; label: string; description: string; route: string; danger?: boolean; permission?: Permission };
-
-const MENU: { group: string; items: MenuItem[] }[] = [
-  {
-    group: 'Core team',
-    items: [
-      { icon: 'taskAlt', label: 'Event tasks', description: 'Task board grouped by event', route: '/tasks', permission: 'tasks.view' },
-      { icon: 'howToVote', label: 'Core votes', description: 'Decide on chapter matters', route: '/decisions', permission: 'decisions.vote' },
-      { icon: 'shield', label: 'Roles & access', description: 'Promote members, manage the core team', route: '/admin/roles', permission: 'roles.manage' },
-    ],
-  },
-  {
-    group: 'Compete',
-    items: [
-      { icon: 'groups', label: 'Squads', description: 'Join a track team this semester', route: '/squads' },
-      { icon: 'flag', label: 'Quests', description: 'Multi-step goals & XP rewards', route: '/quests' },
-      { icon: 'help', label: 'Daily quiz', description: 'Keep your streak and earn XP', route: '/quiz' },
-      { icon: 'emojiEvents', label: 'Achievements', description: 'Badges, XP and your level', route: '/achievements' },
-    ],
-  },
-  {
-    group: 'Campus',
-    items: [
-      { icon: 'chatBubble', label: 'Messages', description: 'Chat with the club & event teams', route: '/messages' },
-      { icon: 'nearMe', label: "Who's around", description: 'Opt-in status & arrival ETAs', route: '/presence' },
-      { icon: 'celebration', label: 'Memories', description: 'Photos from past chapter moments', route: '/memories' },
-      { icon: 'insights', label: 'Club stats', description: 'Our impact, tracks & top contributors', route: '/stats' },
-    ],
-  },
-  {
-    group: 'Have your say',
-    items: [
-      { icon: 'lightbulb', label: 'Idea box', description: 'Suggest & upvote what we build next', route: '/ideas' },
-      { icon: 'howToVote', label: 'Decisions', description: 'What the core team is deciding', route: '/decisions' },
-    ],
-  },
-  {
-    group: 'Settings',
-    items: [
-      { icon: 'notifications', label: 'Notifications', description: 'Reminders & preferences', route: '/settings/notifications' },
-      { icon: 'wbSunny', label: 'Appearance', description: 'Theme & accent', route: '/settings/appearance' },
-    ],
-  },
-];
 
 export default function ProfileScreen() {
   const theme = useTheme();
   const { data: profile, isPending } = useProfile();
   const { data: summary } = useAchievementSummary();
   const { signOut, isOrganizer, access, can } = useAuth();
+  const { profileMenu: MENU } = useUiConfig();
   const level = ACCESS_LEVELS[access];
   const menu = MENU.map((group) => ({ ...group, items: group.items.filter((item) => !item.permission || can(item.permission)) }))
     .filter((group) => group.items.length > 0)

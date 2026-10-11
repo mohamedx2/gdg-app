@@ -5,7 +5,7 @@ import { Pill } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
-import { TASK_PRIORITY, TASK_STATUS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import { formatCountdown, isPast } from '@/utils/date';
 import type { Task, TaskStatus } from '@/types';
@@ -25,9 +25,10 @@ const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
 
 export function TaskCard({ task, onAdvance, onOpenEvent, busy }: TaskCardProps) {
   const theme = useTheme();
+  const taxonomy = useTaxonomy();
   const done = task.status === 'done';
-  const meta = TASK_STATUS[task.status];
-  const priority = TASK_PRIORITY[task.priority];
+  const meta = taxonomy.taskStatus[task.status];
+  const priority = taxonomy.taskPriority[task.priority];
   const overdue = !done && !!task.dueAt && isPast(task.dueAt);
   const next = NEXT_STATUS[task.status];
 
@@ -47,7 +48,7 @@ export function TaskCard({ task, onAdvance, onOpenEvent, busy }: TaskCardProps) 
         <PressableScale
           onPress={() => onAdvance?.(next ?? 'done')}
           disabled={!onAdvance || !next}
-          accessibilityLabel={next ? `Move to ${TASK_STATUS[next].label}` : 'Completed'}
+          accessibilityLabel={next ? `Move to ${taxonomy.taskStatus[next].label}` : 'Completed'}
           style={{ paddingTop: 2 }}
         >
           <Icon name={done ? 'checkCircle' : 'radioButtonUnchecked'} size={24} color={done ? 'tertiary' : 'onSurfaceVariant'} />

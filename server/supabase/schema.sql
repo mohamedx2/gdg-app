@@ -397,6 +397,25 @@ create table if not exists member_connections (
   primary key (member_id, connected_id)
 );
 
+-- ── App content (server-driven config + memories gallery) ────────────────────
+-- `app_config` is a namespaced key/value store for static app config the client
+-- would otherwise hardcode (taxonomy labels, onboarding slides, menu rows, ...).
+create table if not exists app_config (
+  key        text primary key,
+  value      jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+-- Curated photo gallery. `image_url` points at the public media bucket; the
+-- client falls back to its bundled asset when the URL is empty.
+create table if not exists memories (
+  id         text primary key,
+  image_url  text not null default '',
+  caption    text not null default '',
+  portrait   boolean not null default false,
+  sort_order int not null default 0
+);
+
 -- ============================================================================
 -- Row Level Security — locked down. The service role bypasses RLS.
 -- ============================================================================
@@ -412,7 +431,7 @@ begin
     'member_quests','arrivals','quiz_questions','member_quiz_state','ideas',
     'idea_votes','decisions','decision_options','decision_votes','tasks',
     'task_completions','conversations','messages','conversation_reads',
-    'member_connections'
+    'member_connections','app_config','memories'
   ]
   loop
     execute format('alter table %I enable row level security', t);

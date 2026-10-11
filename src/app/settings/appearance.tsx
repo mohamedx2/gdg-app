@@ -3,23 +3,18 @@ import React from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Icon, IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
+import { useUiConfig } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import { useThemeStore } from '@/stores/theme.store';
-import type { ThemePreference } from '@/stores/theme.store';
-
-const OPTIONS: { key: ThemePreference; icon: IconName; label: string; description: string }[] = [
-  { key: 'system', icon: 'phoneIphone', label: 'System', description: 'Match device appearance' },
-  { key: 'light', icon: 'lightMode', label: 'Light', description: 'Always light' },
-  { key: 'dark', icon: 'darkMode', label: 'Dark', description: 'Always dark' },
-];
 
 export default function AppearanceScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { appearanceOptions: OPTIONS } = useUiConfig();
   const preference = useThemeStore((state) => state.preference);
   const setPreference = useThemeStore((state) => state.setPreference);
 

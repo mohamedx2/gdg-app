@@ -6,7 +6,7 @@ import { hexToRgba, Pill } from '@/components/ui/Chip';
 import { Icon, iconName } from '@/components/ui/Icon';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Text } from '@/components/ui/Text';
-import { TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import type { Quest } from '@/types';
 
@@ -18,7 +18,8 @@ interface QuestCardProps {
 
 export const QuestCard = memo(function QuestCard({ quest, onClaim, claiming }: QuestCardProps) {
   const theme = useTheme();
-  const track = quest.track ? TRACKS[quest.track] : undefined;
+  const taxonomy = useTaxonomy();
+  const track = quest.track ? taxonomy.tracks[quest.track] : undefined;
   const accent = track ? theme.colors[track.color] : theme.colors.primaryContainer;
   const accentToken = track?.color ?? 'primaryContainer';
   const locked = quest.status === 'locked';

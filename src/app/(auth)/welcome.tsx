@@ -9,38 +9,17 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
+import { useUiConfig } from '@/hooks/use-content';
+import type { WelcomeSlide } from '@/constants/content';
 import { useTheme } from '@/theme';
 
 const GDG_DOTS = ['#EA4335', '#4285F4', '#FBBC04', '#34A853'];
-
-const SLIDES = [
-  {
-    badge: 'GDG ON CAMPUS',
-    badgeBg: 'primaryFixed',
-    badgeText: 'onPrimaryFixed',
-    title: 'Build. Learn. Connect.',
-    body: 'Join a vibrant community of students and developers passionate about Google technologies, AI, and scalable software at EPI Sousse.',
-  },
-  {
-    badge: 'HANDS-ON PRACTICE',
-    badgeBg: 'secondaryContainer',
-    badgeText: 'onSecondaryContainer',
-    title: 'Ship Code. Win Global Stages.',
-    body: 'Transform classroom theory into production applications. Join workshops mentored by Google Developer Experts and senior alumni.',
-  },
-  {
-    badge: 'ECOSYSTEM ACCESS',
-    badgeBg: 'tertiaryFixed',
-    badgeText: 'onTertiaryFixed',
-    title: 'Your Launchpad from Sousse.',
-    body: 'Connect with tech founders, participate in cross-university summit hackathons, and kickstart your career with international opportunities.',
-  },
-] as const;
 
 export default function WelcomeScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { continueAsGuest } = useAuth();
+  const { welcomeSlides: SLIDES } = useUiConfig();
   const [page, setPage] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
 
@@ -141,7 +120,7 @@ const OnboardingSlide = memo(function OnboardingSlide({
   width,
   activeLang,
 }: {
-  slide: (typeof SLIDES)[number];
+  slide: WelcomeSlide;
   width: number;
   activeLang?: string;
 }) {

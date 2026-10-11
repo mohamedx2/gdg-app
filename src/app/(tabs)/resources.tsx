@@ -13,27 +13,14 @@ import { Text } from '@/components/ui/Text';
 import { ResourceCard } from '@/components/ResourceCard';
 import { useDebouncedValue } from '@/hooks/use-misc';
 import { useResources } from '@/hooks/use-resources';
+import { useUiConfig } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import type { ResourceDifficulty, ResourceType } from '@/types';
-
-const DIFFICULTIES = [
-  { key: 'all', label: 'All levels' },
-  { key: 'beginner', label: 'Beginner' },
-  { key: 'intermediate', label: 'Intermediate' },
-  { key: 'advanced', label: 'Advanced' },
-] as const;
-
-const TYPES = [
-  { key: 'all', label: 'All types' },
-  { key: 'codelab', label: 'Codelabs' },
-  { key: 'video', label: 'Videos' },
-  { key: 'article', label: 'Articles' },
-  { key: 'course', label: 'Courses' },
-] as const;
 
 export default function ResourcesScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { resourcesDifficultyFilters: DIFFICULTIES, resourcesTypeFilters: TYPES } = useUiConfig();
   const [query, setQuery] = useState('');
   const [difficulty, setDifficulty] = useState<string>('all');
   const [type, setType] = useState<string>('all');

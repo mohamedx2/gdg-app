@@ -17,7 +17,7 @@ import { SectionHeader } from '@/components/ui/Screen';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { TASK_PRIORITY } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useEvents, useUpcomingEvents } from '@/hooks/use-events';
 import { useCreateTask, useSetTaskStatus, useTasks } from '@/hooks/use-tasks';
@@ -251,6 +251,7 @@ function SummaryTile({ value, label, icon, color }: { value: number; label: stri
 
 function TaskComposer({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const toast = useUiStore((state) => state.toast);
+  const { taskPriority: TASK_PRIORITY } = useTaxonomy();
   const create = useCreateTask();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

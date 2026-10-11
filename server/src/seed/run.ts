@@ -21,6 +21,7 @@ import {
   seedSquads,
   seedTasks,
 } from './data';
+import { buildMemoryRows, seedAppConfig } from './content';
 
 /** Shared seed password. Every member logs in with `<id>@epi.dev` + this password. */
 const SEED_PASSWORD = 'gdgepi2026';
@@ -124,6 +125,18 @@ async function main(): Promise<void> {
     if (error) throw new Error(`presence ${presence.id}: ${error.message}`);
   }
   console.log(`  presence: ${seedPresenceMembers.length} members`);
+
+  // ── Server-driven content ─────────────────────────────────────────────
+  await upsert(
+    'app_config',
+    seedAppConfig.map((entry) => ({
+      key: entry.key,
+      value: entry.value,
+      updated_at: new Date().toISOString(),
+    })),
+    'key',
+  );
+  await upsert('memories', await buildMemoryRows());
 
   // ── Content ───────────────────────────────────────────────────────────
   await upsert(

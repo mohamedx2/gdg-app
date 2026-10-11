@@ -15,7 +15,7 @@ import { SectionHeader } from '@/components/ui/Screen';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useJoinSquad, useLeaveSquad, useMySquad, useSquads } from '@/hooks/use-squads';
 import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
@@ -121,9 +121,10 @@ function MySquadHero({
   squad: Squad;
   ahead?: Squad;
   onLeave: () => void;
-  leaving: boolean;
+    leaving: boolean;
 }) {
   const theme = useTheme();
+  const { tracks: TRACKS } = useTaxonomy();
   const track = TRACKS[squad.track];
 
   return (

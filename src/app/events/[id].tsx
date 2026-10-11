@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
-import { EVENT_CATEGORIES, TRACKS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useAttendance, useEvent, useRegisterEvent, useUnregisterEvent } from '@/hooks/use-events';
 import { useArrivals } from '@/hooks/use-presence';
@@ -25,6 +25,7 @@ import type { ArrivalEta, GdgEvent } from '@/types';
 
 export default function EventDetailScreen() {
   const theme = useTheme();
+  const { eventCategories: EVENT_CATEGORIES, tracks: TRACKS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
@@ -269,6 +270,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function SpeakerCard({ event }: { event: GdgEvent }) {
   const theme = useTheme();
+  const { tracks: TRACKS } = useTaxonomy();
   const speaker = event.speaker!;
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: theme.radius.card, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}>

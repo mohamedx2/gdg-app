@@ -12,7 +12,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SectionHeader } from '@/components/ui/Screen';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { PRESENCE_ORDER, PRESENCE_STATUS } from '@/constants/taxonomy';
+import { useTaxonomy, useUiConfig } from '@/hooks/use-content';
 import { useAuth } from '@/features/auth/auth-provider';
 import {
   useMyPresence,
@@ -24,8 +24,6 @@ import {
 import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
 import type { MyPresence, PresenceMember, PresenceOverview, PresenceStatus, UpdatePresenceInput } from '@/types';
-
-const ETA_OPTIONS = [5, 10, 15, 20, 30];
 
 type DraftScope = 'event' | 'hour' | 'open';
 
@@ -216,6 +214,8 @@ function SharingCard({
   onStop: () => void;
 }) {
   const theme = useTheme();
+  const { presenceStatus: PRESENCE_STATUS, presenceOrder: PRESENCE_ORDER } = useTaxonomy();
+  const { presenceEtaOptions: ETA_OPTIONS } = useUiConfig();
   const meta = PRESENCE_STATUS[mine.status];
 
   return (
@@ -300,6 +300,8 @@ function ShareCard({
   onShare: () => void;
 }) {
   const theme = useTheme();
+  const { presenceStatus: PRESENCE_STATUS, presenceOrder: PRESENCE_ORDER } = useTaxonomy();
+  const { presenceEtaOptions: ETA_OPTIONS } = useUiConfig();
   const meta = PRESENCE_STATUS[status];
 
   return (
@@ -414,6 +416,7 @@ function OverviewGrid({ overview }: { overview?: PresenceOverview }) {
 
 function Roster({ list }: { list?: PresenceMember[] }) {
   const theme = useTheme();
+  const { presenceStatus: PRESENCE_STATUS } = useTaxonomy();
   if (!list || !list.length) {
     return (
       <Text variant="bodySm" muted>

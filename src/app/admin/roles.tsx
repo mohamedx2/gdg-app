@@ -15,7 +15,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { ErrorState } from '@/components/ui/States';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
-import { MEMBER_ROLES } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useMembers, useSetMemberRole } from '@/hooks/use-members';
 import { ACCESS_LEVELS, accessLevelOf, ASSIGNABLE_ROLES } from '@/lib/auth/permissions';
 import { useUiStore } from '@/stores/ui.store';
@@ -39,6 +39,7 @@ export default function RolesScreen() {
 
 function RolesManager() {
   const theme = useTheme();
+  const { memberRoles: MEMBER_ROLES } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const [search, setSearch] = useState('');
   const [level, setLevel] = useState<AccessLevel | 'all'>('all');
@@ -120,6 +121,7 @@ function RolesManager() {
 function RoleSheet({ member, onClose }: { member: Member | null; onClose: () => void }) {
   const theme = useTheme();
   const toast = useUiStore((state) => state.toast);
+  const { memberRoles: MEMBER_ROLES } = useTaxonomy();
   const setRole = useSetMemberRole();
   const [role, setRoleValue] = useState<MemberRole | undefined>(member?.role);
 

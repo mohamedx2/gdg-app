@@ -43,6 +43,8 @@ import type {
   UpdatePresenceInput,
   UserProfile,
 } from '@/types';
+import type { AppConfigSource } from '@/constants/content';
+import type { MemoryRecord } from '@/constants/memories';
 
 export interface EventsService {
   list(query?: EventQuery): Promise<Paged<GdgEvent>>;
@@ -193,6 +195,13 @@ export interface MediaService {
   upload(input: MediaUploadInput): Promise<MediaUpload>;
 }
 
+export interface ContentService {
+  /** Server-driven app config (app meta, taxonomy, UI copy). */
+  config(): Promise<AppConfigSource>;
+  /** Curated memory gallery, in display order. */
+  memories(): Promise<MemoryRecord[]>;
+}
+
 export interface AppApi {
   events: EventsService;
   members: MembersService;
@@ -212,4 +221,5 @@ export interface AppApi {
   profile: ProfileService;
   admin: AdminService;
   media: MediaService;
+  content: ContentService;
 }

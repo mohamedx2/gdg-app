@@ -6,7 +6,7 @@ import { Pill } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
-import { IDEA_CATEGORIES, IDEA_STATUS } from '@/constants/taxonomy';
+import { useTaxonomy } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
 import type { Idea, IdeaStatus } from '@/types';
 
@@ -30,8 +30,9 @@ interface IdeaCardProps {
 
 export function IdeaCard({ idea, onVote, onManage, onUpgrade, upgrading, voting }: IdeaCardProps) {
   const theme = useTheme();
-  const category = IDEA_CATEGORIES[idea.category];
-  const status = IDEA_STATUS[idea.status];
+  const taxonomy = useTaxonomy();
+  const category = taxonomy.ideaCategories[idea.category];
+  const status = taxonomy.ideaStatus[idea.status];
   const shipped = idea.status === 'shipped';
 
   return (
@@ -110,12 +111,12 @@ export function IdeaCard({ idea, onVote, onManage, onUpgrade, upgrading, voting 
                 onPress={() => onUpgrade(idea, NEXT_STATUS[idea.status]!)}
                 disabled={upgrading}
                 hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }}
-                accessibilityLabel={`Move to ${IDEA_STATUS[NEXT_STATUS[idea.status]!].label}`}
+                accessibilityLabel={`Move to ${taxonomy.ideaStatus[NEXT_STATUS[idea.status]!].label}`}
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: theme.radius.full, backgroundColor: theme.colors.tertiaryFixed, opacity: upgrading ? 0.6 : 1 }}
               >
                 <Icon name="trendingUp" size={13} color="onTertiaryFixedVariant" />
                 <Text variant="codeSm" weight="semibold" color="onTertiaryFixedVariant">
-                  {IDEA_STATUS[NEXT_STATUS[idea.status]!].label}
+                  {taxonomy.ideaStatus[NEXT_STATUS[idea.status]!].label}
                 </Text>
               </PressableScale>
             ) : null}

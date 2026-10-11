@@ -4,21 +4,17 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Icon, IconName } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
+import { useUiConfig } from '@/hooks/use-content';
 import { useTheme } from '@/theme';
-
-const ROWS: { icon: IconName; label: string; description: string; route: string }[] = [
-  { icon: 'palette', label: 'Appearance', description: 'Theme & accent', route: '/settings/appearance' },
-  { icon: 'notifications', label: 'Notifications', description: 'Reminders & preferences', route: '/settings/notifications' },
-  { icon: 'autoAwesome', label: 'Motion kit', description: 'Animation showcase', route: '/animations' },
-];
 
 export default function SettingsScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { settingsRows: ROWS } = useUiConfig();
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 4 }}>

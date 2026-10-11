@@ -289,3 +289,17 @@ export interface MemberQuizStateRow {
   perfect: boolean;
   updated_at: string;
 }
+
+export interface AppConfigRow {
+  key: string;
+  value: Record<string, unknown>;
+  updated_at: string;
+}
+
+export interface MemoryRow {
+  id: string;
+  image_url: string;
+  caption: string;
+  portrait: boolean;
+  sort_order: number;
+}
