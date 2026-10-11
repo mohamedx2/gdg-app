@@ -118,47 +118,49 @@ export const FeaturedEventCard = memo(function FeaturedEventCard({ event }: { ev
   const category = EVENT_CATEGORIES[event.category];
 
   return (
-    <PressableScale
-      onPress={() => router.push(`/events/${event.id}`)}
-      style={{ borderRadius: theme.radius.card, overflow: 'hidden' }}
-    >
-      <View style={{ height: 190, backgroundColor: theme.colors.surfaceContainerHigh }}>
-        <Image
-          source={{ uri: event.coverImage }}
-          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-          contentFit="cover"
-          transition={200}
-        />
-        <Sheen delay={700} />
-        <LinearGradient
-          colors={['rgba(11,17,32,0.05)', 'rgba(11,17,32,0.85)']}
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'flex-end' }}
-        >
-          <View style={{ padding: 14, gap: 8 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.16)' }}>
-                <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#FDD663' }} />
-                <Text variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }}>
-                  UP NEXT · {formatCountdown(event.startsAt).toUpperCase()}
-                </Text>
+    <View style={{ borderRadius: theme.radius.card }}>
+      <PressableScale
+        onPress={() => router.push(`/events/${event.id}`)}
+        style={{ borderRadius: theme.radius.card, overflow: 'hidden' }}
+      >
+        <View style={{ height: 190, backgroundColor: theme.colors.surfaceContainerHigh }}>
+          <Image
+            source={{ uri: event.coverImage }}
+            style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            contentFit="cover"
+            transition={200}
+          />
+          <Sheen delay={700} />
+          <LinearGradient
+            colors={['rgba(11,17,32,0.05)', 'rgba(11,17,32,0.85)']}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'flex-end' }}
+          >
+            <View style={{ padding: 14, gap: 8, paddingBottom: 60 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.16)' }}>
+                  <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#FDD663' }} />
+                  <Text variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }}>
+                    UP NEXT · {formatCountdown(event.startsAt).toUpperCase()}
+                  </Text>
+                </View>
+                <TagPillLabel label={category.label} />
               </View>
-              <TagPillLabel label={category.label} />
+              <Text variant="titleLg" weight="bold" style={{ color: '#FFFFFF' }}>
+                {event.title}
+              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <RowIconLabel icon="schedule" text={formatEventDateTime(event.startsAt)} />
+                <RowIconLabel icon="location" text={event.venue} />
+              </View>
             </View>
-            <Text variant="titleLg" weight="bold" style={{ color: '#FFFFFF' }}>
-              {event.title}
-            </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              <RowIconLabel icon="schedule" text={formatEventDateTime(event.startsAt)} />
-              <RowIconLabel icon="location" text={event.venue} />
-            </View>
-            <View style={{ flexDirection: 'row', gap: 8, paddingTop: 4 }}>
-              <Button label="Register" onPress={() => router.push(`/events/${event.id}`)} compact />
-              <Button label={`${formatCount(event.registeredCount)} going`} variant="container" onPress={() => router.push(`/events/${event.id}`)} compact />
-            </View>
-          </View>
-        </LinearGradient>
+          </LinearGradient>
+        </View>
+      </PressableScale>
+      <View style={{ position: 'absolute', left: 14, bottom: 14, flexDirection: 'row', gap: 8 }}>
+        <Button label="Register" onPress={() => router.push(`/events/${event.id}`)} compact />
+        <Button label={`${formatCount(event.registeredCount)} going`} variant="container" onPress={() => router.push(`/events/${event.id}`)} compact />
       </View>
-    </PressableScale>
+    </View>
   );
 });
 
