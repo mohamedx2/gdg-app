@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { Gradient } from '@/components/ui/Gradient';
@@ -10,6 +11,7 @@ import { Orbs } from '@/components/ui/Orbs';
 import { Reveal } from '@/components/ui/Reveal';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { Surface } from '@/components/ui/Surface';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
 import { useAchievementSummary, useProfile } from '@/hooks/use-community';
@@ -31,21 +33,21 @@ export default function ProfileScreen() {
     .map((group) => (group.group === 'Have your say' && can('decisions.vote') ? { ...group, items: group.items.filter((item) => item.route !== '/decisions') } : group));
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <YStack flex={1} backgroundColor="background">
       <ScrollView contentContainerStyle={{ paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
         <Reveal>
           <ProfileHero profile={profile} isPending={isPending} summary={summary} />
         </Reveal>
 
-        <View style={{ padding: 16, gap: 20 }}>
+        <YStack padding={16} gap={20}>
           <Reveal delay={30}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: theme.radius.card, backgroundColor: access === 'member' ? theme.colors.surfaceContainerLow : theme.colors.primaryFixed }}>
+            <XStack alignItems="center" gap={10} padding={12} borderRadius="card" backgroundColor={access === 'member' ? 'surfaceContainerLow' : 'primaryFixed'}>
               <Icon name={level.icon} size={20} color={access === 'member' ? 'onSurfaceVariant' : 'primary'} />
-              <View style={{ flex: 1 }}>
+              <YStack flex={1}>
                 <Text variant="labelLg" weight="bold">{level.label}</Text>
                 <Text variant="bodyXs" muted>{level.description}</Text>
-              </View>
-            </View>
+              </YStack>
+            </XStack>
           </Reveal>
 
           {isOrganizer ? (
@@ -54,13 +56,13 @@ export default function ProfileScreen() {
                 onPress={() => router.push('/admin')}
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: 14, borderRadius: theme.radius.card, backgroundColor: theme.colors.surfaceContainerHigh }}
               >
-                <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: theme.colors.surfaceContainerLowest, alignItems: 'center', justifyContent: 'center' }}>
+                <YStack width={40} height={40} borderRadius={12} backgroundColor="surfaceContainerLowest" alignItems="center" justifyContent="center">
                   <Icon name="barChart" size={20} color="primary" />
-                </View>
-                <View style={{ flex: 1 }}>
+                </YStack>
+                <YStack flex={1}>
                   <Text variant="labelLg" weight="bold">Organizer dashboard</Text>
                   <Text variant="bodySm" muted>Manage events, announcements & stats</Text>
-                </View>
+                </YStack>
                 <Icon name="chevronRight" size={18} color="secondary" />
               </PressableScale>
             </Reveal>
@@ -68,11 +70,11 @@ export default function ProfileScreen() {
 
           {menu.map((group, groupIndex) => (
             <Reveal key={group.group} delay={100 + groupIndex * 40}>
-              <View style={{ gap: 8 }}>
+              <YStack gap={8}>
                 <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.5, paddingLeft: 4 }}>
                   {group.group}
                 </Text>
-                <View style={{ borderRadius: theme.radius.card, overflow: 'hidden', backgroundColor: theme.colors.surfaceContainerLowest, shadowColor: theme.colors.inverseSurface, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 1 }}>
+                <Surface style={{ overflow: 'hidden' }}>
                   {group.items.map((item, index) => (
                     <PressableScale
                       key={item.route}
@@ -80,17 +82,17 @@ export default function ProfileScreen() {
                       style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 14, borderTopWidth: index === 0 ? 0 : 1, borderTopColor: theme.colors.outlineVariant }}
                     >
                       <Icon name={item.icon} size={20} color={item.danger ? 'error' : 'secondary'} />
-                      <View style={{ flex: 1, gap: 2 }}>
+                      <YStack flex={1} gap={2}>
                         <Text variant="labelLg" weight="medium" color={item.danger ? 'error' : 'onSurface'}>
                           {item.label}
                         </Text>
                         <Text variant="bodySm" muted>{item.description}</Text>
-                      </View>
+                      </YStack>
                       <Icon name="chevronRight" size={18} color="secondary" />
                     </PressableScale>
                   ))}
-                </View>
-              </View>
+                </Surface>
+              </YStack>
             </Reveal>
           ))}
 
@@ -105,9 +107,9 @@ export default function ProfileScreen() {
               </Text>
             </PressableScale>
           </Reveal>
-        </View>
+        </YStack>
       </ScrollView>
-    </View>
+    </YStack>
   );
 }
 
@@ -136,12 +138,12 @@ function ProfileHero({
   const progress = summary && summary.xpGoal > 0 ? Math.min(1, summary.xp / summary.xpGoal) : 0;
 
   return (
-    <View style={{ borderBottomLeftRadius: theme.radius.xl, borderBottomRightRadius: theme.radius.xl, overflow: 'hidden' }}>
+    <YStack borderBottomLeftRadius={theme.radius.xl} borderBottomRightRadius={theme.radius.xl} overflow="hidden">
       <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <Orbs />
 
-        <View style={{ paddingTop: insets.top + 10, paddingHorizontal: 16, paddingBottom: 22, gap: 18 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <YStack paddingTop={insets.top + 10} paddingHorizontal={16} paddingBottom={22} gap={18}>
+          <XStack alignItems="center" justifyContent="space-between">
             <Text variant="codeSm" weight="semibold" style={{ textTransform: 'uppercase', letterSpacing: 0.8, color: 'rgba(255,255,255,0.85)' }}>
               My Profile
             </Text>
@@ -152,59 +154,59 @@ function ProfileHero({
             >
               <Icon name="settings" size={20} color="#FFFFFF" />
             </PressableScale>
-          </View>
+          </XStack>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+          <XStack alignItems="center" gap={14}>
             {isPending || !profile ? (
               <>
                 <Skeleton width={76} height={76} radius={38} />
-                <View style={{ gap: 8, flex: 1 }}>
+                <YStack gap={8} flex={1}>
                   <Skeleton height={18} width="60%" />
                   <Skeleton height={12} width="80%" />
-                </View>
+                </YStack>
               </>
             ) : (
               <>
-                <View style={{ borderRadius: 42, borderWidth: 3, borderColor: 'rgba(255,255,255,0.85)', overflow: 'hidden' }}>
+                <YStack borderRadius={42} borderWidth={3} borderColor="rgba(255,255,255,0.85)" overflow="hidden">
                   <Avatar uri={profile.avatar} name={profile.name} size={72} />
-                </View>
-                <View style={{ flex: 1, gap: 4 }}>
+                </YStack>
+                <YStack flex={1} gap={4}>
                   <Text variant="headlineSm" weight="bold" style={{ color: '#FFFFFF' }} numberOfLines={1}>
                     {profile.name}
                   </Text>
                   <Text variant="bodySm" numberOfLines={2} style={{ color: 'rgba(255,255,255,0.86)' }}>
                     {profile.headline}
                   </Text>
-                </View>
+                </YStack>
               </>
             )}
-          </View>
+          </XStack>
 
           {summary ? (
-            <View style={{ gap: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <YStack gap={12}>
+              <XStack alignItems="center" justifyContent="space-between">
+                <XStack alignItems="center" gap={8}>
                   <Icon name="stars" size={17} color="#FFFFFF" />
                   <Text variant="labelLg" weight="bold" style={{ color: '#FFFFFF' }}>
                     {summary.tier} Builder
                   </Text>
-                </View>
+                </XStack>
                 <Text variant="codeSm" weight="semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   {summary.xp}/{summary.xpGoal || '∞'} XP
                 </Text>
-              </View>
+              </XStack>
 
               {summary.xpGoal > 0 ? (
-                <View style={{ height: 8, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.25)', overflow: 'hidden' }}>
-                  <View style={{ width: `${progress * 100}%`, height: '100%', borderRadius: 4, backgroundColor: '#FFFFFF' }} />
-                </View>
+                <YStack height={8} borderRadius={4} backgroundColor="rgba(255,255,255,0.25)" overflow="hidden">
+                  <YStack width={`${progress * 100}%`} height="100%" borderRadius={4} backgroundColor="#FFFFFF" />
+                </YStack>
               ) : null}
 
-              <View style={{ flexDirection: 'row', gap: 8 }}>
+              <XStack gap={8}>
                 <HeroStat label="Events" value={summary.eventsAttended} />
                 <HeroStat label="Badges" value={`${summary.badgesUnlocked}/${summary.badgesTotal}`} />
                 <HeroStat label="Points" value={summary.points} />
-              </View>
+              </XStack>
 
               <PressableScale
                 onPress={() => router.push('/achievements')}
@@ -215,7 +217,7 @@ function ProfileHero({
                 </Text>
                 <Icon name="chevronRight" size={16} color="#FFFFFF" />
               </PressableScale>
-            </View>
+            </YStack>
           ) : (
             <PressableScale
               onPress={() => toast('Edit profile arriving soon', 'info')}
@@ -226,21 +228,21 @@ function ProfileHero({
               </Text>
             </PressableScale>
           )}
-        </View>
+        </YStack>
       </Gradient>
-    </View>
+    </YStack>
   );
 }
 
 function HeroStat({ label, value }: { label: string; value: number | string }) {
   return (
-    <View style={{ flex: 1, padding: 10, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.14)', gap: 2 }}>
+    <YStack flex={1} padding={10} borderRadius={10} backgroundColor="rgba(255,255,255,0.14)" gap={2}>
       <Text variant="labelLg" weight="bold" style={{ lineHeight: 18, color: '#FFFFFF' }}>
         {value}
       </Text>
       <Text variant="bodySm" style={{ lineHeight: 14, color: 'rgba(255,255,255,0.82)' }}>
         {label}
       </Text>
-    </View>
+    </YStack>
   );
 }

@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { ActivityCard } from '@/components/ActivityCard';
 import { AnimatedNumber, Stagger } from '@/components/animations';
@@ -35,7 +36,7 @@ import { useConversations } from '@/hooks/use-messages';
 import { useRecommendedResources } from '@/hooks/use-resources';
 import { useTheme } from '@/theme';
 
-const GDG_DOTS = ['#EA4335', '#4285F4', '#FBBC04', '#34A853'];
+const GDG_DOTS = ['#EA4335', '#4285F4', '#FBBC04', '#34A853'] as const;
 
 export default function HomeScreen() {
   const theme = useTheme();
@@ -63,25 +64,25 @@ export default function HomeScreen() {
   const firstName = profile?.name?.split(' ')[0] ?? 'Builder';
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, gap: 14 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16} gap={14}>
+        <XStack alignItems="center" gap={12}>
           {profile ? (
             <Avatar uri={profile.avatar} name={profile.name} size={40} ring="brand" />
           ) : (
             <Skeleton width={44} height={44} radius={22} />
           )}
-          <View style={{ flex: 1, gap: 3 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <YStack flex={1} gap={3}>
+            <XStack alignItems="center" gap={6}>
               <GDGDots />
               <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.6 }}>
                 GDG on Campus
               </Text>
-            </View>
+            </XStack>
             <Text variant="headlineMd" family="heading">
               Hello, {firstName}
             </Text>
-          </View>
+          </YStack>
           <IconButton
             name="chatBubble"
             onPress={() => router.push('/messages')}
@@ -98,7 +99,7 @@ export default function HomeScreen() {
             badge={unread > 0}
             backgroundColor={unread > 0 ? 'primaryFixed' : 'surfaceContainerLowest'}
           />
-        </View>
+        </XStack>
 
         <SearchBar
           value={query}
@@ -112,7 +113,7 @@ export default function HomeScreen() {
           placeholder="Search events, people, resources…"
           onFilterPress={() => router.push('/events')}
         />
-      </View>
+      </YStack>
 
       <ScrollView
         style={{ flex: 1 }}
@@ -127,18 +128,18 @@ export default function HomeScreen() {
 
         {featured ? (
           <Reveal delay={40}>
-            <View style={{ paddingHorizontal: 16 }}>
+            <YStack paddingHorizontal={16}>
               <FeaturedEventCard event={featured} />
-            </View>
+            </YStack>
           </Reveal>
         ) : showcase ? null : (
-          <View style={{ paddingHorizontal: 16 }}>
+          <YStack paddingHorizontal={16}>
             <Skeleton height={190} radius={12} />
-          </View>
+          </YStack>
         )}
 
         <Reveal delay={80}>
-          <View style={{ paddingHorizontal: 16, gap: 12 }}>
+          <YStack paddingHorizontal={16} gap={12}>
             <SectionHeader
               title={offSeason ? 'Latest activities' : 'Upcoming events'}
               subtitle={offSeason ? 'Season 2025/26 recap · new dates soon' : 'This month at EPI Sousse'}
@@ -157,12 +158,12 @@ export default function HomeScreen() {
                   ? null
                   : [1, 2, 3].map((key) => <SkeletonCard key={key} />)}
             </ScrollView>
-          </View>
+          </YStack>
         </Reveal>
 
         {summary ? (
           <Reveal delay={120}>
-            <View style={{ paddingHorizontal: 16 }}>
+            <YStack paddingHorizontal={16}>
               <LevelCard
                 tier={summary.tier}
                 xp={summary.xp ?? summary.points}
@@ -173,31 +174,31 @@ export default function HomeScreen() {
                 streakDays={summary.streakDays}
                 badges={summary.badgesUnlocked}
               />
-            </View>
+            </YStack>
           </Reveal>
         ) : (
-          <View style={{ paddingHorizontal: 16 }}>
+          <YStack paddingHorizontal={16}>
             <Skeleton height={120} radius={12} />
-          </View>
+          </YStack>
         )}
 
         <Reveal delay={140}>
-          <View style={{ paddingHorizontal: 16 }}>
+          <YStack paddingHorizontal={16}>
             <CompeteRow />
-          </View>
+          </YStack>
         </Reveal>
 
         <Reveal delay={150}>
-          <View style={{ paddingHorizontal: 16 }}>
+          <YStack paddingHorizontal={16}>
             <VoiceRow />
-          </View>
+          </YStack>
         </Reveal>
 
         <Reveal delay={150}>
-          <View style={{ gap: 12 }}>
-            <View style={{ paddingHorizontal: 16 }}>
+          <YStack gap={12}>
+            <YStack paddingHorizontal={16}>
               <SectionHeader title="Memories" subtitle="Moments from past seasons" accent="warning" actionLabel="See all" onAction={() => router.push('/memories' as never)} />
-            </View>
+            </YStack>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingHorizontal: 16 }}>
               {memories.slice(0, 6).map((memory) => (
                 <PressableScale key={memory.id} onPress={() => router.push('/memories' as never)} accessibilityLabel={`Open memories: ${memory.caption}`} style={{ width: 150, height: 190, borderRadius: theme.radius.card, overflow: 'hidden', backgroundColor: theme.colors.surfaceContainer }}>
@@ -205,12 +206,12 @@ export default function HomeScreen() {
                 </PressableScale>
               ))}
             </ScrollView>
-          </View>
+          </YStack>
         </Reveal>
 
         {activity?.length ? (
           <Reveal delay={160}>
-            <View style={{ paddingHorizontal: 16, gap: 12 }}>
+            <YStack paddingHorizontal={16} gap={12}>
               <SectionHeader
                 title="Community pulse"
                 subtitle="What's happening now"
@@ -223,13 +224,13 @@ export default function HomeScreen() {
                   <ActivityCard item={item} />
                 </Stagger>
               ))}
-            </View>
+            </YStack>
           </Reveal>
         ) : null}
 
         {resources?.length ? (
           <Reveal delay={200}>
-            <View style={{ paddingHorizontal: 16, gap: 12 }}>
+            <YStack paddingHorizontal={16} gap={12}>
               <SectionHeader
                 title="Continue learning"
                 subtitle="Recommended by leads"
@@ -244,11 +245,11 @@ export default function HomeScreen() {
                   </Stagger>
                 ))}
               </ScrollView>
-            </View>
+            </YStack>
           </Reveal>
         ) : null}
       </ScrollView>
-    </View>
+    </YStack>
   );
 }
 
@@ -261,7 +262,7 @@ function CompeteRow() {
     { icon: 'help' as const, label: 'Daily quiz', hint: 'Keep a streak', route: '/quiz', color: 'primary' as const },
   ];
   return (
-    <View style={{ flexDirection: 'row', gap: 12 }}>
+    <XStack gap={12}>
       {tiles.map((tile) => (
         <PressableScale
           key={tile.route}
@@ -276,29 +277,27 @@ function CompeteRow() {
             gap: 10,
           }}
         >
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: theme.colors.surfaceContainerHigh,
-            }}
+          <YStack
+            width={40}
+            height={40}
+            borderRadius={12}
+            alignItems="center"
+            justifyContent="center"
+            backgroundColor="surfaceContainerHigh"
           >
             <Icon name={tile.icon} size={20} color={tile.color} />
-          </View>
-          <View>
+          </YStack>
+          <YStack>
             <Text variant="labelLg" weight="bold">
               {tile.label}
             </Text>
             <Text variant="bodySm" muted>
               {tile.hint}
             </Text>
-          </View>
+          </YStack>
         </PressableScale>
       ))}
-    </View>
+    </XStack>
   );
 }
 
@@ -317,7 +316,7 @@ function VoiceRow() {
         { icon: 'howToVote' as const, label: 'Decisions', hint: 'See outcomes', route: '/decisions', color: 'secondary' as const },
       ];
   return (
-    <View style={{ flexDirection: 'row', gap: 12 }}>
+    <XStack gap={12}>
       {tiles.map((tile) => (
         <PressableScale
           key={tile.route}
@@ -334,73 +333,70 @@ function VoiceRow() {
             borderColor: theme.colors.outlineVariant,
           }}
         >
-          <View
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 11,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: theme.colors.surfaceContainerHigh,
-            }}
+          <YStack
+            width={36}
+            height={36}
+            borderRadius={11}
+            alignItems="center"
+            justifyContent="center"
+            backgroundColor="surfaceContainerHigh"
           >
             <Icon name={tile.icon} size={18} color={tile.color} />
-          </View>
-          <View style={{ flex: 1 }}>
+          </YStack>
+          <YStack flex={1}>
             <Text variant="labelMd" weight="bold" numberOfLines={1}>
               {tile.label}
             </Text>
             <Text variant="bodyXs" muted numberOfLines={1}>
               {tile.hint}
             </Text>
-          </View>
+          </YStack>
         </PressableScale>
       ))}
-    </View>
+    </XStack>
   );
 }
 
 /** Four-colour Google marker used as a brand accent. */
 function GDGDots({ size = 6 }: { size?: number }) {
   return (
-    <View style={{ flexDirection: 'row', gap: 2 }}>
+    <XStack gap={2}>
       {GDG_DOTS.map((color) => (
-        <View key={color} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color }} />
+        <YStack key={color} width={size} height={size} borderRadius={size / 2} backgroundColor={color} />
       ))}
-    </View>
+    </XStack>
   );
 }
 
 function PressableBanner({ announcement }: { announcement: { title: string; body: string; tag?: string; deadline?: string } }) {
-  const theme = useTheme();
   return (
-    <View style={{ marginHorizontal: 16, borderRadius: theme.radius.card, overflow: 'hidden' }}>
+    <YStack marginHorizontal={16} borderRadius="card" overflow="hidden">
       <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <Orbs />
-        <View style={{ padding: 16, gap: 8 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <YStack padding={16} gap={8}>
+          <XStack alignItems="center" gap={8}>
             <SolidPill label={announcement.tag ?? 'Announcement'} color="surfaceContainerLowest" onColor="primary" uppercase />
-            <View style={{ flex: 1 }} />
+            <YStack flex={1} />
             <Icon name="campaign" size={16} color="#FFFFFF" />
             <Text variant="codeSm" style={{ color: 'rgba(255,255,255,0.9)' }}>
               {formatDeadline(announcement.deadline)}
             </Text>
-          </View>
+          </XStack>
           <Text variant="titleMd" weight="bold" style={{ color: '#FFFFFF' }}>
             {announcement.title}
           </Text>
           <Text variant="bodySm" numberOfLines={2} style={{ color: 'rgba(255,255,255,0.88)' }}>
             {announcement.body}
           </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 }}>
+          <XStack alignItems="center" gap={4} marginTop={2}>
             <Text variant="labelMd" weight="semibold" style={{ color: '#FFFFFF' }}>
               Read more
             </Text>
             <Icon name="arrowForward" size={14} color="#FFFFFF" />
-          </View>
-        </View>
+          </XStack>
+        </YStack>
       </Gradient>
-    </View>
+    </YStack>
   );
 }
 
@@ -435,58 +431,56 @@ function LevelCard({
     <SpotlightCard backgroundColor="transparent" glowColor="#FFFFFF" radius={165} style={{ borderRadius: theme.radius.card }}>
       <Gradient token="aurora" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <Orbs />
-        <View style={{ padding: 16, gap: 12 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <View
-                style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: 11,
-                  backgroundColor: 'rgba(255,255,255,0.18)',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+        <YStack padding={16} gap={12}>
+          <XStack alignItems="center" justifyContent="space-between">
+            <XStack alignItems="center" gap={8}>
+              <YStack
+                width={38}
+                height={38}
+                borderRadius={11}
+                backgroundColor="rgba(255,255,255,0.18)"
+                alignItems="center"
+                justifyContent="center"
               >
                 <Icon name="stars" size={21} color="#FFFFFF" />
-              </View>
-              <View>
+              </YStack>
+              <YStack>
                 <Text variant="labelLg" weight="bold" style={{ color: '#FFFFFF' }}>
                   {tier} Builder
                 </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 3 }}>
+                <XStack alignItems="baseline" gap={3}>
                   <AnimatedNumber value={xp} variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }} />
                   <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
                     XP · {badges} badges
                   </Text>
-                </View>
-              </View>
-            </View>
-            <View style={{ alignItems: 'flex-end' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                </XStack>
+              </YStack>
+            </XStack>
+            <YStack alignItems="flex-end">
+              <XStack alignItems="baseline">
                 <AnimatedNumber value={xp} variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }} />
                 <Text variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }}>
                   /{xpGoal || '∞'} XP
                 </Text>
-              </View>
+              </XStack>
               <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
                 Next: {nextTier ?? 'Season end'}
               </Text>
-            </View>
-          </View>
+            </YStack>
+          </XStack>
 
           {xpGoal > 0 ? (
-            <View style={{ height: 8, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.24)', overflow: 'hidden' }}>
-              <View style={{ width: `${progress * 100}%`, height: '100%', borderRadius: 4, backgroundColor: '#FFFFFF' }} />
-            </View>
+            <YStack height={8} borderRadius={4} backgroundColor="rgba(255,255,255,0.24)" overflow="hidden">
+              <YStack width={`${progress * 100}%`} height="100%" borderRadius={4} backgroundColor="#FFFFFF" />
+            </YStack>
           ) : null}
 
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <XStack gap={8}>
             <Metric label="Events" value={eventsAttended} icon="calendarMonth" />
             <Metric label="Labs" value={labsCompleted} icon="terminal" />
             <Metric label="Streak" value={`${streakDays}d`} icon="fire" />
-          </View>
-        </View>
+          </XStack>
+        </YStack>
       </Gradient>
     </SpotlightCard>
   );
@@ -494,19 +488,16 @@ function LevelCard({
 
 function Metric({ label, value, icon }: { label: string; value: number | string; icon: 'calendarMonth' | 'terminal' | 'fire' }) {
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: 'rgba(255,255,255,0.14)',
-      }}
+    <XStack
+      flex={1}
+      alignItems="center"
+      gap={6}
+      padding={10}
+      borderRadius={10}
+      backgroundColor="rgba(255,255,255,0.14)"
     >
       <Icon name={icon} size={16} color="#FFFFFF" />
-      <View>
+      <YStack>
         {typeof value === 'number' ? (
           <AnimatedNumber value={value} variant="labelLg" weight="bold" style={{ lineHeight: 18, color: '#FFFFFF' }} />
         ) : (
@@ -517,7 +508,7 @@ function Metric({ label, value, icon }: { label: string; value: number | string;
         <Text variant="bodySm" style={{ lineHeight: 14, color: 'rgba(255,255,255,0.82)' }}>
           {label}
         </Text>
-      </View>
-    </View>
+      </YStack>
+    </XStack>
   );
 }

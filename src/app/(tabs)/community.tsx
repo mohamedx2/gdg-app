@@ -1,8 +1,8 @@
 import { useRouter } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { FilterChip, Pill } from '@/components/ui/Chip';
@@ -21,7 +21,6 @@ import type { Member } from '@/types';
 import { PressableScale } from '@/components/ui/PressableScale';
 
 export default function CommunityScreen() {
-  const theme = useTheme();
   const { communityRoleFilters: ROLE_FILTERS } = useUiConfig();
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -34,8 +33,8 @@ export default function CommunityScreen() {
   const members = data?.data ?? [];
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, gap: 14 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16} gap={14}>
         <Reveal>
           <ScreenHeading
             title="Community"
@@ -48,23 +47,23 @@ export default function CommunityScreen() {
           />
         </Reveal>
         <SearchBar value={query} onChangeText={setQuery} placeholder="Search members…" />
-        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <XStack gap={8} flexWrap="wrap">
           {ROLE_FILTERS.map((item) => (
             <FilterChip key={item.key} label={item.label} active={role === item.key} onPress={() => setRole(item.key)} />
           ))}
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : null}
 
       {isPending && members.length === 0 ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           {[1, 2].map((key) => <SkeletonCard key={key} />)}
-        </View>
+        </YStack>
       ) : null}
 
       {!isPending && members.length === 0 ? (
@@ -88,7 +87,7 @@ export default function CommunityScreen() {
         renderItem={({ item }) => <MemberCard member={item} onPress={() => router.push(`/community/${item.id}`)} />}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </YStack>
   );
 }
 
@@ -123,7 +122,7 @@ function MemberCard({ member, onPress }: { member: Member; onPress: () => void }
         elevation: 1,
       }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <XStack alignItems="center" justifyContent="space-between">
         <Avatar
           uri={member.avatar}
           name={member.name}
@@ -132,7 +131,7 @@ function MemberCard({ member, onPress }: { member: Member; onPress: () => void }
           style={{ borderWidth: 2, borderColor: theme.colors[accent] }}
         />
         <Icon name="arrowForward" size={16} color="outline" />
-      </View>
+      </XStack>
       <Text variant="labelLg" weight="bold" numberOfLines={1}>
         {member.name}
       </Text>

@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list';
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { FilterChip } from '@/components/ui/Chip';
 import { Reveal } from '@/components/ui/Reveal';
@@ -14,11 +14,9 @@ import { ResourceCard } from '@/components/ResourceCard';
 import { useDebouncedValue } from '@/hooks/use-misc';
 import { useResources } from '@/hooks/use-resources';
 import { useUiConfig } from '@/hooks/use-content';
-import { useTheme } from '@/theme';
 import type { ResourceDifficulty, ResourceType } from '@/types';
 
 export default function ResourcesScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { resourcesDifficultyFilters: DIFFICULTIES, resourcesTypeFilters: TYPES } = useUiConfig();
   const [query, setQuery] = useState('');
@@ -36,8 +34,8 @@ export default function ResourcesScreen() {
   const resources = data?.data ?? [];
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, gap: 14 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16} gap={14}>
         <Reveal>
           <ScreenHeading
             title="Resources"
@@ -50,28 +48,28 @@ export default function ResourcesScreen() {
           />
         </Reveal>
         <SearchBar value={query} onChangeText={setQuery} placeholder="Search codelabs, courses…" />
-        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <XStack gap={8} flexWrap="wrap">
           {DIFFICULTIES.map((item) => (
             <FilterChip key={item.key} label={item.label} active={difficulty === item.key} onPress={() => setDifficulty(item.key)} />
           ))}
-        </View>
-        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        </XStack>
+        <XStack gap={8} flexWrap="wrap">
           {TYPES.map((item) => (
             <FilterChip key={item.key} label={item.label} icon={item.key === 'codelab' ? 'terminal' : item.key === 'video' ? 'playCircle' : item.key === 'article' ? 'article' : 'school'} active={type === item.key} onPress={() => setType(item.key)} />
           ))}
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : null}
 
       {isPending && resources.length === 0 ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           {[1, 2].map((key) => <SkeletonCard key={key} />)}
-        </View>
+        </YStack>
       ) : null}
 
       {!isPending && resources.length === 0 ? (
@@ -96,6 +94,6 @@ export default function ResourcesScreen() {
         renderItem={({ item }) => <ResourceCard resource={item} />}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </YStack>
   );
 }

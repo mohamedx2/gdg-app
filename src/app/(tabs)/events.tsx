@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { EventCard } from '@/components/EventCard';
 import { FilterChip } from '@/components/ui/Chip';
@@ -14,11 +15,9 @@ import { Text } from '@/components/ui/Text';
 import { useTaxonomy } from '@/hooks/use-content';
 import { useDebouncedValue } from '@/hooks/use-misc';
 import { useEvents } from '@/hooks/use-events';
-import { useTheme } from '@/theme';
 import type { GdgEvent, Track } from '@/types';
 
 export default function EventsScreen() {
-  const theme = useTheme();
   const { homeTrackFilters: HOME_TRACK_FILTERS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ search?: string }>();
@@ -37,8 +36,8 @@ export default function EventsScreen() {
   const events = data?.data ?? [];
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, gap: 14 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16} gap={14}>
         <Reveal>
           <ScreenHeading
             title="Events"
@@ -67,17 +66,17 @@ export default function EventsScreen() {
             onPress={() => setShowPast(!showPast)}
           />
         </ScrollView>
-      </View>
+      </YStack>
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 112, gap: 12 }} showsVerticalScrollIndicator={false}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <XStack alignItems="center" justifyContent="space-between">
           <Text variant="labelMd" weight="semibold" muted style={{ textTransform: 'uppercase', letterSpacing: 0.5 }}>
             {showPast ? 'Previously at GDG EPI' : 'Upcoming events'}
           </Text>
           <Text variant="codeSm" muted>
             {events.length} {events.length === 1 ? 'event' : 'events'}
           </Text>
-        </View>
+        </XStack>
 
         {isError ? <ErrorState message={error?.message} onRetry={() => refetch()} /> : null}
 
@@ -102,6 +101,6 @@ export default function EventsScreen() {
           <EventCard key={event.id} event={event} />
         ))}
       </ScrollView>
-    </View>
+    </YStack>
   );
 }
