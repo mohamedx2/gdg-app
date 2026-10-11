@@ -1,12 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { XStack, YStack } from 'tamagui';
 
-import { Pill } from '@/components/ui/Chip';
+import { Avatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { useTaxonomy } from '@/hooks/use-content';
-import { useTheme } from '@/theme';
+import type { ColorToken } from '@/theme/colors';
 import { formatCountdown, isPast } from '@/utils/date';
 import type { Task, TaskStatus } from '@/types';
 
@@ -23,116 +23,108 @@ const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
   done: null,
 };
 
+const ACTION: Record<TaskStatus, string> = {
+  todo: 'Claim Task',
+  'in-progress': 'Mark done',
+  done: 'Done',
+};
+
+const STATUS_TONE: Record<TaskStatus, { bg: ColorToken; fg: ColorToken; label: string }> = {
+  todo: { bg: 'surfaceContainerHigh', fg: 'onSurfaceVariant', label: 'AVAILABLE' },
+  'in-progress': { bg: 'secondaryContainer', fg: 'onSecondaryContainer', label: 'IN PROGRESS' },
+  done: { bg: 'tertiaryFixed', fg: 'onTertiaryFixedVariant', label: 'DONE' },
+};
+
+/** Micro-task card from the Stitch tasks board: tags, XP, due date and one CTA. */
 export function TaskCard({ task, onAdvance, onOpenEvent, busy }: TaskCardProps) {
-  const theme = useTheme();
-  const taxonomy = useTaxonomy();
+  const { taskPriority } = useTaxonomy();
   const done = task.status === 'done';
-  const meta = taxonomy.taskStatus[task.status];
-  const priority = taxonomy.taskPriority[task.priority];
   const overdue = !done && !!task.dueAt && isPast(task.dueAt);
   const next = NEXT_STATUS[task.status];
+  const tone = STATUS_TONE[task.status];
+  const priority = taskPriority[task.priority];
 
   return (
-    <View
-      style={{
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: theme.colors.outlineVariant,
-        padding: 14,
-        gap: 12,
-        opacity: done ? 0.7 : 1,
-      }}
-    >
-      <View style={{ flexDirection: 'row', gap: 12 }}>
-        <PressableScale
-          onPress={() => onAdvance?.(next ?? 'done')}
-          disabled={!onAdvance || !next}
-          accessibilityLabel={next ? `Move to ${taxonomy.taskStatus[next].label}` : 'Completed'}
-          style={{ paddingTop: 2 }}
-        >
-          <Icon name={done ? 'checkCircle' : 'radioButtonUnchecked'} size={24} color={done ? 'tertiary' : 'onSurfaceVariant'} />
-        </PressableScale>
-
-        <View style={{ flex: 1, gap: 6 }}>
-          <Text
-            variant="titleSm"
-            weight="bold"
-            style={done ? { textDecorationLine: 'line-through', opacity: 0.7 } : undefined}
-          >
-            {task.title}
-          </Text>
-          <Text variant="bodySm" muted numberOfLines={2}>
-            {task.description}
-          </Text>
-
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <Pill label={meta.label} color={meta.color} dot />
-            {task.priority !== 'low' ? <Pill label={priority.label} color={priority.color} /> : null}
-            {task.points > 0 ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                <Icon name="bolt" size={13} color="primary" />
-                <Text variant="bodyXs" primary>
-                  +{task.points}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-        </View>
-      </View>
-
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          {task.dueAt ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <Icon name="schedule" size={13} color={overdue ? 'error' : 'onSurfaceVariant'} />
-              <Text variant="bodyXs" color={overdue ? 'error' : 'onSurfaceVariant'}>
-                {done ? 'Closed' : formatCountdown(task.dueAt)}
-              </Text>
-            </View>
-          ) : null}
+    <YStack padding={16} gap={10} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant" opacity={done ? 0.85 : 1}>
+      <XStack alignItems="center" justifyContent="space-between" gap={8}>
+        <XStack gap={6} flexShrink={1} flexWrap="wrap">
           {task.eventTitle ? (
-            <PressableScale
-              onPress={onOpenEvent}
-              disabled={!onOpenEvent}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
-            >
-              <Icon name="event" size={13} color="secondary" />
-              <Text variant="bodyXs" color="secondary" numberOfLines={1}>
-                {task.eventTitle}
-              </Text>
+            <PressableScale onPress={onOpenEvent} disabled={!onOpenEvent} accessibilityLabel={`Open ${task.eventTitle}`}>
+              <YStack paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor="primaryFixed">
+                <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant" numberOfLines={1}>
+                  {task.eventTitle.toUpperCase().slice(0, 22)}
+                </Text>
+              </YStack>
             </PressableScale>
           ) : null}
-          {!task.isMine && task.assigneeName ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <Icon name="person" size={13} color="onSurfaceVariant" />
-              <Text variant="bodyXs" muted>
-                {task.assigneeName}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-
-        {task.isMine && next ? (
-          <PressableScale
-            onPress={() => onAdvance?.(next)}
-            disabled={busy}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 5,
-              paddingHorizontal: 12,
-              paddingVertical: 7,
-              borderRadius: 999,
-              backgroundColor: next === 'done' ? theme.colors.primary : theme.colors.secondaryContainer,
-            }}
-          >
-            <Text variant="labelMd" weight="bold" color={next === 'done' ? 'onPrimary' : 'onSecondaryContainer'}>
-              {busy ? '…' : next === 'done' ? 'Complete' : 'Start'}
+          <YStack paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor={tone.bg}>
+            <Text variant="codeSm" weight="bold" color={tone.fg}>
+              {tone.label}
             </Text>
+          </YStack>
+        </XStack>
+        <XStack alignItems="center" gap={4} paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor="inverseSurface">
+          <Icon name="bolt" size={12} color="gold" />
+          <Text variant="codeSm" weight="bold" color="inverseOnSurface">
+            +{task.points} XP
+          </Text>
+        </XStack>
+      </XStack>
+
+      <YStack gap={4}>
+        <Text variant="titleSm" weight="bold" style={done ? { textDecorationLine: 'line-through' } : undefined}>
+          {task.title}
+        </Text>
+        {task.description ? (
+          <Text variant="bodySm" muted numberOfLines={3}>
+            {task.description}
+          </Text>
+        ) : null}
+      </YStack>
+
+      {task.assigneeName ? (
+        <XStack alignItems="center" gap={8} padding={10} borderRadius={14} backgroundColor="surfaceContainerLow">
+          <Avatar uri={task.assigneeAvatar} name={task.assigneeName} size={28} />
+          <Text variant="labelMd" weight="bold" numberOfLines={1} style={{ flex: 1 }}>
+            {task.assigneeName}
+            {task.isMine ? ' (You)' : ''}
+          </Text>
+          {priority && task.priority !== 'low' ? (
+            <Text variant="codeSm" weight="bold" color={priority.color}>
+              {priority.label.toUpperCase()}
+            </Text>
+          ) : null}
+        </XStack>
+      ) : null}
+
+      <XStack alignItems="center" justifyContent="space-between" gap={10}>
+        {task.dueAt && !done ? (
+          <XStack alignItems="center" gap={6} flexShrink={1}>
+            <Icon name="schedule" size={14} color={overdue ? 'error' : 'onSurfaceVariant'} />
+            <Text variant="codeSm" weight="bold" color={overdue ? 'error' : 'onSurfaceVariant'}>
+              {overdue ? 'OVERDUE' : formatCountdown(task.dueAt).toUpperCase()}
+            </Text>
+          </XStack>
+        ) : done ? (
+          <Text variant="codeSm" weight="bold" color="tertiary">
+            +{task.points} XP AWARDED
+          </Text>
+        ) : (
+          <YStack />
+        )}
+        {next && onAdvance ? (
+          <PressableScale onPress={() => onAdvance(next)} disabled={busy} accessibilityLabel={`${ACTION[task.status]}: ${task.title}`}>
+            <XStack alignItems="center" gap={6} height={40} paddingHorizontal={14} borderRadius={12} backgroundColor={task.status === 'todo' ? 'primary' : 'surfaceContainerHigh'} opacity={busy ? 0.6 : 1}>
+              <Text variant="labelMd" weight="bold" color={task.status === 'todo' ? 'onPrimary' : 'onSurface'}>
+                {busy ? 'Saving…' : ACTION[task.status]}
+              </Text>
+              <Icon name={task.status === 'todo' ? 'arrowForward' : 'check'} size={15} color={task.status === 'todo' ? 'onPrimary' : 'onSurface'} />
+            </XStack>
           </PressableScale>
         ) : null}
-      </View>
-    </View>
+      </XStack>
+    </YStack>
   );
 }
+
+export default TaskCard;

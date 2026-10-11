@@ -1,14 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
+import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
-import { Pill } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { useTaxonomy } from '@/hooks/use-content';
-import { useTheme } from '@/theme';
+import type { ColorToken } from '@/theme/colors';
 import type { Idea, IdeaStatus } from '@/types';
+import { formatRelativeTime } from '@/utils/date';
 
 /** Forward path on the roadmap; shipped and declined are terminal. */
 const NEXT_STATUS: Partial<Record<IdeaStatus, IdeaStatus>> = {
@@ -16,6 +16,16 @@ const NEXT_STATUS: Partial<Record<IdeaStatus, IdeaStatus>> = {
   under_review: 'planned',
   planned: 'in_progress',
   in_progress: 'shipped',
+};
+
+/** Status badge tone, matching the Stitch idea feed. */
+const STATUS_TONE: Record<IdeaStatus, { bg: ColorToken; fg: ColorToken; icon?: 'checkCircle' | 'trendingUp' }> = {
+  new: { bg: 'surfaceContainerHigh', fg: 'onSurfaceVariant' },
+  under_review: { bg: 'surfaceContainerHigh', fg: 'onSurfaceVariant' },
+  planned: { bg: 'primaryFixed', fg: 'onPrimaryFixedVariant' },
+  in_progress: { bg: 'primaryFixed', fg: 'onPrimaryFixedVariant', icon: 'trendingUp' },
+  shipped: { bg: 'tertiaryContainer', fg: 'onTertiaryContainer', icon: 'checkCircle' },
+  declined: { bg: 'surfaceContainerHigh', fg: 'outline' },
 };
 
 interface IdeaCardProps {
@@ -29,137 +39,106 @@ interface IdeaCardProps {
 }
 
 export function IdeaCard({ idea, onVote, onManage, onUpgrade, upgrading, voting }: IdeaCardProps) {
-  const theme = useTheme();
-  const taxonomy = useTaxonomy();
-  const category = taxonomy.ideaCategories[idea.category];
-  const status = taxonomy.ideaStatus[idea.status];
-  const shipped = idea.status === 'shipped';
+  const { ideaCategories, ideaStatus } = useTaxonomy();
+  const category = ideaCategories[idea.category];
+  const status = ideaStatus[idea.status];
+  const tone = STATUS_TONE[idea.status];
+  const next = NEXT_STATUS[idea.status];
+  const author = idea.anonymous ? 'Anonymous' : idea.isMine ? 'You' : idea.authorName ?? 'Member';
 
   return (
-    <View
-      style={{
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: shipped ? theme.colors.tertiaryFixedDim : theme.colors.outlineVariant,
-        overflow: 'hidden',
-      }}
-    >
-      {shipped ? (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14, paddingVertical: 7, backgroundColor: theme.colors.tertiaryFixed }}>
-          <Icon name="checkCircle" size={14} color="onTertiaryFixedVariant" />
-          <Text variant="codeSm" weight="semibold" color="onTertiaryFixedVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
-            You said, we did
+    <YStack padding={16} gap={12} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+      <XStack alignItems="center" justifyContent="space-between" gap={8}>
+        <YStack paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor="primaryFixed">
+          <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+            {(category?.label ?? idea.category).toUpperCase()}
           </Text>
-        </View>
+        </YStack>
+        <XStack alignItems="center" gap={4} paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor={tone.bg}>
+          {tone.icon ? <Icon name={tone.icon} size={12} color={tone.fg} /> : null}
+          <Text variant="codeSm" weight="bold" color={tone.fg}>
+            {(status?.label ?? idea.status).toUpperCase()}
+          </Text>
+        </XStack>
+      </XStack>
+
+      <XStack alignItems="center" gap={10}>
+        {idea.anonymous ? (
+          <YStack width={32} height={32} borderRadius={16} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+            <Icon name="visibilityOff" size={16} color="onSurfaceVariant" />
+          </YStack>
+        ) : (
+          <Avatar uri={idea.authorAvatar} name={author} size={32} />
+        )}
+        <YStack flex={1}>
+          <Text variant="labelLg" weight="bold" numberOfLines={1}>
+            {author}
+          </Text>
+          <Text variant="codeSm" muted>
+            {formatRelativeTime(idea.createdAt)}
+          </Text>
+        </YStack>
+      </XStack>
+
+      <YStack gap={4}>
+        <Text variant="titleMd" weight="bold">
+          {idea.title}
+        </Text>
+        <Text variant="bodySm" muted numberOfLines={3}>
+          {idea.body}
+        </Text>
+      </YStack>
+
+      {idea.response ? (
+        <YStack gap={4} padding={12} borderRadius={14} backgroundColor="surfaceContainerLow" borderLeftWidth={3} borderLeftColor="tertiary">
+          <XStack alignItems="center" gap={6}>
+            <Icon name="campaign" size={14} color="tertiary" />
+            <Text variant="codeSm" weight="bold" color="tertiary">
+              {idea.status === 'shipped' ? 'YOU SAID, WE DID' : 'CLUB RESPONSE'}
+            </Text>
+          </XStack>
+          <Text variant="bodySm">{idea.response}</Text>
+        </YStack>
       ) : null}
 
-      <View style={{ flexDirection: 'row', gap: 12, padding: 14 }}>
-        <VoteButton count={idea.votes} voted={idea.voted} disabled={voting} onPress={() => onVote(idea.id)} />
-
-        <View style={{ flex: 1, gap: 8 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 }}>
-              <Pill label={status.label} color={status.color} dot />
-              <Pill label={category.label} color={category.color} icon={category.icon as never} />
-            </View>
-          </View>
-
-          <Text variant="titleSm" weight="bold">
-            {idea.title}
-          </Text>
-          <Text variant="bodySm" muted numberOfLines={3}>
-            {idea.body}
-          </Text>
-
-          {idea.response ? (
-            <View style={{ gap: 4, padding: 10, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLow }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <Icon name="campaign" size={14} color="primary" />
-                <Text variant="codeSm" weight="semibold" primary>
-                  Club response
-                </Text>
-              </View>
-              <Text variant="bodySm">{idea.response}</Text>
-            </View>
-          ) : null}
-
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              {idea.anonymous ? (
-                <>
-                  <View style={{ width: 22, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.surfaceContainerHigh }}>
-                    <Icon name="visibilityOff" size={13} color="onSurfaceVariant" />
-                  </View>
-                  <Text variant="bodyXs" muted>
-                    Anonymous
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Avatar uri={idea.authorAvatar} name={idea.authorName ?? 'Member'} size={22} />
-                  <Text variant="bodyXs" muted>
-                    {idea.isMine ? 'You' : idea.authorName}
-                  </Text>
-                </>
-              )}
-            </View>
-
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            {onUpgrade && NEXT_STATUS[idea.status] ? (
-              <PressableScale
-                onPress={() => onUpgrade(idea, NEXT_STATUS[idea.status]!)}
-                disabled={upgrading}
-                hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }}
-                accessibilityLabel={`Move to ${taxonomy.ideaStatus[NEXT_STATUS[idea.status]!].label}`}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: theme.radius.full, backgroundColor: theme.colors.tertiaryFixed, opacity: upgrading ? 0.6 : 1 }}
-              >
-                <Icon name="trendingUp" size={13} color="onTertiaryFixedVariant" />
-                <Text variant="codeSm" weight="semibold" color="onTertiaryFixedVariant">
-                  {taxonomy.ideaStatus[NEXT_STATUS[idea.status]!].label}
-                </Text>
-              </PressableScale>
-            ) : null}
-            {onManage ? (
-              <PressableScale onPress={() => onManage(idea)} hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }} accessibilityLabel="Update idea status" style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: theme.radius.full, backgroundColor: theme.colors.primaryFixed }}>
-                <Icon name="edit" size={13} color="primary" />
-                <Text variant="codeSm" weight="semibold" primary>
-                  Update
-                </Text>
-              </PressableScale>
-            ) : null}
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
+      <XStack alignItems="center" gap={8}>
+        <PressableScale onPress={() => onVote(idea.id)} disabled={voting} accessibilityLabel={idea.voted ? 'Remove upvote' : 'Upvote idea'} selected={idea.voted}>
+          <XStack alignItems="center" gap={6} height={40} paddingHorizontal={14} borderRadius="full" backgroundColor={idea.voted ? 'primary' : 'surfaceContainerHigh'} opacity={voting ? 0.6 : 1}>
+            <Icon name="thumbUp" size={16} color={idea.voted ? 'onPrimary' : 'onSurface'} />
+            <Text variant="codeSm" weight="bold" color={idea.voted ? 'onPrimary' : 'onSurface'}>
+              {idea.votes}
+            </Text>
+          </XStack>
+        </PressableScale>
+        <YStack flex={1} />
+        {onUpgrade && next ? (
+          <PressableScale
+            onPress={() => onUpgrade(idea, next)}
+            disabled={upgrading}
+            hitSlop={{ top: 6, bottom: 6 }}
+            accessibilityLabel={`Move to ${ideaStatus[next]?.label ?? next}`}
+          >
+            <XStack alignItems="center" gap={4} height={36} paddingHorizontal={12} borderRadius="full" backgroundColor="tertiaryFixed" opacity={upgrading ? 0.6 : 1}>
+              <Icon name="trendingUp" size={14} color="onTertiaryFixedVariant" />
+              <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                {ideaStatus[next]?.label ?? next}
+              </Text>
+            </XStack>
+          </PressableScale>
+        ) : null}
+        {onManage ? (
+          <PressableScale onPress={() => onManage(idea)} hitSlop={{ top: 6, bottom: 6 }} accessibilityLabel="Update idea status">
+            <XStack alignItems="center" gap={4} height={36} paddingHorizontal={12} borderRadius="full" backgroundColor="primaryFixed">
+              <Icon name="edit" size={14} color="onPrimaryFixedVariant" />
+              <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+                Update
+              </Text>
+            </XStack>
+          </PressableScale>
+        ) : null}
+      </XStack>
+    </YStack>
   );
 }
 
-function VoteButton({ count, voted, disabled, onPress }: { count: number; voted: boolean; disabled?: boolean; onPress: () => void }) {
-  const theme = useTheme();
-  return (
-    <PressableScale
-      onPress={onPress}
-      disabled={disabled}
-      accessibilityLabel={voted ? 'Remove upvote' : 'Upvote idea'}
-      style={{
-        width: 52,
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 2,
-        paddingVertical: 8,
-        borderRadius: theme.radius.base,
-        borderWidth: 1,
-        borderColor: voted ? theme.colors.primary : theme.colors.outlineVariant,
-        backgroundColor: voted ? theme.colors.primaryFixed : theme.colors.surfaceContainerLow,
-        opacity: disabled ? 0.6 : 1,
-      }}
-    >
-      <Icon name="thumbUp" size={18} color={voted ? 'primary' : 'onSurfaceVariant'} />
-      <Text variant="labelMd" weight="bold" color={voted ? 'primary' : 'onSurface'}>
-        {count}
-      </Text>
-    </PressableScale>
-  );
-}
+export default IdeaCard;

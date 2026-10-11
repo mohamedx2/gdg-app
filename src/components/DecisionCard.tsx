@@ -1,12 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
+import { XStack, YStack } from 'tamagui';
 
-import { Pill } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
-import { useTheme } from '@/theme';
-import { formatCountdown } from '@/utils/date';
+import { formatCountdown, formatTime, parseDate } from '@/utils/date';
 import { percentage } from '@/utils/format';
 import type { Decision, DecisionOption } from '@/types';
 
@@ -18,163 +16,152 @@ interface DecisionCardProps {
   canVote?: boolean;
 }
 
+/** Vote card from the Stitch decision detail: status, close time, ranked option cards. */
 export function DecisionCard({ decision, onVote, voting, canVote = true }: DecisionCardProps) {
-  const theme = useTheme();
   const open = decision.status === 'open';
   const { resultsVisible } = decision;
   const quorumMet = decision.totalVotes >= decision.quorum;
   const turnout = percentage(decision.totalVotes, decision.eligibleVoters);
+  const ranking = [...decision.options].sort((a, b) => b.votes - a.votes);
+  const leaderId = decision.totalVotes > 0 ? ranking[0]?.id : undefined;
+  const closes = parseDate(decision.closesAt);
 
   return (
-    <View
-      style={{
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: decision.important ? theme.colors.warning : theme.colors.outlineVariant,
-        overflow: 'hidden',
-      }}
-    >
-      <View style={{ padding: 16, gap: 12 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          {decision.important ? <Pill label="Important" color="warning" icon="flag" /> : null}
-          <Pill label={open ? `Open · ${formatCountdown(decision.closesAt)}` : 'Closed'} color={open ? 'success' : 'outline'} dot />
-        </View>
-
-        <View style={{ gap: 4 }}>
-          <Text variant="titleMd" weight="bold">
-            {decision.title}
+    <YStack padding={16} gap={12} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor={decision.important ? 'warning' : 'outlineVariant'}>
+      <XStack gap={6} flexWrap="wrap">
+        <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor={open ? 'tertiaryFixed' : 'surfaceContainerHigh'}>
+          <YStack width={6} height={6} borderRadius={3} backgroundColor={open ? 'live' : 'outline'} />
+          <Text variant="codeSm" weight="bold" color={open ? 'onTertiaryFixedVariant' : 'onSurfaceVariant'}>
+            {open ? 'OPEN VOTE' : 'CLOSED'}
+            {quorumMet ? ' • BINDING' : ''}
           </Text>
-          <Text variant="bodySm" muted>
-            {decision.description}
+        </XStack>
+        {decision.important ? (
+          <XStack alignItems="center" gap={4} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="secondaryContainer">
+            <Icon name="flag" size={12} color="onSecondaryContainer" />
+            <Text variant="codeSm" weight="bold" color="onSecondaryContainer">
+              IMPORTANT
+            </Text>
+          </XStack>
+        ) : null}
+      </XStack>
+
+      {open ? (
+        <XStack alignItems="center" gap={6}>
+          <Icon name="schedule" size={14} color="warning" />
+          <Text variant="codeSm" muted>
+            CLOSES {formatCountdown(decision.closesAt).toUpperCase()} · {formatTime(closes)} GMT+1
           </Text>
-        </View>
+        </XStack>
+      ) : null}
 
-        <View style={{ gap: 8 }}>
-          {decision.options.map((option) => (
-            <OptionRow
-              key={option.id}
-              option={option}
-              total={decision.totalVotes}
-              chosen={decision.myVoteOptionId === option.id}
-              resultsVisible={resultsVisible}
-              open={open}
-              disabled={voting || !canVote}
-              onPress={() => onVote(option.id)}
-            />
-          ))}
-        </View>
+      <YStack gap={4}>
+        <Text variant="titleLg" weight="bold">
+          {decision.title}
+        </Text>
+        <Text variant="bodySm" muted>
+          {decision.description}
+        </Text>
+      </YStack>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Icon name="howToVote" size={14} color="onSurfaceVariant" />
-            <Text variant="bodyXs" muted>
-              {decision.totalVotes} of {decision.eligibleVoters} voted · {turnout}%
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-            <Icon name={quorumMet ? 'checkCircle' : 'schedule'} size={14} color={quorumMet ? 'tertiary' : 'onSurfaceVariant'} />
-            <Text variant="bodyXs" color={quorumMet ? 'tertiary' : 'onSurfaceVariant'}>
-              {quorumMet ? 'Quorum met' : `Quorum ${decision.quorum}`}
-            </Text>
-          </View>
-        </View>
+      <Text variant="codeSm" muted>
+        {decision.totalVotes} of {decision.eligibleVoters} votes cast · {turnout}% turnout · {quorumMet ? 'quorum met' : `quorum ${decision.quorum}`}
+      </Text>
 
-        {!canVote ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Icon name="lock" size={14} color="onSurfaceVariant" />
-            <Text variant="bodyXs" muted>
-              {open ? 'Core team vote — the outcome will be shared here.' : 'Decided by the core team.'}
-            </Text>
-          </View>
-        ) : null}
+      <YStack gap={10}>
+        {decision.options.map((option) => (
+          <OptionCard
+            key={option.id}
+            option={option}
+            total={decision.totalVotes}
+            rank={ranking.findIndex((item) => item.id === option.id) + 1}
+            leading={option.id === leaderId}
+            chosen={decision.myVoteOptionId === option.id}
+            resultsVisible={resultsVisible}
+            disabled={!open || voting || !canVote}
+            onPress={() => onVote(option.id)}
+          />
+        ))}
+      </YStack>
 
-        {decision.myVoteOptionId ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Icon name="verified" size={14} color="primary" />
-            <Text variant="bodyXs" primary>
-              {open ? 'Your ballot is recorded — tap another option to change it.' : 'Your ballot was recorded.'}
-            </Text>
-          </View>
-        ) : null}
-      </View>
-    </View>
+      {!canVote ? (
+        <XStack alignItems="center" gap={6}>
+          <Icon name="lock" size={14} color="onSurfaceVariant" />
+          <Text variant="bodyXs" muted>
+            {open ? 'Core team vote — the outcome will be shared here.' : 'Decided by the core team.'}
+          </Text>
+        </XStack>
+      ) : decision.myVoteOptionId ? (
+        <XStack alignItems="center" gap={6}>
+          <Icon name="verified" size={14} color="primary" />
+          <Text variant="bodyXs" primary>
+            {open ? 'Ballot recorded — tap another option to change it.' : 'Your ballot was recorded.'}
+          </Text>
+        </XStack>
+      ) : null}
+    </YStack>
   );
 }
 
-function OptionRow({
+function OptionCard({
   option,
   total,
+  rank,
+  leading,
   chosen,
   resultsVisible,
-  open,
   disabled,
   onPress,
 }: {
   option: DecisionOption;
   total: number;
+  rank: number;
+  leading: boolean;
   chosen: boolean;
   resultsVisible: boolean;
-  open: boolean;
   disabled?: boolean;
   onPress: () => void;
 }) {
-  const theme = useTheme();
   const share = total > 0 ? Math.round((option.votes / total) * 100) : 0;
-  const tappable = open && !disabled;
-
-  if (resultsVisible) {
-    return (
-      <PressableScale
-        onPress={onPress}
-        disabled={!tappable}
-        accessibilityLabel={option.label}
-        style={{
-          borderRadius: theme.radius.base,
-          borderWidth: 1.5,
-          borderColor: chosen ? theme.colors.primary : theme.colors.outlineVariant,
-          backgroundColor: theme.colors.surfaceContainerLow,
-          overflow: 'hidden',
-        }}
-      >
-        <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${share}%`, backgroundColor: chosen ? theme.colors.primaryFixed : theme.colors.surfaceContainerHigh }} />
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 10 }}>
-          <Icon name={chosen ? 'radioButtonChecked' : 'radioButtonUnchecked'} size={18} color={chosen ? 'primary' : 'onSurfaceVariant'} />
-          <Text variant="labelLg" weight={chosen ? 'bold' : 'medium'} style={{ flex: 1 }} numberOfLines={1}>
-            {option.label}
-          </Text>
-          <Text variant="labelMd" weight="bold" color={chosen ? 'primary' : 'onSurface'}>
-            {share}%
-          </Text>
-          <Text variant="bodyXs" muted>
-            {option.votes}
-          </Text>
-        </View>
-      </PressableScale>
-    );
-  }
 
   return (
-    <PressableScale
-      onPress={onPress}
-      disabled={!tappable}
-      accessibilityLabel={option.label}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        borderRadius: theme.radius.base,
-        borderWidth: 1.5,
-        borderColor: chosen ? theme.colors.primary : theme.colors.outlineVariant,
-        backgroundColor: chosen ? theme.colors.primaryFixed : theme.colors.surfaceContainerLowest,
-      }}
-    >
-      <Icon name={chosen ? 'radioButtonChecked' : 'radioButtonUnchecked'} size={18} color={chosen ? 'primary' : 'onSurfaceVariant'} />
-      <Text variant="labelLg" weight={chosen ? 'bold' : 'medium'} style={{ flex: 1 }}>
-        {option.label}
-      </Text>
+    <PressableScale onPress={onPress} disabled={disabled} accessibilityLabel={option.label} accessibilityRole="radio" selected={chosen}>
+      <YStack padding={14} gap={10} borderRadius={18} borderWidth={1.5} borderColor={chosen ? 'primary' : 'outlineVariant'} backgroundColor={chosen ? 'surfaceContainerLow' : 'surfaceContainerLowest'}>
+        <XStack alignItems="flex-start" gap={10}>
+          <YStack width={24} height={24} borderRadius={12} alignItems="center" justifyContent="center" backgroundColor={chosen ? 'primary' : 'surfaceContainerHigh'}>
+            {chosen ? <Icon name="check" size={16} color="onPrimary" /> : null}
+          </YStack>
+          <Text variant="labelLg" weight="bold" style={{ flex: 1 }}>
+            {option.label}
+          </Text>
+          {resultsVisible && leading ? (
+            <XStack alignItems="center" gap={4} paddingHorizontal={8} paddingVertical={3} borderRadius="full" backgroundColor="secondaryContainer">
+              <Icon name="fire" size={12} color="onSecondaryContainer" />
+              <Text variant="codeSm" weight="bold" color="onSecondaryContainer">
+                LEADING
+              </Text>
+            </XStack>
+          ) : null}
+        </XStack>
+
+        {resultsVisible ? (
+          <YStack gap={6}>
+            <XStack justifyContent="space-between">
+              <Text variant="codeSm" weight="bold" color={chosen ? 'primary' : 'onSurface'}>
+                {share}% <Text variant="codeSm" muted>({option.votes} votes)</Text>
+              </Text>
+              <Text variant="codeSm" weight="bold" color={chosen ? 'primary' : 'onSurfaceVariant'}>
+                {chosen ? 'YOUR SELECTION' : `Rank #${rank}`}
+              </Text>
+            </XStack>
+            <YStack height={8} borderRadius={4} backgroundColor="surfaceContainerHigh" overflow="hidden">
+              <YStack width={`${share}%`} height="100%" borderRadius={4} backgroundColor={chosen ? 'primary' : 'outline'} />
+            </YStack>
+          </YStack>
+        ) : null}
+      </YStack>
     </PressableScale>
   );
 }
+
+export default DecisionCard;
