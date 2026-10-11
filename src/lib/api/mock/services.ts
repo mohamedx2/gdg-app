@@ -545,6 +545,14 @@ export const mockApi: AppApi = {
       await mockDb.deleteAnnouncement(id);
     },
   },
+
+  media: {
+    async upload(input) {
+      await mockDb.init();
+      const folder = input.folder ?? 'misc';
+      return delay({ url: input.uri, path: `mock/${folder}/${Date.now()}` }, 300, 600);
+    },
+  },
 };
 
 export type { Announcement };

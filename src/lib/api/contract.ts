@@ -22,6 +22,8 @@ import type {
   GdgEvent,
   Idea,
   IdeaStatus,
+  MediaUpload,
+  MediaUploadInput,
   Member,
   MyPresence,
   NotificationPreferences,
@@ -186,6 +188,11 @@ export interface AdminService {
   deleteAnnouncement(id: string): Promise<void>;
 }
 
+export interface MediaService {
+  /** Upload an image/file to storage and get back its public URL. */
+  upload(input: MediaUploadInput): Promise<MediaUpload>;
+}
+
 export interface AppApi {
   events: EventsService;
   members: MembersService;
@@ -204,4 +211,5 @@ export interface AppApi {
   notifications: NotificationsService;
   profile: ProfileService;
   admin: AdminService;
+  media: MediaService;
 }

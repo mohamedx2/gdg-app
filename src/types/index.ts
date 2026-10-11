@@ -596,3 +596,23 @@ export interface DailyQuizResult {
   streak: number;
   results: QuizResultRow[];
 }
+
+/** A file picked on the device, ready to upload to storage. */
+export interface MediaUploadInput {
+  /** Local file URI returned by the image/file picker. */
+  uri: string;
+  /** MIME type, e.g. `image/jpeg`. */
+  type?: string;
+  /** Original filename (used to build the storage path). */
+  name?: string;
+  /** Logical folder to group uploads under, e.g. `avatars`. */
+  folder?: MediaFolder;
+}
+
+export type MediaFolder = 'avatars' | 'events' | 'ideas' | 'chat' | 'resources' | 'misc';
+
+/** Result of a successful upload — the object's public URL and storage path. */
+export interface MediaUpload {
+  url: string;
+  path: string;
+}

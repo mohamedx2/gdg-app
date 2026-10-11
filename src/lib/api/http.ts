@@ -31,14 +31,22 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
 
   try {
     const token = options.skipAuth ? null : await getToken?.().catch(() => null);
+    // FormData bodies (file uploads) must keep fetch's auto-generated boundary,
+    // so we skip the JSON content-type header for them.
+    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
     const response = await fetch(`${ENV.API_URL}${path}`, {
       method: options.method ?? 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+      body:
+        options.body === undefined
+          ? undefined
+          : isFormData
+            ? (options.body as FormData)
+            : JSON.stringify(options.body),
       signal,
     });
 

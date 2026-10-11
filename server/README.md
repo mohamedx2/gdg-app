@@ -34,6 +34,10 @@ its own JWTs — Supabase Auth is **not** used.
 | `organizer@epi.dev`| `core-team`  | Meriem Trabelsi  |
 | `member@epi.dev`   | `student`    | Mohamed Salah    |
 
+Every seeded member also gets a login: `"<member-id>@epi.dev"` (e.g.
+`usr-zeyneb@epi.dev`, `usr-amal@epi.dev`) with the same password. Members whose
+email was overridden above (Maram, Meriem) use the friendly address instead.
+
 ## Scripts
 
 | Script             | Does                                            |
@@ -68,6 +72,22 @@ Role gating: `core-team` and `super-admin` are organizers; organizer-only routes
 (admin CRUD, presence roster) are enforced by middleware. `super-admin` is
 required for changing member roles.
 
+## Media uploads
+
+`POST /media` (authenticated) accepts `multipart/form-data`:
+
+- `file` — the image/file (max **8 MB**). Required.
+- `folder` — optional logical group: `avatars`, `events`, `ideas`, `chat`,
+  `resources` or `misc` (default). Anything else falls back to `misc`.
+
+Files are stored in the public Supabase Storage bucket **`media`** under
+`<folder>/<member-id>/<timestamp>-<name>` and the response is
+`{ url, path }` where `url` is the public CDN link. The bucket is created
+automatically on boot (`ensureMediaBucket`), and `supabase/schema.sql` also
+declares it for fresh projects.
+
+The app calls this via `api.media.upload({ uri, name, type, folder })`.
+
 ## Layout
 
 ```
@@ -76,6 +96,7 @@ server/
   src/
     index.ts               # Express bootstrap, error handler
     env.ts, supabase.ts    # config + trusted DB client
+    storage.ts             # Supabase Storage bucket bootstrap + URLs
     routes/                # one router per resource (see routes/index.ts)
     http/                  # async wrapper, error types, query + db helpers
     auth/                  # password hashing, JWT, middleware, request context

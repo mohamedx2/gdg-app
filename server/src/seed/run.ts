@@ -22,10 +22,13 @@ import {
   seedTasks,
 } from './data';
 
+/** Shared seed password. Every member logs in with `<id>@epi.dev` + this password. */
+const SEED_PASSWORD = 'gdgepi2026';
+
 const DEMO_ACCOUNTS = [
-  { email: 'admin@epi.dev', password: 'gdgepi2026', memberId: 'usr-maram', role: 'super-admin', name: 'Maram Belgacem' },
-  { email: 'organizer@epi.dev', password: 'gdgepi2026', memberId: 'usr-meriem', role: 'core-team', name: 'Meriem Trabelsi' },
-  { email: 'member@epi.dev', password: 'gdgepi2026', memberId: 'usr-you', role: 'student', name: 'Mohamed Salah' },
+  { email: 'admin@epi.dev', memberId: 'usr-maram', role: 'super-admin', name: 'Maram Belgacem' },
+  { email: 'organizer@epi.dev', memberId: 'usr-meriem', role: 'core-team', name: 'Meriem Trabelsi' },
+  { email: 'member@epi.dev', memberId: 'usr-you', role: 'student', name: 'Mohamed Salah' },
 ];
 
 async function upsert(table: string, rows: Record<string, unknown>[], onConflict = 'id'): Promise<void> {
@@ -39,10 +42,12 @@ async function main(): Promise<void> {
   console.log(`Seeding ${env.supabaseUrl} ...`);
 
   // ── Members ───────────────────────────────────────────────────────────
+  const passwordHash = await hashPassword(SEED_PASSWORD);
   const archiveJoinedAt = '2025-09-01T09:00:00.000Z';
   const memberRows: Record<string, unknown>[] = seedMembers.map((member) => ({
     id: member.id,
     email: `${member.id}@epi.dev`,
+    password_hash: passwordHash,
     name: member.name,
     role: member.role,
     headline: member.headline,
@@ -65,6 +70,7 @@ async function main(): Promise<void> {
   memberRows.push({
     id: seedProfile.id,
     email: seedProfile.email,
+    password_hash: passwordHash,
     name: seedProfile.name,
     role: seedProfile.role,
     headline: seedProfile.headline,
@@ -91,7 +97,7 @@ async function main(): Promise<void> {
       .from('members')
       .update({
         email: account.email,
-        password_hash: await hashPassword(account.password),
+        password_hash: passwordHash,
         role: account.role,
         name: account.name,
         online: true,

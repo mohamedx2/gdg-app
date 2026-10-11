@@ -449,3 +449,18 @@ begin
   returning registered_count into new_count;
   return coalesce(new_count, 0);
 end $$;
+
+-- ============================================================================
+-- Storage: public bucket for user-uploaded media (avatars, event covers, ...)
+-- The API also creates this on boot; this keeps a fresh project in sync.
+-- ============================================================================
+insert into storage.buckets (id, name, public)
+values ('media', 'media', true)
+on conflict (id) do update set public = true;
+
+-- Public read of objects in the media bucket; writes are done by the API
+-- using the service_role key (which bypasses RLS), so no write policy needed.
+drop policy if exists "media public read" on storage.objects;
+create policy "media public read"
+  on storage.objects for select
+  using (bucket_id = 'media');

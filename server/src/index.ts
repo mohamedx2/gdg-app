@@ -4,6 +4,7 @@ import express, { type NextFunction, type Request, type Response } from 'express
 import { env } from './env';
 import { HttpError } from './http/errors';
 import { apiRouter } from './routes';
+import { ensureMediaBucket } from './storage';
 import { supabase } from './supabase';
 
 const app = express();
@@ -47,6 +48,9 @@ async function start(): Promise<void> {
   if (error && error.code !== 'PGRST116') {
     console.warn('[api] Supabase connectivity check failed:', error.message);
   }
+
+  // Make sure the public media bucket exists before accepting uploads.
+  await ensureMediaBucket();
 
   app.listen(env.port, () => {
     console.log(`[api] GDG EPI backend listening on http://localhost:${env.port}`);

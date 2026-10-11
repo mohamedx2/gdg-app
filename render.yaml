@@ -1,0 +1,23 @@
+# Render Blueprint — deploys the Express API in server/ as a Web Service.
+# New → Blueprint → pick this repo, or copy these settings into the existing service.
+services:
+  - type: web
+    name: gdg-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN_SECONDS
+        value: "2592000"
+      - key: CORS_ORIGIN
+        value: "*"

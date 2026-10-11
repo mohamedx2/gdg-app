@@ -123,4 +123,13 @@ export const httpApi: AppApi = {
     deleteAnnouncement: (id) =>
       request(`/admin/announcements/${encodeURIComponent(id)}`, { method: 'DELETE' }),
   },
+  media: {
+    upload: ({ uri, type, name, folder }) => {
+      const form = new FormData();
+      const filename = name ?? uri.split('/').pop() ?? 'upload.jpg';
+      form.append('file', { uri, name: filename, type: type ?? 'application/octet-stream' } as never);
+      if (folder) form.append('folder', folder);
+      return request('/media', { method: 'POST', body: form });
+    },
+  },
 };
