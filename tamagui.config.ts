@@ -1,33 +1,42 @@
 import { defaultConfig } from '@tamagui/config/v6';
 import { createFont, createTamagui } from 'tamagui';
 
-const heading = createFont({
+import { dark, light } from './src/theme/colors';
+import { radius } from './src/theme/radius';
+import { spacing } from './src/theme/spacing';
+
+const headingFont = createFont({
+  ...defaultConfig.fonts.heading,
   family: 'PlusJakartaSans_700Bold',
-  size: defaultConfig.fonts.heading.size,
-  lineHeight: defaultConfig.fonts.heading.lineHeight,
-  weight: defaultConfig.fonts.heading.weight,
-  letterSpacing: defaultConfig.fonts.heading.letterSpacing,
 });
 
-const body = createFont({
+const bodyFont = createFont({
+  ...defaultConfig.fonts.body,
   family: 'Inter_400Regular',
-  size: defaultConfig.fonts.body.size,
-  lineHeight: defaultConfig.fonts.body.lineHeight,
-  weight: defaultConfig.fonts.body.weight,
-  letterSpacing: defaultConfig.fonts.body.letterSpacing,
 });
 
-const mono = createFont({
+const monoFont = createFont({
+  ...defaultConfig.fonts.body,
   family: 'JetBrainsMono_500Medium',
-  size: defaultConfig.fonts.body.size,
-  lineHeight: defaultConfig.fonts.body.lineHeight,
-  weight: defaultConfig.fonts.body.weight,
-  letterSpacing: defaultConfig.fonts.body.letterSpacing,
 });
 
 export const tamaguiConfig = createTamagui({
   ...defaultConfig,
-  fonts: { heading, body, mono },
+  fonts: {
+    heading: headingFont,
+    body: bodyFont,
+    mono: monoFont,
+  },
+  tokens: {
+    ...defaultConfig.tokens,
+    space: { ...defaultConfig.tokens.space, ...spacing },
+    radius: { ...defaultConfig.tokens.radius, ...radius },
+  },
+  themes: {
+    ...defaultConfig.themes,
+    light: { ...defaultConfig.themes.light, ...light, color: light.onSurface },
+    dark: { ...defaultConfig.themes.dark, ...dark, color: dark.onSurface },
+  },
   settings: {
     ...defaultConfig.settings,
     onlyAllowShorthands: false,

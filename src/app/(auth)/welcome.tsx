@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
 import React, { memo, useRef, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { XStack, YStack } from 'tamagui';
 
 import { Avatar, AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -13,10 +14,11 @@ import { useUiConfig } from '@/hooks/use-content';
 import type { WelcomeSlide } from '@/constants/content';
 import { useTheme } from '@/theme';
 
-const GDG_DOTS = ['#EA4335', '#4285F4', '#FBBC04', '#34A853'];
+type StackStyle = React.ComponentProps<typeof YStack>['style'];
+
+const GDG_DOTS = ['#EA4335', '#4285F4', '#FBBC04', '#34A853'] as const;
 
 export default function WelcomeScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { continueAsGuest } = useAuth();
   const { welcomeSlides: SLIDES } = useUiConfig();
@@ -32,27 +34,20 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-        paddingTop: insets.top + 8,
-        paddingBottom: insets.bottom,
-      }}
-    >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999, backgroundColor: theme.colors.surfaceContainerHigh }}>
+    <YStack flex={1} backgroundColor="background" paddingTop={insets.top + 8} paddingBottom={insets.bottom}>
+      <XStack justifyContent="space-between" alignItems="center" paddingHorizontal={16}>
+        <XStack alignItems="center" gap={4} paddingHorizontal={10} paddingVertical={6} borderRadius={999} backgroundColor="surfaceContainerHigh">
           {GDG_DOTS.map((color, index) => (
-            <View key={index} style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: color }} />
+            <YStack key={index} width={8} height={8} borderRadius={4} backgroundColor={color} />
           ))}
           <Text variant="codeSm" weight="medium" style={{ marginLeft: 4 }}>
             EPI Sousse, Tunisia
           </Text>
-        </View>
+        </XStack>
         <Text variant="labelMd" muted onPress={() => goTo(SLIDES.length - 1)} accessibilityRole="button">
           Skip
         </Text>
-      </View>
+      </XStack>
 
       <ScrollView
         ref={scrollRef}
@@ -74,21 +69,19 @@ export default function WelcomeScreen() {
         ))}
       </ScrollView>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 8, marginVertical: 20 }}>
+      <XStack justifyContent="center" gap={8} marginVertical={20}>
         {SLIDES.map((_slide, index) => (
-          <View
+          <YStack
             key={index}
-            style={{
-              width: index === page ? 28 : 8,
-              height: 8,
-              borderRadius: 4,
-              backgroundColor: index === page ? theme.colors.primaryContainer : theme.colors.outlineVariant,
-            }}
+            width={index === page ? 28 : 8}
+            height={8}
+            borderRadius={4}
+            backgroundColor={index === page ? 'primaryContainer' : 'outlineVariant'}
           />
         ))}
-      </View>
+      </XStack>
 
-      <View style={{ paddingHorizontal: 16, gap: 10 }}>
+      <YStack paddingHorizontal={16} gap={10}>
         {!isLast ? (
           <Button label="Join GDG EPI" onPress={() => goTo(page + 1)} iconRight="arrowForward" />
         ) : (
@@ -102,16 +95,16 @@ export default function WelcomeScreen() {
           height={44}
           onPress={() => void continueAsGuest()}
         />
-        <View style={{ paddingTop: 12, alignItems: 'center', gap: 6 }}>
+        <YStack paddingTop={12} alignItems="center" gap={6}>
           <Text variant="bodySm" muted>
             Already a member?
           </Text>
           <Text variant="labelMd" primary onPress={() => router.push('/(auth)/login')} accessibilityRole="link">
             Sign in
           </Text>
-        </View>
-      </View>
-    </View>
+        </YStack>
+      </YStack>
+    </YStack>
   );
 }
 
@@ -124,31 +117,27 @@ const OnboardingSlide = memo(function OnboardingSlide({
   width: number;
   activeLang?: string;
 }) {
-  const theme = useTheme();
-
   return (
-    <View style={{ width, flexGrow: 1, paddingHorizontal: 16, gap: 16 }}>
+    <YStack width={width} flexGrow={1} paddingHorizontal={16} gap={16}>
       {activeLang ? <TerminalCard width={width - 32} /> : <MentorCard width={width - 32} />}
-      <View style={{ gap: 10, paddingHorizontal: 4 }}>
-        <View
-          style={{
-            alignSelf: 'flex-start',
-            paddingHorizontal: 10,
-            paddingVertical: 3,
-            borderRadius: 999,
-            backgroundColor: theme.colors[slide.badgeBg],
-          }}
+      <YStack gap={10} paddingHorizontal={4}>
+        <YStack
+          alignSelf="flex-start"
+          paddingHorizontal={10}
+          paddingVertical={3}
+          borderRadius={999}
+          backgroundColor={slide.badgeBg}
         >
           <Text variant="codeSm" color={slide.badgeText} weight="semibold" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             {slide.badge}
           </Text>
-        </View>
+        </YStack>
         <Text variant="headlineXlMobile" weight="bold">
           {slide.title}
         </Text>
         <Text variant="bodyLg">{slide.body}</Text>
-      </View>
-    </View>
+      </YStack>
+    </YStack>
   );
 });
 
@@ -183,34 +172,32 @@ lead.build_next_gen()
 }`;
 
   return (
-    <View style={{ backgroundColor: theme.colors.surfaceContainerLowest, borderRadius: theme.radius.card, padding: 16, gap: 12, shadowColor: theme.colors.inverseSurface, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 6, elevation: 1 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <View style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: theme.colors.surfaceContainer, alignItems: 'center', justifyContent: 'center' }}>
+    <YStack width={width} backgroundColor="surfaceContainerLowest" borderRadius="card" padding={16} gap={12} style={theme.shadow(1) as StackStyle}>
+      <XStack justifyContent="space-between" alignItems="center">
+        <XStack alignItems="center" gap={8}>
+          <YStack width={32} height={32} borderRadius={8} backgroundColor="surfaceContainer" alignItems="center" justifyContent="center">
             <Icon name="terminal" size={18} color="primary" />
-          </View>
-          <View>
+          </YStack>
+          <YStack>
             <Text variant="labelLg">GDG Interactive Console</Text>
             <Text variant="codeSm" muted>live_sandbox.sh</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: theme.colors.surfaceContainerLow, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 999 }}>
-          <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.tertiaryContainer }} />
+          </YStack>
+        </XStack>
+        <XStack alignItems="center" gap={6} backgroundColor="surfaceContainerLow" paddingHorizontal={8} paddingVertical={4} borderRadius={999}>
+          <YStack width={8} height={8} borderRadius={4} backgroundColor="tertiaryContainer" />
           <Text variant="codeSm" weight="semibold">Active Hub</Text>
-        </View>
-      </View>
+        </XStack>
+      </XStack>
 
-      <View style={{ flexDirection: 'row', gap: 6, backgroundColor: theme.colors.surfaceContainerLow, padding: 4, borderRadius: 8 }}>
+      <XStack gap={6} backgroundColor="surfaceContainerLow" padding={4} borderRadius={8}>
         {(['python', 'flutter', 'react'] as const).map((item) => (
-          <View
+          <YStack
             key={item}
-            style={{
-              flex: 1,
-              paddingVertical: 5,
-              borderRadius: 6,
-              backgroundColor: lang === item ? theme.colors.surfaceContainerLowest : 'transparent',
-              alignItems: 'center',
-            }}
+            flex={1}
+            paddingVertical={5}
+            borderRadius={6}
+            backgroundColor={lang === item ? 'surfaceContainerLowest' : 'transparent'}
+            alignItems="center"
           >
             <Text
               variant="codeSm"
@@ -222,21 +209,21 @@ lead.build_next_gen()
             >
               {item === 'python' ? 'Python' : item === 'flutter' ? 'Flutter' : 'React'}
             </Text>
-          </View>
+          </YStack>
         ))}
-      </View>
+      </XStack>
 
-      <View style={{ backgroundColor: theme.colors.terminal, borderRadius: 8, padding: 12, gap: 6 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 6, borderBottomWidth: 1, borderBottomColor: 'rgba(148,163,184,0.2)' }}>
+      <YStack backgroundColor="terminal" borderRadius={8} padding={12} gap={6}>
+        <XStack justifyContent="space-between" alignItems="center" paddingBottom={6} borderBottomWidth={1} borderBottomColor="rgba(148,163,184,0.2)">
           <Text variant="codeSm" style={{ color: '#94A3B8' }}>{runtimes[lang]}</Text>
           <Icon name="terminal" size={14} color="#94A3B8" />
-        </View>
+        </XStack>
         <Text variant="codeSm" family="mono" style={{ lineHeight: 20 }}>
           {snippet}
         </Text>
-      </View>
+      </YStack>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
+      <XStack alignItems="center" justifyContent="space-between" paddingTop={2}>
         <AvatarStack
           items={[
             { name: 'Mariem Ben Ali' },
@@ -248,55 +235,55 @@ lead.build_next_gen()
         <Text variant="labelMd" muted weight="medium">
           +420 builders in Sousse
         </Text>
-      </View>
-    </View>
+      </XStack>
+    </YStack>
   );
 }
 
 function MentorCard({ width }: { width: number }) {
   const theme = useTheme();
   return (
-    <View style={{ width, backgroundColor: theme.colors.surfaceContainerLowest, borderRadius: theme.radius.card, padding: 16, gap: 12, shadowColor: theme.colors.inverseSurface, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.08, shadowRadius: 6, elevation: 1 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <View style={{ width: 36, height: 36, borderRadius: 999, backgroundColor: theme.colors.surfaceContainer, alignItems: 'center', justifyContent: 'center' }}>
+    <YStack width={width} backgroundColor="surfaceContainerLowest" borderRadius="card" padding={16} gap={12} style={theme.shadow(1) as StackStyle}>
+      <XStack justifyContent="space-between" alignItems="center">
+        <XStack alignItems="center" gap={8}>
+          <YStack width={36} height={36} borderRadius={999} backgroundColor="surfaceContainer" alignItems="center" justifyContent="center">
             <Icon name="hub" size={20} color="primary" />
-          </View>
-          <View>
+          </YStack>
+          <YStack>
             <Text variant="labelLg">EPI Alumni & GDE Network</Text>
             <Text variant="codeSm" muted>Direct 1-on-1 Office Hours</Text>
-          </View>
-        </View>
+          </YStack>
+        </XStack>
         <Icon name="rocketLaunch" size={22} color="primary" />
-      </View>
-      <View style={{ gap: 8 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 10, borderRadius: 8, backgroundColor: theme.colors.surfaceContainerLow }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+      </XStack>
+      <YStack gap={8}>
+        <XStack alignItems="center" justifyContent="space-between" padding={10} borderRadius={8} backgroundColor="surfaceContainerLow">
+          <XStack alignItems="center" gap={10}>
             <Avatar name="Ahmed K." size={36} />
-            <View>
+            <YStack>
               <Text variant="labelLg">Ahmed K.</Text>
               <Text variant="bodySm" muted>Staff SRE • Ex-GDG EPI Lead</Text>
-            </View>
-          </View>
+            </YStack>
+          </XStack>
           <Text variant="codeSm" primary weight="medium">Cloud Track</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 10, borderRadius: 8, backgroundColor: theme.colors.surfaceContainerLow }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+        </XStack>
+        <XStack alignItems="center" justifyContent="space-between" padding={10} borderRadius={8} backgroundColor="surfaceContainerLow">
+          <XStack alignItems="center" gap={10}>
             <Avatar name="Salma M." size={36} />
-            <View>
+            <YStack>
               <Text variant="labelLg">Salma M.</Text>
               <Text variant="bodySm" muted>ML Researcher • Google Dev Expert</Text>
-            </View>
-          </View>
+            </YStack>
+          </XStack>
           <Text variant="codeSm" tertiary weight="medium">TensorFlow</Text>
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, padding: 10, borderRadius: 8, backgroundColor: theme.colors.surfaceContainerHigh }}>
+        </XStack>
+      </YStack>
+      <XStack alignItems="center" gap={8} padding={10} borderRadius={8} backgroundColor="surfaceContainerHigh">
         <Icon name="verifiedUser" size={18} color="primary" />
         <Text variant="bodySm" muted>
           Exclusive campus fast-track for Google Summer of Code.
         </Text>
-      </View>
-    </View>
+      </XStack>
+    </YStack>
   );
 }

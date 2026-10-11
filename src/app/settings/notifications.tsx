@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, Switch, View } from 'react-native';
+import { ScrollView, Switch } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
@@ -39,40 +40,46 @@ export default function NotificationSettingsScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" gap={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
         <Text variant="headlineMd" weight="bold">
           Notifications
         </Text>
-      </View>
+      </XStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : null}
 
       {isPending || !data ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           {[1, 2, 3, 4].map((key) => <Skeleton key={key} height={64} radius={12} />)}
-        </View>
+        </YStack>
       ) : (
         <ScrollView contentContainerStyle={{ padding: 16, gap: 8, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
           {PREFERENCES.map((item) => {
             const enabled = data[item.key];
             return (
-              <View
+              <XStack
                 key={item.key}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: theme.radius.card, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}
+                alignItems="center"
+                gap={12}
+                padding={14}
+                borderRadius="card"
+                backgroundColor="surfaceContainerLowest"
+                borderWidth={1}
+                borderColor="outlineVariant"
               >
-                <View style={{ width: 38, height: 38, borderRadius: 11, backgroundColor: enabled ? theme.colors.primaryFixed : theme.colors.surfaceContainerLow, alignItems: 'center', justifyContent: 'center' }}>
+                <YStack width={38} height={38} borderRadius={11} backgroundColor={enabled ? 'primaryFixed' : 'surfaceContainerLow'} alignItems="center" justifyContent="center">
                   <Icon name={item.icon} size={18} color={enabled ? 'primary' : 'secondary'} />
-                </View>
-                <View style={{ flex: 1, gap: 2 }}>
+                </YStack>
+                <YStack flex={1} gap={2}>
                   <Text variant="labelLg" weight="semibold">{item.label}</Text>
                   <Text variant="bodySm" muted>{item.description}</Text>
-                </View>
+                </YStack>
                 <Switch
                   value={enabled}
                   onValueChange={(value) => void onToggle(item.key, value)}
@@ -80,7 +87,7 @@ export default function NotificationSettingsScreen() {
                   trackColor={{ false: theme.colors.outlineVariant, true: theme.colors.primaryContainer }}
                   thumbColor={enabled ? theme.colors.primary : theme.colors.surfaceContainerHigh}
                 />
-              </View>
+              </XStack>
             );
           })}
           <Text variant="bodySm" muted style={{ paddingHorizontal: 4, paddingTop: 4 }}>
@@ -88,6 +95,6 @@ export default function NotificationSettingsScreen() {
           </Text>
         </ScrollView>
       )}
-    </View>
+    </YStack>
   );
 }

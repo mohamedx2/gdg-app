@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { KeyboardShift } from '@/components/animations';
 import { Button } from '@/components/ui/Button';
@@ -54,28 +55,28 @@ export default function LoginScreen() {
 
   return (
     <KeyboardShift style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 4, paddingHorizontal: 4 }}>
+      <YStack paddingTop={insets.top + 4} paddingHorizontal={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
-      </View>
+      </YStack>
       <ScrollView contentContainerStyle={{ padding: 20, gap: 20 }} keyboardShouldPersistTaps="handled">
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="headlineLg" weight="bold">
             Welcome back 👋
           </Text>
           <Text variant="bodyMd" muted>
             Sign in to your GDG EPI account to keep building.
           </Text>
-        </View>
+        </YStack>
 
         <GoogleButton onPress={onGoogle} disabled={submitting} />
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: theme.colors.outlineVariant }} />
+        <XStack alignItems="center" gap={12}>
+          <YStack flex={1} height={1} backgroundColor="outlineVariant" />
           <Text variant="codeSm" muted>OR</Text>
-          <View style={{ flex: 1, height: 1, backgroundColor: theme.colors.outlineVariant }} />
-        </View>
+          <YStack flex={1} height={1} backgroundColor="outlineVariant" />
+        </XStack>
 
-        <View style={{ gap: 14 }}>
+        <YStack gap={14}>
           <FormTextField<LoginValues>
             name="email"
             control={control}
@@ -95,27 +96,27 @@ export default function LoginScreen() {
             secureTextEntry
             autoCapitalize="none"
           />
-        </View>
+        </YStack>
 
         {errorText ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, padding: 10, borderRadius: 8, backgroundColor: theme.colors.errorContainer }}>
+          <XStack alignItems="center" gap={6} padding={10} borderRadius={8} backgroundColor="errorContainer">
             <Icon name="errorOutline" size={16} color="onErrorContainer" />
             <Text variant="bodySm" color="onErrorContainer" style={{ flex: 1 }}>
               {errorText}
             </Text>
-          </View>
+          </XStack>
         ) : null}
 
         <Button label="Sign in" onPress={onSubmit} loading={submitting} iconRight="arrowForward" />
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 4, paddingTop: 4 }}>
+        <XStack justifyContent="center" alignItems="center" gap={4} paddingTop={4}>
           <Text variant="bodySm" muted>
             New to the chapter?
           </Text>
           <Text variant="bodySm" primary onPress={() => router.replace('/(auth)/register')} accessibilityRole="link">
             Create an account
           </Text>
-        </View>
+        </XStack>
       </ScrollView>
     </KeyboardShift>
   );
@@ -123,19 +124,18 @@ export default function LoginScreen() {
 
 function GoogleButton({ onPress, disabled }: { onPress: () => void; disabled: boolean }) {
   const theme = useTheme();
-  const token = { r: '#EA4335', g: '#34A853', y: '#FBBC04', b: '#4285F4' };
   return (
     <PressableScale onPress={onPress} disabled={disabled} style={{ height: 48, borderRadius: 8, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ position: 'absolute', left: 16 }}>
-        <View style={{ flexDirection: 'row', gap: 2 }}>
-          <View style={{ width: 7, height: 7, borderRadius: 3.5, backgroundColor: token.b }} />
-          <View style={{ width: 7, height: 7, borderRadius: 3.5, backgroundColor: token.r }} />
-        </View>
-        <View style={{ flexDirection: 'row', gap: 2, marginTop: 2 }}>
-          <View style={{ width: 7, height: 7, borderRadius: 3.5, backgroundColor: token.y }} />
-          <View style={{ width: 7, height: 7, borderRadius: 3.5, backgroundColor: token.g }} />
-        </View>
-      </View>
+      <YStack position="absolute" left={16}>
+        <XStack gap={2}>
+          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#4285F4" />
+          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#EA4335" />
+        </XStack>
+        <XStack gap={2} marginTop={2}>
+          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#FBBC04" />
+          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#34A853" />
+        </XStack>
+      </YStack>
       <Text variant="labelLg" color="primary">
         Continue with Google
       </Text>

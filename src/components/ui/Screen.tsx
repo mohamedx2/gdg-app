@@ -1,13 +1,15 @@
 import React, { memo } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
-import { useTheme } from '@/theme';
 import type { ColorToken } from '@/theme/colors';
 import type { GradientToken } from '@/theme/gradients';
 import { Gradient } from './Gradient';
 import { IconButton } from './IconButton';
 import { Text } from './Text';
+
+type StackStyle = React.ComponentProps<typeof YStack>['style'];
 
 interface SectionHeaderProps {
   title: string;
@@ -29,24 +31,21 @@ export const SectionHeader = memo(function SectionHeader({
   accent,
   style,
 }: SectionHeaderProps) {
-  const theme = useTheme();
   return (
-    <View style={[{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }, style]}>
-      <View style={{ flex: 1, gap: 2 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          {accent ? (
-            <View style={{ width: 3, height: 15, borderRadius: 2, backgroundColor: theme.colors[accent] }} />
-          ) : null}
+    <XStack alignItems="flex-end" justifyContent="space-between" gap={12} style={style as StackStyle}>
+      <YStack flex={1} gap={2}>
+        <XStack alignItems="center" gap={8}>
+          {accent ? <YStack width={3} height={15} borderRadius={2} backgroundColor={accent} /> : null}
           <Text variant="titleMd" weight="bold">
             {title}
           </Text>
-        </View>
+        </XStack>
         {subtitle ? (
           <Text variant="bodySm" muted>
             {subtitle}
           </Text>
         ) : null}
-      </View>
+      </YStack>
       {actionLabel && onAction ? (
         <Text
           variant="labelMd"
@@ -59,7 +58,7 @@ export const SectionHeader = memo(function SectionHeader({
           {actionLabel}
         </Text>
       ) : null}
-    </View>
+    </XStack>
   );
 });
 
@@ -85,10 +84,10 @@ export const ScreenHeading = memo(function ScreenHeading({
   style,
 }: ScreenHeadingProps) {
   return (
-    <View style={[{ gap: 8 }, style]}>
+    <YStack gap={8} style={style as StackStyle}>
       {kicker ? <Gradient token={gradient} style={{ width: 34, height: 4, borderRadius: 2 }} /> : null}
-      <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
-        <View style={{ flex: 1, gap: 2 }}>
+      <XStack alignItems="flex-end" justifyContent="space-between" gap={12}>
+        <YStack flex={1} gap={2}>
           <Text variant="headlineLg" family="heading">
             {title}
           </Text>
@@ -97,10 +96,10 @@ export const ScreenHeading = memo(function ScreenHeading({
               {subtitle}
             </Text>
           ) : null}
-        </View>
+        </YStack>
         {right}
-      </View>
-    </View>
+      </XStack>
+    </YStack>
   );
 });
 
@@ -124,39 +123,37 @@ export const Screen = memo(function Screen({
   background = 'background',
   style,
 }: ScreenProps) {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[{ flex: 1, backgroundColor: theme.colors[background] }, style]}>
+    <YStack flex={1} backgroundColor={background} style={style as StackStyle}>
       {header ? (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 4,
-            paddingTop: insets.top,
-            paddingBottom: 8,
-            paddingHorizontal: 8,
-            backgroundColor: theme.colors[background],
-            borderBottomWidth: 1,
-            borderBottomColor: theme.colors.outlineVariant,
-          }}
+        <XStack
+          alignItems="center"
+          gap={4}
+          paddingTop={insets.top}
+          paddingBottom={8}
+          paddingHorizontal={8}
+          backgroundColor={background}
+          borderBottomWidth={1}
+          borderBottomColor="outlineVariant"
         >
           {header.onBack ? (
             <IconButton name="arrowBack" onPress={header.onBack} accessibilityLabel="Go back" color="onSurface" />
           ) : null}
-          <View style={{ flex: 1 }}>
+          <YStack flex={1}>
             {header.title ? (
               <Text variant="titleMd" weight="bold" numberOfLines={1}>
                 {header.title}
               </Text>
             ) : null}
-          </View>
+          </YStack>
           {header.right}
-        </View>
+        </XStack>
       ) : null}
-      <View style={{ flex: 1, paddingHorizontal: padded ? 16 : 0 }}>{children}</View>
-    </View>
+      <YStack flex={1} paddingHorizontal={padded ? 16 : 0}>
+        {children}
+      </YStack>
+    </YStack>
   );
 });

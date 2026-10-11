@@ -1,10 +1,13 @@
 import React, { memo } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
+import { YStack } from 'tamagui';
 
 import { useTheme } from '@/theme';
 import type { ColorToken } from '@/theme/colors';
 import type { ShadowLevel } from '@/theme/shadows';
 import { PressableScale } from './PressableScale';
+
+type StackStyle = React.ComponentProps<typeof YStack>['style'];
 
 interface SurfaceProps {
   children?: React.ReactNode;
@@ -26,20 +29,15 @@ export const Surface = memo(function Surface({
   const theme = useTheme();
   const resolvedRadius = radius === 'card' ? theme.radius.card : radius;
   return (
-    <View
-      style={[
-        {
-          backgroundColor: theme.colors[surface],
-          borderRadius: resolvedRadius,
-          borderWidth: border ? 1 : 0,
-          borderColor: theme.colors.outlineVariant,
-        },
-        shadow === 0 ? {} : theme.shadow(shadow === 'card' ? 1 : shadow),
-        style,
-      ]}
+    <YStack
+      backgroundColor={surface}
+      borderRadius={resolvedRadius}
+      borderWidth={border ? 1 : 0}
+      borderColor="outlineVariant"
+      style={[shadow === 0 ? {} : theme.shadow(shadow === 'card' ? 1 : shadow), style] as StackStyle}
     >
       {children}
-    </View>
+    </YStack>
   );
 });
 

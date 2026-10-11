@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { KeyboardShift } from '@/components/animations';
 import { Button } from '@/components/ui/Button';
@@ -52,20 +53,20 @@ export default function RegisterScreen() {
 
   return (
     <KeyboardShift style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 4, paddingHorizontal: 4 }}>
+      <YStack paddingTop={insets.top + 4} paddingHorizontal={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
-      </View>
+      </YStack>
       <ScrollView contentContainerStyle={{ padding: 20, gap: 18 }} keyboardShouldPersistTaps="handled">
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="headlineLg" weight="bold">
             Join the chapter 🚀
           </Text>
           <Text variant="bodyMd" muted>
             Create your builder profile in under a minute.
           </Text>
-        </View>
+        </YStack>
 
-        <View style={{ gap: 14 }}>
+        <YStack gap={14}>
           <FormTextField<RegisterValues>
             name="name"
             control={control}
@@ -102,7 +103,7 @@ export default function RegisterScreen() {
             secureTextEntry
             autoCapitalize="none"
           />
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+          <XStack gap={10} alignItems="flex-start">
             <PressableScale
               onPress={() => {
                 setTerms(!terms);
@@ -127,36 +128,36 @@ export default function RegisterScreen() {
             <Text variant="bodySm" style={{ flex: 1 }}>
               I agree to the <Text variant="bodySm" primary>community guidelines</Text> and the code of conduct.
             </Text>
-          </View>
+          </XStack>
           {agreeError ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <XStack alignItems="center" gap={4}>
               <Icon name="errorOutline" size={14} color="error" />
               <Text variant="bodySm" color="error">
                 You must accept the community guidelines
               </Text>
-            </View>
+            </XStack>
           ) : null}
-        </View>
+        </YStack>
 
         {errorText ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, padding: 10, borderRadius: 8, backgroundColor: theme.colors.errorContainer }}>
+          <XStack alignItems="center" gap={6} padding={10} borderRadius={8} backgroundColor="errorContainer">
             <Icon name="errorOutline" size={16} color="onErrorContainer" />
             <Text variant="bodySm" color="onErrorContainer" style={{ flex: 1 }}>
               {errorText}
             </Text>
-          </View>
+          </XStack>
         ) : null}
 
         <Button label="Create account" onPress={onPressCreate} loading={submitting} iconRight="arrowForward" />
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
+        <XStack justifyContent="center" alignItems="center" gap={4}>
           <Text variant="bodySm" muted>
             Already have an account?
           </Text>
           <Text variant="bodySm" primary onPress={() => router.replace('/(auth)/login')} accessibilityRole="link">
             Sign in
           </Text>
-        </View>
+        </XStack>
       </ScrollView>
     </KeyboardShift>
   );
