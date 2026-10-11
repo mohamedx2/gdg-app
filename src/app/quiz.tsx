@@ -1,12 +1,11 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Share } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
 import { Button } from '@/components/ui/Button';
-import { Pill } from '@/components/ui/Chip';
-import { Gradient } from '@/components/ui/Gradient';
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -116,26 +115,54 @@ function Question({
         contentContainerStyle={{ padding: 16, paddingBottom: 120, gap: 20 }}
         showsVerticalScrollIndicator={false}
       >
-        <StreakBanner quiz={quiz} />
+        <XStack alignItems="center" justifyContent="space-between">
+          <XStack alignItems="center" gap={6} paddingHorizontal={12} paddingVertical={6} borderRadius="full" backgroundColor="secondaryContainer">
+            <Icon name="fire" size={16} color="warning" />
+            <Text variant="codeSm" weight="bold" color="onSecondaryContainer">
+              {quiz.streak} DAYS STREAK
+            </Text>
+          </XStack>
+          <Text variant="codeSm" weight="bold" primary>
+            {Math.round((Object.keys(answers).length / quiz.questions.length) * 100)}% Done
+          </Text>
+        </XStack>
 
         <YStack gap={8}>
-          <XStack alignItems="center" justifyContent="space-between">
-            <Text variant="labelMd" weight="semibold" muted>
-              Question {index + 1} of {quiz.questions.length}
-            </Text>
-            <Pill label={track.label} color={track.color} />
+          <Text variant="codeSm" weight="bold" muted>
+            QUESTION {index + 1} OF {quiz.questions.length}
+          </Text>
+          <XStack gap={6}>
+            {quiz.questions.map((item, itemIndex) => (
+              <YStack
+                key={item.id}
+                flex={1}
+                height={6}
+                borderRadius={3}
+                backgroundColor={itemIndex === index ? 'primary' : answers[item.id] !== undefined ? 'tertiary' : 'surfaceContainerHigh'}
+              />
+            ))}
           </XStack>
-          <YStack height={6} borderRadius={3} backgroundColor="surfaceContainerHigh" overflow="hidden">
-            <YStack width={`${((index + 1) / quiz.questions.length) * 100}%`} height="100%" borderRadius={3} backgroundColor="primary" />
-          </YStack>
         </YStack>
 
         <Reveal key={question.id}>
           <YStack gap={14}>
-            <Text variant="titleLg" weight="bold">
-              {question.prompt}
-            </Text>
-            <YStack gap={10}>
+            <YStack padding={16} gap={14} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+              <XStack alignItems="center" justifyContent="space-between" gap={8}>
+                <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="surfaceContainerHigh" flexShrink={1}>
+                  <YStack width={7} height={7} borderRadius={4} backgroundColor={track.color} />
+                  <Text variant="codeSm" weight="bold" numberOfLines={1}>
+                    {track.label.toUpperCase()} • {question.difficulty.toUpperCase()}
+                  </Text>
+                </XStack>
+                <Text variant="codeSm" weight="bold" primary>
+                  +{Math.round(quiz.reward / quiz.questions.length)} XP
+                </Text>
+              </XStack>
+              <Text variant="titleLg" weight="bold">
+                {question.prompt}
+              </Text>
+            </YStack>
+            <XStack flexWrap="wrap" gap={10}>
               {question.options.map((option, optionIndex) => {
                 const active = selected === optionIndex;
                 return (
@@ -143,36 +170,37 @@ function Question({
                     key={option}
                     onPress={() => onSelect(question.id, optionIndex)}
                     accessibilityLabel={option}
+                    accessibilityRole="radio"
+                    selected={active}
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 12,
+                      flexBasis: '47%',
+                      flexGrow: 1,
+                      minHeight: 110,
                       padding: 14,
-                      borderRadius: theme.radius.base,
-                      borderWidth: 1.5,
-                      borderColor: active ? theme.colors.primary : theme.colors.outlineVariant,
-                      backgroundColor: active ? theme.colors.primaryFixed : theme.colors.surfaceContainerLowest,
+                      gap: 14,
+                      justifyContent: 'space-between',
+                      borderRadius: 20,
+                      backgroundColor: active ? theme.colors.primary : theme.colors.surfaceContainerLow,
                     }}
                   >
-                    <YStack
-                      width={28}
-                      height={28}
-                      borderRadius={8}
-                      alignItems="center"
-                      justifyContent="center"
-                      backgroundColor={active ? 'primary' : 'surfaceContainerHigh'}
-                    >
-                      <Text variant="labelMd" weight="bold" style={{ color: active ? theme.colors.onPrimary : theme.colors.onSurfaceVariant }}>
-                        {String.fromCharCode(65 + optionIndex)}
-                      </Text>
-                    </YStack>
-                    <Text variant="bodyMd" weight={active ? 'semibold' : 'regular'} style={{ flex: 1 }}>
+                    <XStack alignItems="center" justifyContent="space-between">
+                      <YStack width={30} height={30} borderRadius={15} alignItems="center" justifyContent="center" backgroundColor={active ? 'surfaceContainerLowest' : 'surfaceContainerHigh'}>
+                        {active ? (
+                          <Icon name="check" size={18} color="primary" />
+                        ) : (
+                          <Text variant="codeSm" weight="bold" muted>
+                            {String.fromCharCode(65 + optionIndex)}
+                          </Text>
+                        )}
+                      </YStack>
+                    </XStack>
+                    <Text variant="labelLg" weight="bold" color={active ? 'onPrimary' : 'onSurface'}>
                       {option}
                     </Text>
                   </PressableScale>
                 );
               })}
-            </YStack>
+            </XStack>
           </YStack>
         </Reveal>
       </ScrollView>
@@ -192,26 +220,6 @@ function Question({
   );
 }
 
-function StreakBanner({ quiz }: { quiz: DailyQuiz }) {
-  return (
-    <YStack borderRadius={14} overflow="hidden">
-      <Gradient token="sunrise" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-        <XStack alignItems="center" gap={12} padding={14}>
-          <Icon name="fire" size={26} color="#FFFFFF" />
-          <YStack flex={1}>
-            <Text variant="titleSm" weight="bold" style={{ color: '#FFFFFF' }}>
-              {quiz.streak}-day streak
-            </Text>
-            <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              5 questions · +{quiz.reward} XP for finishing today
-            </Text>
-          </YStack>
-        </XStack>
-      </Gradient>
-    </YStack>
-  );
-}
-
 function Results({ quiz, result, onReplay }: { quiz: DailyQuiz; result: DailyQuizResult; onReplay: () => void }) {
   const perfect = result.score === result.total;
   const byId = new Map(quiz.questions.map((question) => [question.id, question]));
@@ -223,22 +231,39 @@ function Results({ quiz, result, onReplay }: { quiz: DailyQuiz; result: DailyQui
       showsVerticalScrollIndicator={false}
     >
       <Reveal>
-        <YStack borderRadius="card" overflow="hidden">
-          <Gradient token={perfect ? 'aurora' : 'brand'} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-            <YStack padding={20} alignItems="center" gap={6}>
-              <Icon name={perfect ? 'emojiEvents' : 'insights'} size={40} color="#FFFFFF" />
-              <Text variant="headlineMd" weight="bold" style={{ color: '#FFFFFF' }}>
-                {result.score} / {result.total}
-              </Text>
-              <Text variant="bodyMd" style={{ color: 'rgba(255,255,255,0.92)', textAlign: 'center' }}>
-                {perfect ? 'Perfect score — Quiz Whiz unlocked!' : result.reward > 0 ? 'Nice work today.' : 'Practice run — no XP this time.'}
-              </Text>
-              <XStack gap={10} marginTop={8}>
-                <ResultStat label="XP earned" value={result.reward > 0 ? `+${result.reward}` : '—'} />
-                <ResultStat label="Streak" value={`${result.streak}d`} />
+        <YStack padding={16} gap={14} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+          <YStack gap={2}>
+            <Text variant="codeSm" weight="bold" primary>
+              ARENA MILESTONE
+            </Text>
+            <Text variant="headlineSm" weight="bold">
+              Quiz Complete Results
+            </Text>
+          </YStack>
+          <XStack alignItems="center" gap={16} padding={14} borderRadius={18} backgroundColor="surfaceContainerLow">
+            <ScoreRing score={result.score} total={result.total} />
+            <YStack flex={1} gap={8}>
+              <XStack alignSelf="flex-start" alignItems="center" gap={4} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="primaryFixed">
+                <Icon name="bolt" size={13} color="onPrimaryFixedVariant" />
+                <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+                  {result.reward > 0 ? `+${result.reward} XP Earned` : 'Practice run'}
+                </Text>
               </XStack>
+              <XStack alignItems="center" gap={6}>
+                <Icon name="fire" size={16} color="warning" />
+                <Text variant="labelLg" weight="bold" style={{ flex: 1 }}>
+                  Streak: {result.streak} days
+                </Text>
+              </XStack>
+              <Text variant="bodySm" muted>
+                {perfect ? 'Perfect score — Quiz Whiz unlocked!' : 'Review the explanations below.'}
+              </Text>
             </YStack>
-          </Gradient>
+          </XStack>
+          <XStack gap={10}>
+            <Button label="Share result" variant="container" fullWidth={false} style={{ flex: 1 }} onPress={() => void Share.share({ message: `I scored ${result.score}/${result.total} on today's GDG EPI dev quiz — ${result.streak}-day streak!` }).catch(() => undefined)} />
+            <Button label="Keep grinding" fullWidth={false} style={{ flex: 1 }} onPress={() => router.replace('/?space=arena&segment=quests' as never)} />
+          </XStack>
         </YStack>
       </Reveal>
 
@@ -286,14 +311,33 @@ function Results({ quiz, result, onReplay }: { quiz: DailyQuiz; result: DailyQui
   );
 }
 
-function ResultStat({ label, value }: { label: string; value: string }) {
+function ScoreRing({ score, total }: { score: number; total: number }) {
+  const theme = useTheme();
+  const size = 96;
+  const stroke = 10;
+  const r = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * r;
+  const share = total > 0 ? score / total : 0;
   return (
-    <YStack paddingHorizontal={16} paddingVertical={10} borderRadius={10} backgroundColor="rgba(255,255,255,0.16)" alignItems="center" gap={2}>
-      <Text variant="titleMd" weight="bold" style={{ color: '#FFFFFF' }}>
-        {value}
+    <YStack width={size} height={size} alignItems="center" justifyContent="center">
+      <Svg width={size} height={size} style={{ position: 'absolute', transform: [{ rotate: '-90deg' }] }}>
+        <Circle cx={size / 2} cy={size / 2} r={r} stroke={theme.colors.surfaceContainerHigh} strokeWidth={stroke} fill="none" />
+        <Circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          stroke={theme.colors.tertiary}
+          strokeWidth={stroke}
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray={`${share * circumference} ${circumference}`}
+        />
+      </Svg>
+      <Text variant="titleMd" weight="bold" style={{ fontFamily: theme.typography.codeMd.fontFamily }}>
+        {score}/{total}
       </Text>
-      <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
-        {label}
+      <Text variant="codeSm" muted>
+        {Math.round(share * 100)}%
       </Text>
     </YStack>
   );
