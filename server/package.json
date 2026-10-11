@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "seed": "tsx src/seed/run.ts",
+    "seed:events": "tsx src/seed/events.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

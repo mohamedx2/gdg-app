@@ -2042,3 +2042,31 @@ export const EVENT_CATEGORIES_LIST: EventCategory[] = [
   'meetup',
   'career',
 ];
+
+/** Next-season titles for activities whose name carries the edition/year. */
+const NEXT_SEASON_TITLES: Record<string, string> = {
+  'DevFest Sousse 2025': 'DevFest Sousse 2026',
+  'Ideathon 4.0': 'Ideathon 5.0',
+  'SnowStack V2: Gemini Workshop': 'SnowStack V3: Gemini Workshop',
+  'SnowStack V2: Python Workshop': 'SnowStack V3: Python Workshop',
+};
+
+function plusOneYear(iso: string): string {
+  const date = new Date(iso);
+  date.setUTCFullYear(date.getUTCFullYear() + 1);
+  return date.toISOString();
+}
+
+/**
+ * 2026/27 plan: the 2025/26 activity sheet repeated one year later, so the
+ * app has upcoming events. Dates are provisional — edit them in Supabase.
+ */
+export const seedUpcomingEvents: GdgEvent[] = seedEvents.map((event) => ({
+  ...event,
+  id: `${event.id}-2627`,
+  title: NEXT_SEASON_TITLES[event.title] ?? event.title,
+  startsAt: plusOneYear(event.startsAt),
+  endsAt: plusOneYear(event.endsAt),
+  registeredCount: 0,
+  organizerNote: 'Season 2026/27 — date to be confirmed by the core team.',
+}));

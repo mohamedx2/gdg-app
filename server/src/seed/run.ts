@@ -20,8 +20,10 @@ import {
   seedResources,
   seedSquads,
   seedTasks,
+  seedUpcomingEvents,
 } from './data';
 import { buildMemoryRows, seedAppConfig } from './content';
+import { toEventRow } from './event-rows';
 
 /** Shared seed password. Every member logs in with `<id>@epi.dev` + this password. */
 const SEED_PASSWORD = 'gdgepi2026';
@@ -141,30 +143,7 @@ async function main(): Promise<void> {
   // ── Content ───────────────────────────────────────────────────────────
   await upsert(
     'events',
-    seedEvents.map((event) => ({
-      id: event.id,
-      title: event.title,
-      summary: event.summary,
-      description: event.description,
-      category: event.category,
-      track: event.track,
-      starts_at: event.startsAt,
-      ends_at: event.endsAt,
-      duration_label: event.durationLabel,
-      location: event.location,
-      venue: event.venue,
-      capacity: event.capacity,
-      registered_count: event.registeredCount,
-      cover_image: event.coverImage,
-      speaker: event.speaker ?? null,
-      featured: event.featured,
-      flagship: event.flagship,
-      prize: event.prize ?? null,
-      highlights: event.highlights ?? [],
-      perks: event.perks ?? null,
-      agenda: event.agenda ?? null,
-      organizer_note: event.organizerNote ?? null,
-    })),
+    [...seedEvents, ...seedUpcomingEvents].map(toEventRow),
   );
 
   await upsert(
