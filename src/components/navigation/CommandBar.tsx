@@ -53,10 +53,15 @@ export const CommandBar = memo(function CommandBar({ onOpen, actions = [] }: Com
           borderRadius: 999,
         }}
       >
-        <Icon name="search" size={18} color="onSurfaceVariant" />
-        <Text variant="bodyMd" muted style={{ flex: 1 }} numberOfLines={1}>
-          Jump to…
+        <Icon name="terminal" size={18} color="onSurfaceVariant" />
+        <Text variant="codeSm" muted style={{ flex: 1 }} numberOfLines={1}>
+          gdg://command search…
         </Text>
+        <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, backgroundColor: theme.colors.surfaceContainerHigh }}>
+          <Text variant="codeSm" weight="bold" muted>
+            ⌘K
+          </Text>
+        </View>
       </PressableScale>
       {actions.map((action) => (
         <PressableScale

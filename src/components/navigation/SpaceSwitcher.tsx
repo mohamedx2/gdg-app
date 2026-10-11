@@ -50,12 +50,10 @@ export const SpaceSwitcher = memo(function SpaceSwitcher({
     transform: [{ translateX: translateX.value }],
   }));
 
-  const containerBg = theme.isDark
-    ? theme.colors.surfaceContainerHigh
-    : theme.colors.inverseSurface;
-  const indicatorBg = theme.isDark ? theme.colors.primaryContainer : theme.colors.inverseOnSurface;
-  const activeText = theme.isDark ? theme.colors.onPrimaryContainer : theme.colors.inverseSurface;
-  const inactiveText = theme.isDark ? theme.colors.onSurfaceVariant : theme.colors.inverseOnSurface;
+  const containerBg = theme.isDark ? theme.colors.surfaceContainerHigh : theme.colors.surfaceContainerLowest;
+  const indicatorBg = theme.isDark ? theme.colors.primaryContainer : theme.colors.inverseSurface;
+  const activeText = theme.isDark ? theme.colors.onPrimaryContainer : theme.colors.inverseOnSurface;
+  const inactiveText = theme.colors.onSurfaceVariant;
 
   return (
     <View

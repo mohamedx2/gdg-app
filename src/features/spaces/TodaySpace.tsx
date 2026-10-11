@@ -1,36 +1,56 @@
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import React from 'react';
-import { ScrollView } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { XStack, YStack } from 'tamagui';
+import { Image } from "expo-image";
+import { router } from "expo-router";
+import React from "react";
+import { ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { XStack, YStack } from "tamagui";
 
-import { AnimatedNumber, Stagger } from '@/components/animations';
-import { Avatar } from '@/components/ui/Avatar';
-import { Gradient } from '@/components/ui/Gradient';
-import { Icon, type IconName } from '@/components/ui/Icon';
-import { IconButton } from '@/components/ui/IconButton';
-import { Orbs } from '@/components/ui/Orbs';
-import { PressableScale } from '@/components/ui/PressableScale';
-import { Reveal } from '@/components/ui/Reveal';
-import { Skeleton } from '@/components/ui/Skeleton';
-import { Text } from '@/components/ui/Text';
-import { TRACKS } from '@/constants/taxonomy';
-import { useAuth } from '@/features/auth/auth-provider';
-import { useMemories } from '@/hooks/use-content';
-import { useAchievementSummary, useAnnouncements } from '@/hooks/use-community';
-import { useAttendance, useEvents, useUpcomingEvents } from '@/hooks/use-events';
-import { useRecommendedResources, useResourceProgress } from '@/hooks/use-resources';
-import { ACCESS_LEVELS } from '@/lib/auth/permissions';
-import { useTheme } from '@/theme';
-import type { ColorToken } from '@/theme/colors';
-import type { Announcement, GdgEvent, Resource } from '@/types';
-import { formatCountdown, formatTime, parseDate } from '@/utils/date';
+import { AnimatedNumber, Stagger } from "@/components/animations";
+import { Avatar } from "@/components/ui/Avatar";
+import { Gradient } from "@/components/ui/Gradient";
+import { Icon, type IconName } from "@/components/ui/Icon";
+import { IconButton } from "@/components/ui/IconButton";
+import { Orbs } from "@/components/ui/Orbs";
+import { PressableScale } from "@/components/ui/PressableScale";
+import { Reveal } from "@/components/ui/Reveal";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { Text } from "@/components/ui/Text";
+import { TRACKS } from "@/constants/taxonomy";
+import { useAuth } from "@/features/auth/auth-provider";
+import { useMemories } from "@/hooks/use-content";
+import { useAchievementSummary, useAnnouncements } from "@/hooks/use-community";
+import {
+  useAttendance,
+  useEvents,
+  useUpcomingEvents,
+} from "@/hooks/use-events";
+import {
+  useRecommendedResources,
+  useResourceProgress,
+} from "@/hooks/use-resources";
+import { ACCESS_LEVELS } from "@/lib/auth/permissions";
+import { useTheme } from "@/theme";
+import type { ColorToken } from "@/theme/colors";
+import type { Announcement, GdgEvent, Resource } from "@/types";
+import { formatCountdown, formatTime, parseDate } from "@/utils/date";
 
-import { SPACE_BOTTOM_PADDING } from './SpaceScaffold';
+import { SPACE_BOTTOM_PADDING } from "./SpaceScaffold";
 
-const DAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-const MONTH = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const DAY = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const MONTH = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
 
 /** "FRI 28 MAR · 2025" in mono, as on the Stitch greeting row. */
 function stamp(date: Date): string {
@@ -41,8 +61,8 @@ function stamp(date: Date): string {
 function countdown(startsAt: string, endsAt: string): string {
   const now = Date.now();
   const start = parseDate(startsAt).getTime();
-  if (parseDate(endsAt).getTime() < now) return 'ENDED';
-  if (start <= now) return 'LIVE';
+  if (parseDate(endsAt).getTime() < now) return "ENDED";
+  if (start <= now) return "LIVE";
   const minutes = Math.round((start - now) / 60_000);
   if (minutes < 60) return `IN ${minutes}M`;
   const hours = Math.floor(minutes / 60);
@@ -55,12 +75,13 @@ export function TodaySpace() {
   const insets = useSafeAreaInsets();
   const { data: announcements } = useAnnouncements();
   const { data: upcoming } = useUpcomingEvents(6);
-  const { data: recent } = useEvents({ scope: 'past', pageSize: 6 });
+  const { data: recent } = useEvents({ scope: "past", pageSize: 6 });
   const { data: summary } = useAchievementSummary();
   const { data: resources } = useRecommendedResources(4);
   const memories = useMemories();
 
-  const pinned = announcements?.find((item) => item.pinned) ?? announcements?.[0];
+  const pinned =
+    announcements?.find((item) => item.pinned) ?? announcements?.[0];
   const offSeason = upcoming !== undefined && upcoming.length === 0;
   const showcase = offSeason ? recent?.data : upcoming;
   const featured = showcase?.find((item) => item.featured) ?? showcase?.[0];
@@ -69,7 +90,11 @@ export function TodaySpace() {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingTop: 4, paddingBottom: SPACE_BOTTOM_PADDING + insets.bottom, gap: 24 }}
+      contentContainerStyle={{
+        paddingTop: 4,
+        paddingBottom: SPACE_BOTTOM_PADDING + insets.bottom,
+        gap: 24,
+      }}
     >
       <Reveal>
         <Greeting />
@@ -117,20 +142,26 @@ export function TodaySpace() {
 
       <Reveal delay={150}>
         <Section
-          title={offSeason ? 'Latest Activities' : 'Happening This Week'}
+          title={offSeason ? "Latest Activities" : "Happening This Week"}
           count={week.length || undefined}
           trailing="VIEW SCHEDULE"
-          onTrailing={() => router.push('/(spaces)?space=explore')}
+          onTrailing={() => router.push("/(spaces)?space=explore")}
           bleed
         >
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+          >
             {showcase
               ? week.map((event, index) => (
                   <Stagger key={event.id} index={index} direction="right">
                     <WeekCard event={event} />
                   </Stagger>
                 ))
-              : [1, 2].map((key) => <Skeleton key={key} width={240} height={150} radius={18} />)}
+              : [1, 2].map((key) => (
+                  <Skeleton key={key} width={240} height={150} radius={18} />
+                ))}
           </ScrollView>
         </Section>
       </Reveal>
@@ -140,12 +171,20 @@ export function TodaySpace() {
           <Section
             title="Active Learning Tracks"
             trailing={resources ? `${resources.length} PICKED` : undefined}
-            onTrailing={() => router.push('/(spaces)?space=explore&segment=learn' as never)}
+            onTrailing={() =>
+              router.push("/(spaces)?space=explore&segment=learn" as never)
+            }
           >
             <YStack gap={12}>
               {resources
-                ? resources.slice(0, 2).map((resource) => <TrackRow key={resource.id} resource={resource} />)
-                : [1, 2].map((key) => <Skeleton key={key} height={84} radius={18} />)}
+                ? resources
+                    .slice(0, 2)
+                    .map((resource) => (
+                      <TrackRow key={resource.id} resource={resource} />
+                    ))
+                : [1, 2].map((key) => (
+                    <Skeleton key={key} height={84} radius={18} />
+                  ))}
             </YStack>
           </Section>
         </Reveal>
@@ -157,12 +196,20 @@ export function TodaySpace() {
             title="Campus Memories"
             titleIcon="autoAwesome"
             trailing="#GDGEPI"
-            onTrailing={() => router.push('/memories' as never)}
+            onTrailing={() => router.push("/memories" as never)}
             bleed
           >
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+            >
               {memories.slice(0, 6).map((memory) => (
-                <MemoryCard key={memory.id} source={memory.source} caption={memory.caption} />
+                <MemoryCard
+                  key={memory.id}
+                  source={memory.source}
+                  caption={memory.caption}
+                />
               ))}
             </ScrollView>
           </Section>
@@ -178,42 +225,75 @@ function Greeting() {
   const role = ACCESS_LEVELS[access];
   return (
     <XStack paddingHorizontal={16} alignItems="center" gap={12}>
-      <YStack>
-        <Avatar uri={user?.avatar} name={user?.name ?? 'Guest'} size={48} />
-        <YStack
-          position="absolute"
-          right={-1}
-          bottom={-1}
-          width={14}
-          height={14}
-          borderRadius={7}
-          backgroundColor="live"
-          borderWidth={2}
-          borderColor="background"
-        />
+      <YStack width={48} height={48}>
+        <Avatar uri={user?.avatar} name={user?.name ?? "Guest"} size={48} />
+        {isGuest ? null : (
+          <YStack
+            position="absolute"
+            right={-1}
+            bottom={-1}
+            width={14}
+            height={14}
+            borderRadius={7}
+            backgroundColor="live"
+            borderWidth={2}
+            borderColor="background"
+          />
+        )}
       </YStack>
       <YStack flex={1} gap={2}>
         <XStack alignItems="center" gap={8}>
-          <Text variant="titleLg" weight="bold" numberOfLines={1} style={{ flexShrink: 1 }}>
-            {isGuest ? 'Welcome, guest' : user?.name ?? 'Builder'}
+          <Text
+            variant="titleLg"
+            weight="bold"
+            numberOfLines={1}
+            style={{ flexShrink: 1 }}
+          >
+            {isGuest ? "Welcome, guest" : (user?.name ?? "Builder")}
           </Text>
-          {access !== 'member' ? (
-            <YStack paddingHorizontal={8} paddingVertical={2} borderRadius="full" backgroundColor="primaryFixed">
-              <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
-                {access === 'core' ? 'CORE' : 'ADMIN'}
+          {access !== "member" ? (
+            <YStack
+              paddingHorizontal={8}
+              paddingVertical={2}
+              borderRadius="full"
+              backgroundColor="primaryFixed"
+            >
+              <Text
+                variant="codeSm"
+                weight="bold"
+                color="onPrimaryFixedVariant"
+              >
+                {access === "core" ? "CORE" : "ADMIN"}
               </Text>
             </YStack>
           ) : null}
         </XStack>
         <XStack alignItems="center" gap={6}>
-          <YStack width={6} height={6} borderRadius={3} backgroundColor="primary" />
-          <Text variant="codeSm" muted accessibilityLabel={`Today, ${role.label}`}>
+          <YStack
+            width={6}
+            height={6}
+            borderRadius={3}
+            backgroundColor="primary"
+          />
+          <Text
+            variant="codeSm"
+            muted
+            accessibilityLabel={`Today, ${role.label}`}
+          >
             {stamp(new Date())}
           </Text>
         </XStack>
       </YStack>
-      <IconButton name="calendarMonth" accessibilityLabel="Open schedule" onPress={() => router.push('/(spaces)?space=explore')} />
-      <IconButton name="notifications" accessibilityLabel="Open notifications" onPress={() => router.push('/inbox?segment=notifications' as never)} />
+      <IconButton
+        name="calendarMonth"
+        accessibilityLabel="Open schedule"
+        onPress={() => router.push("/(spaces)?space=explore")}
+      />
+      <IconButton
+        name="notifications"
+        accessibilityLabel="Open notifications"
+        onPress={() => router.push("/inbox?segment=notifications" as never)}
+      />
     </XStack>
   );
 }
@@ -222,35 +302,66 @@ function Greeting() {
 function TicketHero({ event }: { event: GdgEvent }) {
   const theme = useTheme();
   const { data: attendance } = useAttendance(event.id);
-  const registered = attendance === 'registered' || attendance === 'attended';
+  const registered = attendance === "registered" || attendance === "attended";
   const time = countdown(event.startsAt, event.endsAt);
-  const ended = time === 'ENDED';
-  const passCode = `GDG-EPI-${event.id.replace(/^evt-/, '').toUpperCase().slice(0, 12)}`;
+  const ended = time === "ENDED";
+  const passCode = `GDG-EPI-${event.id.replace(/^evt-/, "").toUpperCase().slice(0, 12)}`;
 
   return (
     <PressableScale
       onPress={() => router.push(`/events/${event.id}` as never)}
       accessibilityLabel={`Open ${event.title}`}
-      style={{ borderRadius: theme.radius.card, overflow: 'hidden' }}
+      style={{ borderRadius: theme.radius.card, overflow: "hidden" }}
     >
       <Gradient token="night" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <Orbs />
         <YStack padding={18} gap={12}>
           <XStack alignItems="center" justifyContent="space-between" gap={8}>
-            <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="tertiaryFixed">
-              <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
-              <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
-                {registered ? 'CONFIRMED SEAT' : ended ? 'PAST EVENT' : 'UP NEXT'}
+            <XStack
+              alignItems="center"
+              gap={6}
+              paddingHorizontal={10}
+              paddingVertical={4}
+              borderRadius="full"
+              backgroundColor="tertiaryFixed"
+            >
+              <YStack
+                width={6}
+                height={6}
+                borderRadius={3}
+                backgroundColor="live"
+              />
+              <Text
+                variant="codeSm"
+                weight="bold"
+                color="onTertiaryFixedVariant"
+              >
+                {registered
+                  ? "CONFIRMED SEAT"
+                  : ended
+                    ? "PAST EVENT"
+                    : "UP NEXT"}
               </Text>
             </XStack>
-            <YStack paddingHorizontal={10} paddingVertical={4} borderRadius="full" borderWidth={1} borderColor="outlineVariant">
+            <YStack
+              paddingHorizontal={10}
+              paddingVertical={4}
+              borderRadius="full"
+              borderWidth={1}
+              borderColor="outlineVariant"
+            >
               <Text variant="codeSm" weight="bold" color="inverseOnSurface">
                 {time}
               </Text>
             </YStack>
           </XStack>
 
-          <Text variant="headlineSm" weight="bold" color="inverseOnSurface" numberOfLines={2}>
+          <Text
+            variant="headlineSm"
+            weight="bold"
+            color="inverseOnSurface"
+            numberOfLines={2}
+          >
             {event.title}
           </Text>
           <Text variant="bodySm" color="outline" numberOfLines={2}>
@@ -258,34 +369,80 @@ function TicketHero({ event }: { event: GdgEvent }) {
           </Text>
 
           <XStack gap={10}>
-            <InfoChip icon="schedule" label={`${formatTime(event.startsAt)} GMT+1`} />
+            <InfoChip
+              icon="schedule"
+              label={`${formatTime(event.startsAt)} GMT+1`}
+            />
             <InfoChip icon="location" label={event.venue || event.location} />
           </XStack>
         </YStack>
 
         {/* Perforation with side notches. */}
         <XStack alignItems="center" height={20}>
-          <YStack width={20} height={20} borderRadius={10} marginLeft={-10} backgroundColor="background" />
-          <YStack flex={1} borderTopWidth={1.5} borderStyle="dashed" borderColor="outline" opacity={0.5} />
-          <YStack width={20} height={20} borderRadius={10} marginRight={-10} backgroundColor="background" />
+          <YStack
+            width={20}
+            height={20}
+            borderRadius={10}
+            marginLeft={-10}
+            backgroundColor="background"
+          />
+          <YStack
+            flex={1}
+            borderTopWidth={1.5}
+            borderStyle="dashed"
+            borderColor="outline"
+            opacity={0.5}
+          />
+          <YStack
+            width={20}
+            height={20}
+            borderRadius={10}
+            marginRight={-10}
+            backgroundColor="background"
+          />
         </XStack>
 
         <XStack padding={18} paddingTop={10} alignItems="center" gap={12}>
-          <YStack width={40} height={40} borderRadius={12} alignItems="center" justifyContent="center" borderWidth={1} borderColor="outlineVariant">
+          <YStack
+            width={40}
+            height={40}
+            borderRadius={12}
+            alignItems="center"
+            justifyContent="center"
+            borderWidth={1}
+            borderColor="outlineVariant"
+          >
             <Icon name="verifiedUser" size={20} color="inverseOnSurface" />
           </YStack>
           <YStack flex={1}>
             <Text variant="codeSm" color="outline">
-              {registered ? 'FAST TRACK PASS' : `${event.registeredCount}/${event.capacity} SEATS`}
+              {registered
+                ? "FAST TRACK PASS"
+                : `${event.registeredCount}/${event.capacity} SEATS`}
             </Text>
-            <Text variant="codeSm" weight="bold" color="inverseOnSurface" numberOfLines={1}>
-              {registered ? passCode : TRACKS[event.track]?.label.toUpperCase() ?? 'GDG EPI'}
+            <Text
+              variant="codeSm"
+              weight="bold"
+              color="inverseOnSurface"
+              numberOfLines={1}
+            >
+              {registered
+                ? passCode
+                : (TRACKS[event.track]?.label.toUpperCase() ?? "GDG EPI")}
             </Text>
           </YStack>
           {registered ? (
-            <PillAction icon="qrCode" label="Show Ticket" onPress={() => router.push(`/ticket/${event.id}` as never)} />
+            <PillAction
+              icon="qrCode"
+              label="Show Ticket"
+              onPress={() => router.push(`/ticket/${event.id}` as never)}
+            />
           ) : !ended ? (
-            <PillAction icon="register" label="Get a seat" onPress={() => router.push(`/events/${event.id}` as never)} />
+            <PillAction
+              icon="register"
+              label="Get a seat"
+              onPress={() => router.push(`/events/${event.id}` as never)}
+            />
           ) : null}
         </XStack>
       </Gradient>
@@ -295,19 +452,48 @@ function TicketHero({ event }: { event: GdgEvent }) {
 
 function InfoChip({ icon, label }: { icon: IconName; label: string }) {
   return (
-    <XStack flex={1} alignItems="center" gap={8} paddingHorizontal={12} paddingVertical={10} borderRadius={14} borderWidth={1} borderColor="outlineVariant">
+    <XStack
+      flex={1}
+      alignItems="center"
+      gap={8}
+      paddingHorizontal={12}
+      paddingVertical={10}
+      borderRadius={14}
+      borderWidth={1}
+      borderColor="outlineVariant"
+    >
       <Icon name={icon} size={16} color="inverseOnSurface" />
-      <Text variant="codeSm" color="inverseOnSurface" numberOfLines={1} style={{ flexShrink: 1 }}>
+      <Text
+        variant="codeSm"
+        color="inverseOnSurface"
+        numberOfLines={1}
+        style={{ flexShrink: 1 }}
+      >
         {label}
       </Text>
     </XStack>
   );
 }
 
-function PillAction({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
+function PillAction({
+  icon,
+  label,
+  onPress,
+}: {
+  icon: IconName;
+  label: string;
+  onPress: () => void;
+}) {
   return (
     <PressableScale onPress={onPress} accessibilityLabel={label}>
-      <XStack alignItems="center" gap={6} paddingHorizontal={16} height={44} borderRadius={14} backgroundColor="primaryFixed">
+      <XStack
+        alignItems="center"
+        gap={6}
+        paddingHorizontal={16}
+        height={44}
+        borderRadius={14}
+        backgroundColor="primaryFixed"
+      >
         <Icon name={icon} size={18} color="onPrimaryFixedVariant" />
         <Text variant="labelLg" weight="bold" color="onPrimaryFixedVariant">
           {label}
@@ -334,10 +520,29 @@ function LevelCard({
   const progress = xpGoal > 0 ? Math.min(1, xp / xpGoal) : 1;
   const level = Math.max(1, Math.floor(xp / 400) + 1);
   return (
-    <PressableScale onPress={() => router.push('/(spaces)?space=arena&segment=badges' as never)} accessibilityLabel="Open your level and badges">
-      <YStack padding={16} gap={14} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+    <PressableScale
+      onPress={() =>
+        router.push("/(spaces)?space=arena&segment=badges" as never)
+      }
+      accessibilityLabel="Open your level and badges"
+    >
+      <YStack
+        padding={16}
+        gap={14}
+        borderRadius="card"
+        backgroundColor="surfaceContainerLowest"
+        borderWidth={1}
+        borderColor="outlineVariant"
+      >
         <XStack alignItems="center" gap={12}>
-          <YStack width={44} height={44} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+          <YStack
+            width={44}
+            height={44}
+            borderRadius={14}
+            alignItems="center"
+            justifyContent="center"
+            backgroundColor="surfaceContainerHigh"
+          >
             <Icon name="militaryTech" size={22} color="gold" />
           </YStack>
           <YStack flex={1}>
@@ -345,7 +550,12 @@ function LevelCard({
               <Text variant="titleMd" weight="bold">
                 {tier} Builder
               </Text>
-              <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor="primaryContainer">
+              <YStack
+                paddingHorizontal={6}
+                paddingVertical={1}
+                borderRadius={6}
+                backgroundColor="primaryContainer"
+              >
                 <Text variant="codeSm" weight="bold" color="onPrimaryContainer">
                   LVL {level}
                 </Text>
@@ -353,12 +563,19 @@ function LevelCard({
             </XStack>
             {xpGoal > xp ? (
               <Text variant="codeSm" muted>
-                +{xpGoal - xp} XP to {nextTier ?? 'next tier'}
+                +{xpGoal - xp} XP to {nextTier ?? "next tier"}
               </Text>
             ) : null}
           </YStack>
           {streakDays > 0 ? (
-            <XStack alignItems="center" gap={4} paddingHorizontal={10} paddingVertical={6} borderRadius="full" backgroundColor="surfaceContainerHigh">
+            <XStack
+              alignItems="center"
+              gap={4}
+              paddingHorizontal={10}
+              paddingVertical={6}
+              borderRadius="full"
+              backgroundColor="surfaceContainerHigh"
+            >
               <Icon name="fire" size={14} color="warning" />
               <Text variant="codeSm" weight="bold">
                 {streakDays}-DAY
@@ -370,22 +587,38 @@ function LevelCard({
           <XStack justifyContent="space-between">
             <XStack alignItems="baseline">
               <Text variant="codeSm" muted>
-                Current:{' '}
+                Current:{" "}
               </Text>
               <AnimatedNumber value={xp} variant="codeSm" weight="bold" />
               <Text variant="codeSm" weight="bold">
-                {' '}XP
+                {" "}
+                XP
               </Text>
             </XStack>
             {xpGoal > 0 ? (
               <Text variant="codeSm" muted>
-                {xpGoal.toLocaleString('en-US')} XP Goal
+                {xpGoal.toLocaleString("en-US")} XP Goal
               </Text>
             ) : null}
           </XStack>
-          <YStack height={8} borderRadius={4} backgroundColor="surfaceContainerHigh" overflow="hidden">
-            <YStack width={`${progress * 100}%`} height="100%" borderRadius={4} overflow="hidden">
-              <Gradient token="aurora" start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={{ flex: 1 }} />
+          <YStack
+            height={8}
+            borderRadius={4}
+            backgroundColor="surfaceContainerHigh"
+            overflow="hidden"
+          >
+            <YStack
+              width={`${progress * 100}%`}
+              height="100%"
+              borderRadius={4}
+              overflow="hidden"
+            >
+              <Gradient
+                token="aurora"
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1 }}
+              />
             </YStack>
           </YStack>
         </YStack>
@@ -397,23 +630,83 @@ function LevelCard({
 /** Three short daily actions with their XP or status badge. */
 function MicroSprints() {
   const { can } = useAuth();
-  const sprints: { icon: IconName; label: string; badge: string; hint: string; route: string; color: ColorToken }[] = [
-    { icon: 'help', label: 'Daily Quiz', badge: '+50 XP', hint: 'Keep the streak', route: '/quiz', color: 'primary' },
-    { icon: 'flag', label: 'Squad Quest', badge: '+60 XP', hint: 'Arena · quests', route: '/(spaces)?space=arena&segment=quests', color: 'warning' },
-    can('decisions.vote')
-      ? { icon: 'howToVote', label: 'Core Vote', badge: 'OPEN', hint: 'Cast yours', route: '/(spaces)?space=voice&segment=decisions', color: 'error' }
-      : { icon: 'lightbulb', label: 'Idea Box', badge: 'OPEN', hint: 'Suggest & upvote', route: '/(spaces)?space=voice&segment=ideas', color: 'error' },
+  const sprints: {
+    icon: IconName;
+    label: string;
+    badge: string;
+    hint: string;
+    route: string;
+    color: ColorToken;
+  }[] = [
+    {
+      icon: "help",
+      label: "Daily Quiz",
+      badge: "+50 XP",
+      hint: "Keep the streak",
+      route: "/quiz",
+      color: "primary",
+    },
+    {
+      icon: "flag",
+      label: "Squad Quest",
+      badge: "+60 XP",
+      hint: "Arena · quests",
+      route: "/(spaces)?space=arena&segment=quests",
+      color: "warning",
+    },
+    can("decisions.vote")
+      ? {
+          icon: "howToVote",
+          label: "Core Vote",
+          badge: "OPEN",
+          hint: "Cast yours",
+          route: "/(spaces)?space=voice&segment=decisions",
+          color: "error",
+        }
+      : {
+          icon: "lightbulb",
+          label: "Idea Box",
+          badge: "OPEN",
+          hint: "Suggest & upvote",
+          route: "/(spaces)?space=voice&segment=ideas",
+          color: "error",
+        },
   ];
   return (
     <XStack gap={10}>
       {sprints.map((sprint) => (
-        <PressableScale key={sprint.label} onPress={() => router.push(sprint.route as never)} accessibilityLabel={sprint.label} style={{ flex: 1 }}>
-          <YStack padding={12} gap={14} borderRadius={18} backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+        <PressableScale
+          key={sprint.label}
+          onPress={() => router.push(sprint.route as never)}
+          accessibilityLabel={sprint.label}
+          style={{ flex: 1 }}
+        >
+          <YStack
+            padding={12}
+            gap={14}
+            borderRadius={18}
+            backgroundColor="surfaceContainerLowest"
+            borderWidth={1}
+            borderColor="outlineVariant"
+          >
             <XStack alignItems="center" justifyContent="space-between">
-              <YStack width={32} height={32} borderRadius={10} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+              <YStack
+                width={32}
+                height={32}
+                borderRadius={10}
+                alignItems="center"
+                justifyContent="center"
+                backgroundColor="surfaceContainerHigh"
+              >
                 <Icon name={sprint.icon} size={17} color={sprint.color} />
               </YStack>
-              <Text variant="codeSm" weight="bold" color={sprint.badge === 'OPEN' ? 'onSurfaceVariant' : 'tertiary'}>
+              <Text
+                variant="codeSm"
+                weight="bold"
+                color={
+                  sprint.badge === "OPEN" ? "onSurfaceVariant" : "tertiary"
+                }
+              >
                 {sprint.badge}
               </Text>
             </XStack>
@@ -433,18 +726,37 @@ function MicroSprints() {
 }
 
 function AnnouncementCard({ announcement }: { announcement: Announcement }) {
-  const deadline = announcement.deadline ? formatCountdown(announcement.deadline).toUpperCase() : null;
+  const deadline = announcement.deadline
+    ? formatCountdown(announcement.deadline).toUpperCase()
+    : null;
   return (
-    <YStack padding={16} gap={10} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+    <YStack
+      padding={16}
+      gap={10}
+      borderRadius="card"
+      backgroundColor="surfaceContainerLowest"
+      borderWidth={1}
+      borderColor="outlineVariant"
+    >
       <XStack alignItems="center" justifyContent="space-between" gap={8}>
         <XStack alignItems="center" gap={6} flexShrink={1}>
-          <YStack width={7} height={7} borderRadius={4} backgroundColor="error" />
+          <YStack
+            width={7}
+            height={7}
+            borderRadius={4}
+            backgroundColor="error"
+          />
           <Text variant="codeSm" weight="bold" color="error" numberOfLines={1}>
-            {(announcement.tag || 'Campus announcement').toUpperCase()}
+            {(announcement.tag || "Campus announcement").toUpperCase()}
           </Text>
         </XStack>
         {deadline ? (
-          <YStack paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor="errorContainer">
+          <YStack
+            paddingHorizontal={8}
+            paddingVertical={3}
+            borderRadius={8}
+            backgroundColor="errorContainer"
+          >
             <Text variant="codeSm" weight="bold" color="onErrorContainer">
               {deadline}
             </Text>
@@ -459,9 +771,11 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
       </Text>
       {announcement.ctaLabel ? (
         <PressableScale
-          onPress={() => announcement.ctaLink && router.push(announcement.ctaLink as never)}
+          onPress={() =>
+            announcement.ctaLink && router.push(announcement.ctaLink as never)
+          }
           accessibilityLabel={announcement.ctaLabel}
-          style={{ alignSelf: 'flex-end' }}
+          style={{ alignSelf: "flex-end" }}
         >
           <XStack alignItems="center" gap={4} paddingVertical={6}>
             <Text variant="labelLg" weight="bold" primary>
@@ -479,10 +793,26 @@ function WeekCard({ event }: { event: GdgEvent }) {
   const date = parseDate(event.startsAt);
   const track = TRACKS[event.track];
   return (
-    <PressableScale onPress={() => router.push(`/events/${event.id}` as never)} accessibilityLabel={`Open ${event.title}`}>
-      <YStack width={240} padding={14} gap={10} borderRadius={18} backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+    <PressableScale
+      onPress={() => router.push(`/events/${event.id}` as never)}
+      accessibilityLabel={`Open ${event.title}`}
+    >
+      <YStack
+        width={240}
+        padding={14}
+        gap={10}
+        borderRadius={18}
+        backgroundColor="surfaceContainerLowest"
+        borderWidth={1}
+        borderColor="outlineVariant"
+      >
         <XStack alignItems="center" justifyContent="space-between">
-          <YStack paddingHorizontal={8} paddingVertical={3} borderRadius={8} backgroundColor="primaryFixed">
+          <YStack
+            paddingHorizontal={8}
+            paddingVertical={3}
+            borderRadius={8}
+            backgroundColor="primaryFixed"
+          >
             <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
               {(track?.label ?? event.category).toUpperCase()}
             </Text>
@@ -498,7 +828,12 @@ function WeekCard({ event }: { event: GdgEvent }) {
           {event.summary}
         </Text>
         <XStack alignItems="center" justifyContent="space-between">
-          <Text variant="codeSm" muted numberOfLines={1} style={{ flexShrink: 1 }}>
+          <Text
+            variant="codeSm"
+            muted
+            numberOfLines={1}
+            style={{ flexShrink: 1 }}
+          >
             {event.venue || event.location}
           </Text>
           <Text variant="codeSm" weight="bold" primary>
@@ -513,27 +848,70 @@ function WeekCard({ event }: { event: GdgEvent }) {
 /** One recommended resource as a learning track row with progress. */
 function TrackRow({ resource }: { resource: Resource }) {
   const { data: progress } = useResourceProgress(resource.id);
-  const pct = progress === 'completed' ? 100 : progress === 'started' ? 45 : 0;
+  const pct = progress === "completed" ? 100 : progress === "started" ? 45 : 0;
   return (
-    <PressableScale onPress={() => router.push(`/resource/${resource.id}` as never)} accessibilityLabel={`Open ${resource.title}`}>
-      <XStack padding={14} gap={12} alignItems="center" borderRadius={18} backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
-        <YStack width={44} height={44} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
-          <Icon name={resource.type === 'video' ? 'playCircle' : resource.type === 'codelab' ? 'terminal' : 'menuBook'} size={20} color="primary" />
+    <PressableScale
+      onPress={() => router.push(`/resource/${resource.id}` as never)}
+      accessibilityLabel={`Open ${resource.title}`}
+    >
+      <XStack
+        padding={14}
+        gap={12}
+        alignItems="center"
+        borderRadius={18}
+        backgroundColor="surfaceContainerLowest"
+        borderWidth={1}
+        borderColor="outlineVariant"
+      >
+        <YStack
+          width={44}
+          height={44}
+          borderRadius={14}
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="surfaceContainerHigh"
+        >
+          <Icon
+            name={
+              resource.type === "video"
+                ? "playCircle"
+                : resource.type === "codelab"
+                  ? "terminal"
+                  : "menuBook"
+            }
+            size={20}
+            color="primary"
+          />
         </YStack>
         <YStack flex={1} gap={6}>
           <XStack alignItems="center" justifyContent="space-between" gap={8}>
-            <Text variant="labelLg" weight="bold" numberOfLines={1} style={{ flexShrink: 1 }}>
+            <Text
+              variant="labelLg"
+              weight="bold"
+              numberOfLines={1}
+              style={{ flexShrink: 1 }}
+            >
               {resource.title}
             </Text>
             <Text variant="codeSm" weight="bold" primary>
               {pct}%
             </Text>
           </XStack>
-          <YStack height={5} borderRadius={3} backgroundColor="surfaceContainerHigh" overflow="hidden">
+          <YStack
+            height={5}
+            borderRadius={3}
+            backgroundColor="surfaceContainerHigh"
+            overflow="hidden"
+          >
             <YStack width={`${pct}%`} height="100%" backgroundColor="primary" />
           </YStack>
           <XStack justifyContent="space-between">
-            <Text variant="codeSm" muted numberOfLines={1} style={{ flexShrink: 1 }}>
+            <Text
+              variant="codeSm"
+              muted
+              numberOfLines={1}
+              style={{ flexShrink: 1 }}
+            >
               {resource.category}
             </Text>
             <Text variant="codeSm" muted>
@@ -541,7 +919,14 @@ function TrackRow({ resource }: { resource: Resource }) {
             </Text>
           </XStack>
         </YStack>
-        <YStack width={36} height={36} borderRadius={18} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+        <YStack
+          width={36}
+          height={36}
+          borderRadius={18}
+          alignItems="center"
+          justifyContent="center"
+          backgroundColor="surfaceContainerHigh"
+        >
           <Icon name="arrowForward" size={16} color="onSurface" />
         </YStack>
       </XStack>
@@ -549,12 +934,36 @@ function TrackRow({ resource }: { resource: Resource }) {
   );
 }
 
-function MemoryCard({ source, caption }: { source: React.ComponentProps<typeof Image>['source']; caption: string }) {
+function MemoryCard({
+  source,
+  caption,
+}: {
+  source: React.ComponentProps<typeof Image>["source"];
+  caption: string;
+}) {
   const theme = useTheme();
   return (
-    <PressableScale onPress={() => router.push('/memories' as never)} accessibilityLabel={`Open memories: ${caption}`}>
-      <YStack width={150} borderRadius={18} overflow="hidden" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
-        <Image source={source} contentFit="cover" style={{ width: '100%', height: 170, backgroundColor: theme.colors.surfaceContainer }} />
+    <PressableScale
+      onPress={() => router.push("/memories" as never)}
+      accessibilityLabel={`Open memories: ${caption}`}
+    >
+      <YStack
+        width={150}
+        borderRadius={18}
+        overflow="hidden"
+        backgroundColor="surfaceContainerLowest"
+        borderWidth={1}
+        borderColor="outlineVariant"
+      >
+        <Image
+          source={source}
+          contentFit="cover"
+          style={{
+            width: "100%",
+            height: 170,
+            backgroundColor: theme.colors.surfaceContainer,
+          }}
+        />
         <YStack padding={10}>
           <Text variant="codeSm" muted numberOfLines={1}>
             {caption}
@@ -586,14 +995,29 @@ function Section({
 }) {
   return (
     <YStack gap={12}>
-      <XStack paddingHorizontal={16} alignItems="center" justifyContent="space-between" gap={8}>
+      <XStack
+        paddingHorizontal={16}
+        alignItems="center"
+        justifyContent="space-between"
+        gap={8}
+      >
         <XStack alignItems="center" gap={8} flexShrink={1}>
           <Text variant="titleMd" weight="bold" numberOfLines={1}>
             {title}
           </Text>
-          {titleIcon ? <Icon name={titleIcon} size={16} color="tertiary" /> : null}
+          {titleIcon ? (
+            <Icon name={titleIcon} size={16} color="tertiary" />
+          ) : null}
           {count ? (
-            <YStack minWidth={22} height={22} paddingHorizontal={6} borderRadius={11} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
+            <YStack
+              minWidth={22}
+              height={22}
+              paddingHorizontal={6}
+              borderRadius={11}
+              alignItems="center"
+              justifyContent="center"
+              backgroundColor="surfaceContainerHigh"
+            >
               <Text variant="codeSm" weight="bold">
                 {count}
               </Text>
@@ -603,7 +1027,12 @@ function Section({
         {trailing ? (
           onTrailing ? (
             <PressableScale onPress={onTrailing} accessibilityLabel={trailing}>
-              <Text variant="codeSm" weight="bold" primary style={{ paddingVertical: 8 }}>
+              <Text
+                variant="codeSm"
+                weight="bold"
+                primary
+                style={{ paddingVertical: 8 }}
+              >
                 {trailing}
               </Text>
             </PressableScale>

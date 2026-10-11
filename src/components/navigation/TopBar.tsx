@@ -21,7 +21,9 @@ interface TopBarProps {
   right?: React.ReactNode;
 }
 
-/** Persistent spaces header: profile avatar · space title · inbox. */
+const GOOGLE_DOTS = ['error', 'info', 'warning', 'success'] as const;
+
+/** Persistent spaces header: GDG pill · space title · inbox · profile avatar. */
 export const TopBar = memo(function TopBar({
   title,
   avatarName = 'You',
@@ -51,13 +53,14 @@ export const TopBar = memo(function TopBar({
           paddingHorizontal: 16,
         }}
       >
-        <PressableScale
-          onPress={onPressAvatar ?? (() => router.push('/me' as Href))}
-          accessibilityRole="button"
-          accessibilityLabel="Open profile"
-        >
-          <Avatar name={avatarName} uri={avatarUri} size={36} ring="none" />
-        </PressableScale>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, height: 28, borderRadius: 999, backgroundColor: theme.colors.surfaceContainerHigh }}>
+          {GOOGLE_DOTS.map((color) => (
+            <View key={color} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: theme.colors[color] }} />
+          ))}
+          <Text variant="codeSm" weight="bold" muted>
+            GDG EPI
+          </Text>
+        </View>
         <Text variant="headlineSm" weight="bold" numberOfLines={1} style={{ flex: 1 }}>
           {title}
         </Text>
@@ -90,7 +93,7 @@ export const TopBar = memo(function TopBar({
             justifyContent: 'center',
           }}
         >
-          <Icon name="notifications" size={22} color="onSurfaceVariant" />
+          <Icon name="mail" size={22} color="onSurface" />
           {unread > 0 ? (
             <View
               style={{
@@ -114,6 +117,18 @@ export const TopBar = memo(function TopBar({
               </Text>
             </View>
           ) : null}
+        </PressableScale>
+        <PressableScale
+          onPress={onPressAvatar ?? (() => router.push('/me' as Href))}
+          accessibilityRole="button"
+          accessibilityLabel="Open profile"
+          style={{ width: 40, height: 40, borderRadius: 20, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.primaryFixed }}
+        >
+          {avatarUri ? (
+            <Avatar name={avatarName} uri={avatarUri} size={40} ring="none" />
+          ) : (
+            <Icon name="person" size={22} color="primary" />
+          )}
         </PressableScale>
       </View>
     </View>

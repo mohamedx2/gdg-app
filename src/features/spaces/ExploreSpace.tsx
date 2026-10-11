@@ -192,7 +192,7 @@ function LineupCard({ event }: { event: GdgEvent }) {
             </Text>
           </YStack>
           <YStack flex={1} gap={6}>
-            <XStack gap={6} flexWrap="wrap">
+            <XStack gap={6} flexWrap="wrap" alignItems="center">
               <Tag label={track?.label ?? event.track} dot={track?.color ?? 'primary'} />
               <Tag label={eventCategories[event.category]?.label ?? event.category} />
               {event.flagship ? <Tag label="Flagship" tone="gold" /> : null}
@@ -201,7 +201,12 @@ function LineupCard({ event }: { event: GdgEvent }) {
               {event.title}
             </Text>
             <MetaRow icon={online ? 'language' : 'location'} label={event.venue || event.location} />
-            <MetaRow icon="schedule" label={`${formatTime(event.startsAt)} – ${formatTime(event.endsAt)} GMT+1`} mono />
+            <XStack alignItems="center" gap={6}>
+              <YStack width={6} height={6} borderRadius={3} backgroundColor={ended ? 'outline' : 'live'} />
+              <Text variant="codeSm" weight="bold" color={ended ? 'onSurfaceVariant' : 'tertiary'}>
+                {formatTime(event.startsAt)} – {formatTime(event.endsAt)} GMT+1
+              </Text>
+            </XStack>
           </YStack>
         </XStack>
 
@@ -220,15 +225,24 @@ function LineupCard({ event }: { event: GdgEvent }) {
         ) : null}
 
         <XStack alignItems="center" justifyContent="space-between" gap={10}>
-          <YStack>
-            <Text variant="codeSm" weight="bold">
-              {event.registeredCount} / {event.capacity} {ended ? 'attended' : 'spots'}
-            </Text>
-            {!ended ? (
-              <Text variant="codeSm" weight="bold" color={left <= 10 ? 'error' : 'tertiary'}>
-                {left > 0 ? `${left} LEFT` : 'WAITLIST'}
+          <YStack flex={1} gap={6}>
+            <XStack justifyContent="space-between">
+              <Text variant="codeSm" weight="bold">
+                {event.registeredCount} / {event.capacity} {ended ? 'attended' : 'Spots'}
               </Text>
-            ) : null}
+              {!ended ? (
+                <Text variant="codeSm" weight="bold" color={left <= 10 ? 'error' : 'tertiary'}>
+                  {left > 0 ? `${left} LEFT` : 'WAITLIST'}
+                </Text>
+              ) : null}
+            </XStack>
+            <YStack height={5} borderRadius={3} backgroundColor="surfaceContainerHigh" overflow="hidden">
+              <YStack
+                width={`${event.capacity > 0 ? Math.min(100, (event.registeredCount / event.capacity) * 100) : 0}%`}
+                height="100%"
+                backgroundColor={ended ? 'outline' : left <= 10 ? 'error' : track?.color ?? 'primary'}
+              />
+            </YStack>
           </YStack>
           {ended ? (
             <ActionPill label="Recap" icon="chevronRight" onPress={open} />
