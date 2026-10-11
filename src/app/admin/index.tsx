@@ -6,7 +6,8 @@ import { XStack, YStack } from 'tamagui';
 
 import { RequirePermission } from '@/components/RequirePermission';
 import { Button } from '@/components/ui/Button';
-import { Icon } from '@/components/ui/Icon';
+import { Gradient } from '@/components/ui/Gradient';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { Input } from '@/components/ui/Input';
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -20,6 +21,7 @@ import { useAuth } from '@/features/auth/auth-provider';
 import { useUiStore } from '@/stores/ui.store';
 import { formatCount } from '@/utils/format';
 import { useTheme } from '@/theme';
+import type { ColorToken } from '@/theme/colors';
 import type { Announcement as AnnouncementType } from '@/types';
 
 export default function AdminScreen() {
@@ -45,7 +47,7 @@ function AdminScreenContent() {
         <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
-            Organizer dashboard
+            Organizer Console
           </Text>
         </XStack>
         <YStack width={34} height={34} borderRadius={10} backgroundColor="primaryFixed" alignItems="center" justifyContent="center">
@@ -65,74 +67,108 @@ function AdminScreenContent() {
           <Skeleton height={200} radius={12} />
         </YStack>
       ) : (
-        <ScrollView contentContainerStyle={{ padding: 16, gap: 20, paddingBottom: 48 }} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 48 }} showsVerticalScrollIndicator={false}>
+          <XStack gap={8} flexWrap="wrap">
+            <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="tertiaryFixed">
+              <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
+              <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                ONLINE · SOUSSE, TN
+              </Text>
+            </XStack>
+            <YStack paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="primaryFixed">
+              <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+                {can('roles.manage') ? 'SUPER ADMIN' : 'CORE TEAM'}
+              </Text>
+            </YStack>
+          </XStack>
+
           <XStack flexWrap="wrap" gap={10}>
-            {STATS.map((stat) => {
+            {STATS.map((stat, index) => {
               const value = stat.key === 'attendanceRate' ? `${stats[stat.key]}%` : formatCount(stats[stat.key]);
               return (
-                <XStack
-                  key={stat.key}
-                  flexBasis="47%"
-                  flexGrow={1}
-                  alignItems="center"
-                  gap={10}
-                  padding={14}
-                  borderRadius="card"
-                  backgroundColor="surfaceContainerLowest"
-                  borderWidth={1}
-                  borderColor="outlineVariant"
-                >
-                  <YStack width={38} height={38} borderRadius={11} backgroundColor="primaryFixed" alignItems="center" justifyContent="center">
-                    <Icon name={stat.icon} size={18} color="primary" />
-                  </YStack>
-                  <YStack gap={2}>
-                    <Text variant="titleMd" weight="bold">{value}</Text>
-                    <Text variant="codeSm" muted>{stat.label}</Text>
-                  </YStack>
-                </XStack>
+                <YStack key={stat.key} flexBasis="30%" flexGrow={1} padding={12} gap={4} borderRadius={18} backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+                  <Text variant="codeSm" muted numberOfLines={1}>
+                    {stat.label.toUpperCase()}
+                  </Text>
+                  <Text variant="headlineSm" weight="bold" color={STAT_TONES[index % STAT_TONES.length]} style={{ fontFamily: 'JetBrainsMono_700Bold' }}>
+                    {value}
+                  </Text>
+                </YStack>
               );
             })}
           </XStack>
 
-          <AnnouncementComposer />
-
-          <YStack gap={10}>
-            <Text variant="titleMd" weight="bold">Announcements</Text>
-            {announcements && announcements.length > 0 ? (
-              announcements.slice(0, 4).map((announcement) => (
-                <YStack key={announcement.id} padding={12} borderRadius="base" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant" gap={4}>
-                  <XStack alignItems="center" gap={8}>
-                    {announcement.pinned ? (
-                      <Icon name="pushPin" size={14} color="primary" />
-                    ) : null}
-                    <Text variant="labelLg" weight="semibold" numberOfLines={2} style={{ flex: 1 }}>
-                      {announcement.title}
+          <PressableScale onPress={() => router.push('/admin/check-in')} accessibilityLabel="Open the gate scanner">
+            <YStack borderRadius="card" overflow="hidden">
+              <Gradient token="night" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
+                <YStack padding={16} gap={14}>
+                  <XStack alignItems="center" justifyContent="space-between">
+                    <XStack alignItems="center" gap={8}>
+                      <Icon name="qrCodeScanner" size={22} color="live" />
+                      <Text variant="titleMd" weight="bold" color="inverseOnSurface">
+                        Gate Scanner
+                      </Text>
+                    </XStack>
+                    <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="surfaceContainerHigh">
+                      <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
+                      <Text variant="codeSm" weight="bold">
+                        CAM READY
+                      </Text>
+                    </XStack>
+                  </XStack>
+                  <YStack height={110} borderRadius={16} borderWidth={1} borderStyle="dashed" borderColor="outline" alignItems="center" justifyContent="center" gap={6}>
+                    <Icon name="qrCode" size={34} color="inverseOnSurface" />
+                    <Text variant="codeSm" color="outline">
+                      TAP TO SCAN TICKETS AT THE DOOR
                     </Text>
+                  </YStack>
+                </YStack>
+              </Gradient>
+            </YStack>
+          </PressableScale>
+
+          <ConsoleCard icon="editCalendar" tone="primaryFixed" title="Event Management" badge="CORE" body="Event task board and the core team's open votes.">
+            <XStack gap={8} flexWrap="wrap">
+              <Button label="Event tasks" icon="taskAlt" variant="container" compact fullWidth={false} onPress={() => router.push('/?space=voice&segment=tasks' as never)} />
+              <Button label="Core votes" icon="howToVote" variant="container" compact fullWidth={false} onPress={() => router.push('/?space=voice&segment=decisions' as never)} />
+              <Button label="Create event" icon="add" variant="ghost" compact fullWidth={false} onPress={() => toast('Event builder coming soon', 'info')} />
+            </XStack>
+          </ConsoleCard>
+
+          <ConsoleCard icon="campaign" tone="secondaryContainer" title="Campus Broadcast" badge="PUSH" body="Publish an announcement to every member's feed.">
+            <AnnouncementComposer />
+            {announcements && announcements.length > 0 ? (
+              <YStack gap={8}>
+                <Text variant="codeSm" weight="bold" muted>
+                  RECENT BROADCASTS
+                </Text>
+                {announcements.slice(0, 4).map((announcement) => (
+                  <XStack key={announcement.id} alignItems="center" gap={8} padding={10} borderRadius={14} backgroundColor="surfaceContainerLow">
+                    {announcement.pinned ? <Icon name="pushPin" size={14} color="primary" /> : null}
+                    <YStack flex={1}>
+                      <Text variant="labelMd" weight="semibold" numberOfLines={1}>
+                        {announcement.title}
+                      </Text>
+                      <Text variant="bodySm" muted numberOfLines={1}>
+                        {announcement.body}
+                      </Text>
+                    </YStack>
                     <DeleteAnnouncementButton id={announcement.id} />
                   </XStack>
-                  <Text variant="bodySm" muted numberOfLines={2}>{announcement.body}</Text>
-                </YStack>
-              ))
+                ))}
+              </YStack>
             ) : (
-              <Text variant="bodySm" muted>No announcements yet.</Text>
+              <Text variant="bodySm" muted>
+                No announcements yet.
+              </Text>
             )}
-          </YStack>
-
-          <XStack gap={8}>
-            <Button label="Event tasks" icon="taskAlt" variant="container" onPress={() => router.push('/tasks')} />
-            <Button label="Core votes" icon="howToVote" variant="container" onPress={() => router.push('/decisions')} />
-          </XStack>
+          </ConsoleCard>
 
           {can('roles.manage') ? (
-            <Button label="Roles & access" icon="shield" variant="container" onPress={() => router.push('/admin/roles' as never)} />
+            <ConsoleCard icon="shield" tone="surfaceContainerHigh" title="Roles & Squads" badge="ADMIN" body="Promote members, manage the core team and squad leads.">
+              <Button label="Roles & access" icon="shield" variant="container" compact fullWidth={false} onPress={() => router.push('/admin/roles' as never)} />
+            </ConsoleCard>
           ) : null}
-
-          <Button label="Scan tickets at the door" icon="qrCodeScanner" onPress={() => router.push('/admin/check-in')} />
-
-          <XStack gap={8}>
-            <Button label="Create event" icon="add" variant="container" onPress={() => toast('Event builder coming soon', 'info')} />
-            <Button label="Manage events" icon="editCalendar" onPress={() => toast('Open the Events tab to manage', 'info')} />
-          </XStack>
         </ScrollView>
       )}
     </YStack>
@@ -211,5 +247,48 @@ function DeleteAnnouncementButton({ id }: { id: string }) {
     <PressableScale onPress={() => void remove(id)} disabled={isPending} style={{ width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' }}>
       <Icon name="delete" size={15} color="error" />
     </PressableScale>
+  );
+}
+const STAT_TONES = ['onSurface', 'primary', 'warning', 'tertiary', 'error', 'onSurface'] as const;
+
+function ConsoleCard({
+  icon,
+  tone,
+  title,
+  badge,
+  body,
+  children,
+}: {
+  icon: IconName;
+  tone: ColorToken;
+  title: string;
+  badge: string;
+  body: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <YStack padding={16} gap={12} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
+      <XStack gap={12}>
+        <YStack width={48} height={48} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor={tone}>
+          <Icon name={icon} size={22} color="onSurface" />
+        </YStack>
+        <YStack flex={1} gap={2}>
+          <XStack alignItems="center" justifyContent="space-between" gap={8}>
+            <Text variant="titleMd" weight="bold" numberOfLines={1} style={{ flexShrink: 1 }}>
+              {title}
+            </Text>
+            <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor="primaryFixed">
+              <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+                {badge}
+              </Text>
+            </YStack>
+          </XStack>
+          <Text variant="bodySm" muted>
+            {body}
+          </Text>
+        </YStack>
+      </XStack>
+      {children}
+    </YStack>
   );
 }
