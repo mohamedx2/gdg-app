@@ -12,8 +12,6 @@ import { FormTextField } from '@/components/ui/Input';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
-import { DEMO_ACCOUNTS } from '@/lib/auth/service';
-import { ACCESS_LEVELS, accessLevelOf } from '@/lib/auth/permissions';
 import { loginSchema, LoginValues } from '@/features/auth/schemas';
 import { useTheme } from '@/theme';
 
@@ -24,7 +22,7 @@ export default function LoginScreen() {
   const [submitting, setSubmitting] = useState(false);
   const [errorText, setErrorText] = useState<string | null>(null);
 
-  const { control, handleSubmit, setValue } = useForm<LoginValues>({
+  const { control, handleSubmit } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
@@ -84,7 +82,7 @@ export default function LoginScreen() {
             name="email"
             control={control}
             label="Email"
-            placeholder="you@epi-tic.tn"
+            placeholder="you@epi.dev"
             icon="mail"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -119,36 +117,6 @@ export default function LoginScreen() {
           <Text variant="bodySm" primary onPress={() => router.replace('/(auth)/register')} accessibilityRole="link">
             Create an account
           </Text>
-        </View>
-
-        <View style={{ padding: 12, borderRadius: 10, backgroundColor: theme.colors.surfaceContainerLow, gap: 4 }}>
-          <Text variant="codeSm" weight="semibold" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
-            Demo accounts
-          </Text>
-          <Text variant="bodyXs" muted>
-            Tap one to fill the form · password gdgepi2026
-          </Text>
-          {DEMO_ACCOUNTS.map((account) => {
-            const level = ACCESS_LEVELS[accessLevelOf(account.role)];
-            return (
-              <PressableScale
-                key={account.email}
-                onPress={() => {
-                  setValue('email', account.email);
-                  setValue('password', account.password);
-                }}
-                accessibilityLabel={`Use the ${level.label} demo account`}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8 }}
-              >
-                <Icon name={level.icon} size={18} color="primary" />
-                <View style={{ flex: 1 }}>
-                  <Text variant="labelLg" weight="semibold">{level.label}</Text>
-                  <Text variant="bodyXs" muted>{account.email}</Text>
-                </View>
-                <Icon name="chevronRight" size={16} color="secondary" />
-              </PressableScale>
-            );
-          })}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -64,7 +64,7 @@ async function signInWithPassword(email: string, password: string): Promise<Auth
 
   if (!account || account.password !== password) {
     throw new ApiError(
-      'We could not sign you in with those credentials. Try a demo account below.',
+      'We could not sign you in with those credentials.',
       'auth',
       401,
     );
@@ -102,11 +102,11 @@ async function signInWithGoogle(): Promise<AuthResult> {
 }
 
 async function httpSignIn(email: string, password: string): Promise<AuthResult> {
-  return request<AuthResult>('/auth/login', { method: 'POST', body: { email, password }, skipAuth: true });
+  return request<AuthResult>('/login', { method: 'POST', body: { email, password }, skipAuth: true });
 }
 
 async function httpSignUp(name: string, email: string, password: string): Promise<AuthResult> {
-  return request<AuthResult>('/auth/register', {
+  return request<AuthResult>('/register', {
     method: 'POST',
     body: { name, email, password },
     skipAuth: true,
@@ -114,7 +114,7 @@ async function httpSignUp(name: string, email: string, password: string): Promis
 }
 
 async function httpGoogle(): Promise<AuthResult> {
-  return request<AuthResult>('/auth/google', { method: 'POST', skipAuth: true });
+  return request<AuthResult>('/google', { method: 'POST', skipAuth: true });
 }
 
 export const authService = {
