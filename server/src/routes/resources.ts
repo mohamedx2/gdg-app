@@ -17,7 +17,7 @@ export const resourcesRouter = Router();
 
 resourcesRouter.get(
   '/resources',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (req, res) => {
     const { page, pageSize, from, to } = pageParams(req);
     let query = supabase.from('resources').select('*', { count: 'exact' }).order('title');
@@ -43,7 +43,7 @@ resourcesRouter.get(
 
 resourcesRouter.get(
   '/resources/:id',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (req, res) => {
     const { data, error } = await supabase
       .from('resources')

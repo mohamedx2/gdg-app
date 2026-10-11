@@ -54,7 +54,7 @@ async function findRegistration(memberId: string, eventId: string): Promise<Regi
 // ── List / detail ───────────────────────────────────────────────────────────
 eventsRouter.get(
   '/events',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (req, res) => {
     const ids = text(req.query.ids);
     if (ids) {
@@ -97,7 +97,7 @@ eventsRouter.get(
 
 eventsRouter.get(
   '/events/:id',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (req, res) => {
     res.json(toEvent(await findEvent(req.params.id)));
   }),

@@ -12,7 +12,7 @@ export const communityRouter = Router();
 
 communityRouter.get(
   '/community/activity',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (_req, res) => {
     const data = rows<ActivityRow>(
       await supabase.from('activity').select('*').order('created_at', { ascending: false }),
@@ -23,7 +23,7 @@ communityRouter.get(
 
 communityRouter.get(
   '/announcements',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (_req, res) => {
     const { data, error } = await supabase
       .from('announcements')

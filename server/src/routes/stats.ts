@@ -19,7 +19,7 @@ function countOf(result: { count: number | null; error: { message: string } | nu
 
 statsRouter.get(
   '/stats/club',
-  requireAuth,
+  // Public catalogue: readable in guest mode.
   asyncHandler(async (_req, res) => {
     const eventRows = rows<EventRow>(await supabase.from('events').select('*'));
     const memberRows = rows<MemberRow>(await supabase.from('members').select('*'));
