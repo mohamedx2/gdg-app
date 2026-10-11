@@ -71,19 +71,32 @@ export default function ChatScreen() {
       >
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
         {conversation?.avatar ? (
-          <Avatar uri={conversation.avatar} name={conversation.name} size={36} online={conversation.online} />
+          <Avatar uri={conversation.avatar} name={conversation.name} size={44} online={conversation.online} />
         ) : (
-          <YStack width={36} height={36} borderRadius={18} alignItems="center" justifyContent="center" backgroundColor="secondaryFixed">
-            <Icon name="groups" size={18} color="onSecondaryFixedVariant" />
+          <YStack width={44} height={44} borderRadius={22} alignItems="center" justifyContent="center" backgroundColor="tertiaryContainer">
+            <Icon name="groups" size={20} color="onTertiaryContainer" />
           </YStack>
         )}
-        <YStack flex={1}>
-          <Text variant="titleSm" weight="bold" numberOfLines={1}>
-            {conversation?.name ?? 'Conversation'}
-          </Text>
-          <Text variant="bodyXs" muted numberOfLines={1}>
-            {conversation?.online ? 'Online now' : conversation?.context ?? ''}
-          </Text>
+        <YStack flex={1} gap={3}>
+          <XStack alignItems="center" gap={8}>
+            <Text variant="titleMd" weight="bold" numberOfLines={1} style={{ flexShrink: 1 }}>
+              {conversation?.name ?? 'Conversation'}
+            </Text>
+            {conversation?.online ? (
+              <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor="tertiaryFixed">
+                <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                  ACTIVE
+                </Text>
+              </YStack>
+            ) : null}
+          </XStack>
+          {conversation?.context ? (
+            <YStack alignSelf="flex-start" paddingHorizontal={8} paddingVertical={2} borderRadius={8} backgroundColor="surfaceContainerHigh">
+              <Text variant="codeSm" muted numberOfLines={1}>
+                {conversation.context}
+              </Text>
+            </YStack>
+          ) : null}
         </YStack>
       </XStack>
 
@@ -106,11 +119,15 @@ export default function ChatScreen() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <YStack alignItems="center" paddingVertical={8}>
-            <Text variant="bodyXs" muted>
-              {conversation?.context ?? 'Direct message'}
-            </Text>
-          </YStack>
+          <XStack alignItems="center" gap={10} paddingVertical={8}>
+            <YStack flex={1} height={1} backgroundColor="outlineVariant" />
+            <YStack paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="surfaceContainerHigh">
+              <Text variant="codeSm" weight="bold" muted>
+                {dayStamp(messages?.[0]?.sentAt)}
+              </Text>
+            </YStack>
+            <YStack flex={1} height={1} backgroundColor="outlineVariant" />
+          </XStack>
           {(messages ?? []).map((message) => (
             <MessageBubble
               key={message.id}
@@ -121,30 +138,39 @@ export default function ChatScreen() {
         </ScrollView>
       )}
 
-      <XStack
-        alignItems="flex-end"
-        gap={8}
-        paddingHorizontal={16}
-        paddingTop={8}
-        paddingBottom={insets.bottom + 8}
-        borderTopWidth={1}
-        borderTopColor="outlineVariant"
-        backgroundColor="surface"
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        style={{ flexGrow: 0 }}
+        contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingVertical: 8 }}
       >
+        {QUICK_REPLIES.map((reply) => (
+          <PressableScale key={reply} onPress={() => setDraft(reply)} accessibilityLabel={`Quick reply: ${reply}`}>
+            <YStack height={36} paddingHorizontal={14} borderRadius="full" justifyContent="center" backgroundColor="surfaceContainerHigh">
+              <Text variant="labelMd" weight="semibold">
+                {reply}
+              </Text>
+            </YStack>
+          </PressableScale>
+        ))}
+      </ScrollView>
+
+      <XStack alignItems="flex-end" gap={8} paddingHorizontal={16} paddingBottom={insets.bottom + 8}>
         <YStack
           flex={1}
-          borderRadius="lg"
+          borderRadius="full"
           borderWidth={1}
           borderColor="outlineVariant"
           backgroundColor="surfaceContainerLowest"
-          paddingHorizontal={14}
-          minHeight={44}
+          paddingHorizontal={18}
+          minHeight={48}
           justifyContent="center"
         >
           <TextInput
             value={draft}
             onChangeText={setDraft}
-            placeholder="Message"
+            placeholder={`Message ${conversation?.name?.split(' ')[0] ?? ''}…`}
             placeholderTextColor={theme.colors.outline}
             multiline
             style={{ maxHeight: 120, paddingVertical: 10, color: theme.colors.onSurface, fontSize: 15, lineHeight: 20, fontFamily: theme.typography.bodyMd.fontFamily }}
@@ -155,9 +181,9 @@ export default function ChatScreen() {
           disabled={!draft.trim() || send.isPending}
           accessibilityLabel="Send message"
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
+            width: 48,
+            height: 48,
+            borderRadius: 24,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: draft.trim() ? theme.colors.primary : theme.colors.surfaceContainerHigh,
@@ -188,9 +214,7 @@ function MessageBubble({ message, isGroup }: { message: ChatMessage; isGroup: bo
 
   return (
     <XStack justifyContent={mine ? 'flex-end' : 'flex-start'} gap={8}>
-      {!mine && isGroup ? (
-        <Avatar uri={message.authorAvatar} name={message.authorName} size={28} ring="none" />
-      ) : null}
+      {!mine ? <Avatar uri={message.authorAvatar} name={message.authorName} size={28} ring="none" /> : null}
       <YStack maxWidth="78%" gap={3}>
         {!mine && isGroup ? (
           <Text variant="bodyXs" muted style={{ marginLeft: 4 }}>
@@ -201,9 +225,9 @@ function MessageBubble({ message, isGroup }: { message: ChatMessage; isGroup: bo
           style={{
             paddingHorizontal: 14,
             paddingVertical: 10,
-            borderRadius: 18,
-            borderTopRightRadius: mine ? 6 : 18,
-            borderTopLeftRadius: mine ? 18 : 6,
+            borderRadius: 20,
+            borderBottomRightRadius: mine ? 6 : 20,
+            borderBottomLeftRadius: mine ? 20 : 6,
             backgroundColor: bubbleBackground,
           }}
         >
@@ -212,12 +236,26 @@ function MessageBubble({ message, isGroup }: { message: ChatMessage; isGroup: bo
           </Text>
         </View>
         <XStack alignItems="center" gap={4} alignSelf={mine ? 'flex-end' : 'flex-start'} marginHorizontal={4}>
-          <Text variant="bodyXs" muted>
+          <Text variant="codeSm" muted>
             {formatTime(message.sentAt)}
           </Text>
-          {mine ? <Icon name="check" size={12} color="onSurfaceVariant" /> : null}
+          {mine ? (
+            <Icon name={message.delivery === 'read' ? 'markChatRead' : 'check'} size={13} color={message.delivery === 'read' ? 'primary' : 'onSurfaceVariant'} />
+          ) : null}
         </XStack>
       </YStack>
     </XStack>
   );
+}
+
+const QUICK_REPLIES = ['👍 Looks good', 'On my way!', 'Thanks!', 'See you there'];
+
+const WEEKDAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+/** "TODAY · FRI 28 MAR" style divider for the first message's day. */
+function dayStamp(sentAt?: string): string {
+  const date = sentAt ? new Date(sentAt) : new Date();
+  const today = new Date().toDateString() === date.toDateString();
+  return `${today ? 'TODAY · ' : ''}${WEEKDAYS[date.getDay()]} ${date.getDate()} ${MONTHS[date.getMonth()]}`;
 }

@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
+import { FilterChip } from '@/components/ui/Chip';
 import { Icon, IconName } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
 import { PressableScale } from '@/components/ui/PressableScale';
@@ -35,6 +36,7 @@ export default function InboxScreen() {
   const { segment } = useLocalSearchParams<{ segment?: string }>();
   const [tab, setTab] = useState<InboxTab>(segment === 'notifications' ? 'notifications' : 'messages');
   const [query, setQuery] = useState('');
+  const [kind, setKind] = useState<'all' | 'direct' | 'groups'>('all');
 
   const conversations = useConversations();
   const notifications = useNotifications();
@@ -44,11 +46,13 @@ export default function InboxScreen() {
   const unreadNotifications = (notifications.data ?? []).filter((item) => !item.read).length;
 
   const filteredConversations = useMemo(() => {
-    const all = conversations.data ?? [];
+    const all = (conversations.data ?? []).filter((conversation) =>
+      kind === 'all' ? true : kind === 'groups' ? conversation.isGroup : !conversation.isGroup,
+    );
     const text = query.trim().toLowerCase();
     if (!text) return all;
     return all.filter((conversation) => conversation.name.toLowerCase().includes(text));
-  }, [conversations.data, query]);
+  }, [conversations.data, query, kind]);
 
   const openNotification = async (notification: AppNotification) => {
     if (!notification.read) {
@@ -72,6 +76,24 @@ export default function InboxScreen() {
             Inbox
           </Text>
         </XStack>
+        <XStack alignItems="center" justifyContent="space-between">
+          <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" backgroundColor="primaryFixed">
+            <Text variant="codeSm" weight="bold" color="onPrimaryFixedVariant">
+              LIVE FEED
+            </Text>
+            <YStack width={6} height={6} borderRadius={3} backgroundColor="primary" />
+          </XStack>
+          {unreadNotifications > 0 ? (
+            <PressableScale onPress={() => void markRead().catch(() => undefined)} accessibilityLabel="Mark all notifications read">
+              <XStack alignItems="center" gap={4} paddingVertical={8}>
+                <Icon name="markChatRead" size={14} color="primary" />
+                <Text variant="codeSm" weight="bold" primary>
+                  Mark all read
+                </Text>
+              </XStack>
+            </PressableScale>
+          ) : null}
+        </XStack>
         <SegmentedControl<InboxTab>
           accessibilityLabel="Inbox sections"
           value={tab}
@@ -88,6 +110,13 @@ export default function InboxScreen() {
             placeholder="Search conversations"
             accessibilityLabel="Search conversations"
           />
+        ) : null}
+        {tab === 'messages' ? (
+          <XStack gap={8}>
+            {(['all', 'direct', 'groups'] as const).map((key) => (
+              <FilterChip key={key} label={key === 'all' ? 'All' : key === 'direct' ? 'Direct' : 'Squad HQ'} active={kind === key} onPress={() => setKind(key)} />
+            ))}
+          </XStack>
         ) : null}
       </YStack>
 
@@ -259,7 +288,7 @@ function NotificationsTab({
                 </Text>
               ) : null}
               <Text variant="codeSm" muted>
-                {notification.createdAt}
+                {formatRelativeTime(notification.createdAt)}
               </Text>
             </YStack>
             {unread ? <YStack width={8} height={8} borderRadius={4} backgroundColor="primary" /> : null}
@@ -271,54 +300,62 @@ function NotificationsTab({
 }
 
 function ConversationRow({ conversation, onPress }: { conversation: Conversation; onPress: () => void }) {
-  const theme = useTheme();
   const unread = conversation.unreadCount > 0;
   return (
-    <PressableScale
-      onPress={onPress}
-      accessibilityLabel={`Open conversation with ${conversation.name}`}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-        padding: 12,
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: unread ? theme.colors.primaryContainer : theme.colors.outlineVariant,
-      }}
-    >
-      {conversation.avatar ? (
-        <Avatar uri={conversation.avatar} name={conversation.name} size={48} online={conversation.online} />
-      ) : (
-        <YStack width={48} height={48} borderRadius={24} alignItems="center" justifyContent="center" backgroundColor="secondaryFixed">
-          <Icon name="groups" size={22} color="onSecondaryFixedVariant" />
+    <PressableScale onPress={onPress} accessibilityLabel={`Open conversation with ${conversation.name}`}>
+      <XStack
+        alignItems="center"
+        gap={12}
+        padding={14}
+        borderRadius="card"
+        backgroundColor="surfaceContainerLowest"
+        borderWidth={1}
+        borderColor="outlineVariant"
+        borderLeftWidth={unread ? 4 : 1}
+        borderLeftColor={unread ? 'primary' : 'outlineVariant'}
+      >
+        {conversation.avatar ? (
+          <Avatar uri={conversation.avatar} name={conversation.name} size={52} online={conversation.online} />
+        ) : (
+          <YStack width={52} height={52} borderRadius={26} alignItems="center" justifyContent="center" backgroundColor="tertiaryContainer">
+            <Icon name="groups" size={24} color="onTertiaryContainer" />
+          </YStack>
+        )}
+        <YStack flex={1} gap={4}>
+          <XStack alignItems="center" gap={6}>
+            {conversation.pinned ? <Icon name="pushPin" size={12} color="onSurfaceVariant" /> : null}
+            <Text variant="labelLg" weight="bold" numberOfLines={1} style={{ flexShrink: 1 }}>
+              {conversation.name}
+            </Text>
+            {conversation.context ? (
+              <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor={conversation.isGroup ? 'tertiaryFixed' : 'primaryFixed'}>
+                <Text variant="codeSm" color={conversation.isGroup ? 'onTertiaryFixedVariant' : 'onPrimaryFixedVariant'} numberOfLines={1}>
+                  {conversation.context}
+                </Text>
+              </YStack>
+            ) : null}
+            <YStack flex={1} />
+            <Text variant="codeSm" weight={unread ? 'bold' : 'regular'} color={unread ? 'primary' : 'onSurfaceVariant'}>
+              {formatRelativeTime(conversation.lastMessageAt).toUpperCase()}
+            </Text>
+          </XStack>
+          <XStack alignItems="center" gap={8}>
+            <Text variant="bodySm" muted={!unread} weight={unread ? 'medium' : 'regular'} style={{ flex: 1 }} numberOfLines={1}>
+              {conversation.lastMessage}
+            </Text>
+            {unread ? (
+              <YStack minWidth={22} height={22} paddingHorizontal={6} borderRadius={11} alignItems="center" justifyContent="center" backgroundColor="primary">
+                <Text variant="codeSm" weight="bold" color="onPrimary">
+                  {conversation.unreadCount}
+                </Text>
+              </YStack>
+            ) : (
+              <Icon name="markChatRead" size={14} color="onSurfaceVariant" />
+            )}
+          </XStack>
         </YStack>
-      )}
-
-      <YStack flex={1} gap={3}>
-        <XStack alignItems="center" gap={6}>
-          {conversation.pinned ? <Icon name="pushPin" size={12} color="onSurfaceVariant" /> : null}
-          <Text variant="labelLg" weight={unread ? 'bold' : 'semibold'} style={{ flex: 1 }} numberOfLines={1}>
-            {conversation.name}
-          </Text>
-          <Text variant="bodyXs" muted>
-            {formatRelativeTime(conversation.lastMessageAt)}
-          </Text>
-        </XStack>
-        <XStack alignItems="center" gap={8}>
-          <Text variant="bodySm" muted={!unread} weight={unread ? 'medium' : 'regular'} style={{ flex: 1 }} numberOfLines={1}>
-            {conversation.lastMessage}
-          </Text>
-          {unread ? (
-            <YStack minWidth={20} height={20} paddingHorizontal={6} borderRadius={10} alignItems="center" justifyContent="center" backgroundColor="primary">
-              <Text variant="bodyXs" weight="bold" color="onPrimary">
-                {conversation.unreadCount}
-              </Text>
-            </YStack>
-          ) : null}
-        </XStack>
-      </YStack>
+      </XStack>
     </PressableScale>
   );
 }
+
