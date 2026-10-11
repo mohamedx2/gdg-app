@@ -19,11 +19,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { TamaguiProvider } from 'tamagui';
 
 import { ToastProvider } from '@/components/ui/Toast';
 import { AuthProvider } from '@/features/auth/auth-provider';
 import { initNotifications } from '@/lib/notifications';
 import { useTheme } from '@/theme';
+import { tamaguiConfig } from '../../tamagui.config';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -52,48 +54,50 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <StatusBar style={theme.isDark ? 'light' : 'dark'} />
-          {loaded || error ? (
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: theme.colors.background },
-              }}
-            >
-              <Stack.Screen name="(auth)" />
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="events/[id]" />
-              <Stack.Screen name="ticket/[id]" />
-              <Stack.Screen name="resource/[id]" />
-              <Stack.Screen name="community/[id]" />
-              <Stack.Screen name="notifications" />
-              <Stack.Screen name="achievements" />
-              <Stack.Screen name="squads" />
-              <Stack.Screen name="quests" />
-              <Stack.Screen name="presence" />
-              <Stack.Screen name="quiz" />
-              <Stack.Screen name="ideas" />
-              <Stack.Screen name="decisions" />
-              <Stack.Screen name="stats" />
-              <Stack.Screen name="memories" />
-              <Stack.Screen name="animations" />
-              <Stack.Screen name="tasks" />
-              <Stack.Screen name="messages" />
-              <Stack.Screen name="messages/[id]" />
-              <Stack.Screen name="settings/index" />
-              <Stack.Screen name="settings/notifications" />
-              <Stack.Screen name="settings/appearance" />
-              <Stack.Screen name="admin/index" />
-              <Stack.Screen name="admin/check-in" />
-              <Stack.Screen name="admin/roles" />
-            </Stack>
-          ) : null}
-          <NotificationBridge />
-          <ToastProvider />
-        </AuthProvider>
-      </QueryClientProvider>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={theme.isDark ? 'dark' : 'light'}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <StatusBar style={theme.isDark ? 'light' : 'dark'} />
+            {loaded || error ? (
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: theme.colors.background },
+                }}
+              >
+                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="events/[id]" />
+                <Stack.Screen name="ticket/[id]" />
+                <Stack.Screen name="resource/[id]" />
+                <Stack.Screen name="community/[id]" />
+                <Stack.Screen name="notifications" />
+                <Stack.Screen name="achievements" />
+                <Stack.Screen name="squads" />
+                <Stack.Screen name="quests" />
+                <Stack.Screen name="presence" />
+                <Stack.Screen name="quiz" />
+                <Stack.Screen name="ideas" />
+                <Stack.Screen name="decisions" />
+                <Stack.Screen name="stats" />
+                <Stack.Screen name="memories" />
+                <Stack.Screen name="animations" />
+                <Stack.Screen name="tasks" />
+                <Stack.Screen name="messages" />
+                <Stack.Screen name="messages/[id]" />
+                <Stack.Screen name="settings/index" />
+                <Stack.Screen name="settings/notifications" />
+                <Stack.Screen name="settings/appearance" />
+                <Stack.Screen name="admin/index" />
+                <Stack.Screen name="admin/check-in" />
+                <Stack.Screen name="admin/roles" />
+              </Stack>
+            ) : null}
+            <NotificationBridge />
+            <ToastProvider />
+          </AuthProvider>
+        </QueryClientProvider>
+      </TamaguiProvider>
     </GestureHandlerRootView>
   );
 }
