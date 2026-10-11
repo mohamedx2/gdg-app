@@ -59,12 +59,18 @@ export default function LoginScreen() {
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
       </YStack>
       <ScrollView contentContainerStyle={{ padding: 20, gap: 20 }} keyboardShouldPersistTaps="handled">
-        <YStack gap={8}>
-          <Text variant="headlineLg" weight="bold">
-            Welcome back 👋
+        <YStack gap={10} alignItems="center">
+          <XStack alignItems="center" gap={8} paddingHorizontal={14} paddingVertical={6} borderRadius="full" backgroundColor="surfaceContainerHigh">
+            <GoogleDots />
+            <Text variant="codeSm" weight="bold">
+              GDG ON CAMPUS EPI
+            </Text>
+          </XStack>
+          <Text variant="headlineMd" weight="bold" style={{ textAlign: 'center' }}>
+            Welcome back, builder
           </Text>
-          <Text variant="bodyMd" muted>
-            Sign in to your GDG EPI account to keep building.
+          <Text variant="bodyMd" muted style={{ textAlign: 'center' }}>
+            Sign in to access your squad XP, event tickets and community votes.
           </Text>
         </YStack>
 
@@ -72,7 +78,7 @@ export default function LoginScreen() {
 
         <XStack alignItems="center" gap={12}>
           <YStack flex={1} height={1} backgroundColor="outlineVariant" />
-          <Text variant="codeSm" muted>OR</Text>
+          <Text variant="codeSm" muted>OR CONTINUE WITH EMAIL</Text>
           <YStack flex={1} height={1} backgroundColor="outlineVariant" />
         </XStack>
 
@@ -117,28 +123,46 @@ export default function LoginScreen() {
             Create an account
           </Text>
         </XStack>
+
+        <XStack alignSelf="center" alignItems="center" gap={8} paddingHorizontal={14} paddingVertical={8} borderRadius="full" backgroundColor="surfaceContainerLow">
+          <YStack width={7} height={7} borderRadius={4} backgroundColor="live" />
+          <Text variant="codeSm" muted>
+            Secured sign-in · EPI Campus Network
+          </Text>
+        </XStack>
       </ScrollView>
     </KeyboardShift>
   );
 }
 
-function GoogleButton({ onPress, disabled }: { onPress: () => void; disabled: boolean }) {
-  const theme = useTheme();
+function GoogleDots() {
   return (
-    <PressableScale onPress={onPress} disabled={disabled} style={{ height: 48, borderRadius: 8, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-      <YStack position="absolute" left={16}>
-        <XStack gap={2}>
-          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#4285F4" />
-          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#EA4335" />
-        </XStack>
-        <XStack gap={2} marginTop={2}>
-          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#FBBC04" />
-          <YStack width={7} height={7} borderRadius={3.5} backgroundColor="#34A853" />
-        </XStack>
-      </YStack>
-      <Text variant="labelLg" color="primary">
-        Continue with Google
-      </Text>
+    <XStack gap={3}>
+      {(['info', 'error', 'warning', 'success'] as const).map((color) => (
+        <YStack key={color} width={7} height={7} borderRadius={4} backgroundColor={color} />
+      ))}
+    </XStack>
+  );
+}
+
+function GoogleButton({ onPress, disabled }: { onPress: () => void; disabled: boolean }) {
+  return (
+    <PressableScale onPress={onPress} disabled={disabled} accessibilityLabel="Continue with Google">
+      <XStack height={56} borderRadius={16} alignItems="center" justifyContent="center" gap={12} backgroundColor="surfaceContainerHigh" opacity={disabled ? 0.6 : 1}>
+        <YStack>
+          <XStack gap={2}>
+            <YStack width={7} height={7} borderRadius={4} backgroundColor="info" />
+            <YStack width={7} height={7} borderRadius={4} backgroundColor="error" />
+          </XStack>
+          <XStack gap={2} marginTop={2}>
+            <YStack width={7} height={7} borderRadius={4} backgroundColor="warning" />
+            <YStack width={7} height={7} borderRadius={4} backgroundColor="success" />
+          </XStack>
+        </YStack>
+        <Text variant="labelLg" weight="bold">
+          Continue with Google
+        </Text>
+      </XStack>
     </PressableScale>
   );
 }
