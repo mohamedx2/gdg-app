@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { RequirePermission } from '@/components/RequirePermission';
 import { Button } from '@/components/ui/Button';
@@ -55,39 +56,39 @@ function RolesManager() {
   const visible = level === 'all' ? members : members.filter((member) => accessLevelOf(member.role) === level);
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" gap={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
         <Text variant="headlineMd" weight="bold">
           Roles & access
         </Text>
-      </View>
+      </XStack>
 
       <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 48 }} showsVerticalScrollIndicator={false}>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
+        <XStack gap={10}>
           {(Object.keys(ACCESS_LEVELS) as AccessLevel[]).map((key) => (
-            <View key={key} style={{ flex: 1, gap: 4, padding: 12, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}>
+            <YStack key={key} flex={1} gap={4} padding={12} borderRadius="base" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
               <Icon name={ACCESS_LEVELS[key].icon} size={16} color="primary" />
               <Text variant="titleLg" weight="bold">{counts[key]}</Text>
               <Text variant="bodyXs" muted numberOfLines={1}>{ACCESS_LEVELS[key].label}</Text>
-            </View>
+            </YStack>
           ))}
-        </View>
+        </XStack>
 
         <SearchBar value={search} onChangeText={setSearch} placeholder="Search members" />
 
-        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+        <XStack gap={8} flexWrap="wrap">
           {LEVEL_FILTERS.map((item) => (
             <FilterChip key={item.key} label={item.label} active={level === item.key} onPress={() => setLevel(item.key)} />
           ))}
-        </View>
+        </XStack>
 
         {isError ? (
           <ErrorState message={error instanceof Error ? error.message : undefined} onRetry={() => refetch()} />
         ) : isPending && !data ? (
           [1, 2, 3, 4].map((key) => <Skeleton key={key} height={64} radius={12} />)
         ) : (
-          <View style={{ borderRadius: theme.radius.card, overflow: 'hidden', backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}>
+          <YStack borderRadius="card" overflow="hidden" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
             {visible.map((member, index) => {
               const meta = MEMBER_ROLES[member.role];
               return (
@@ -98,10 +99,10 @@ function RolesManager() {
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderTopWidth: index === 0 ? 0 : 1, borderTopColor: theme.colors.outlineVariant }}
                 >
                   <Avatar uri={member.avatar} name={member.name} size={40} />
-                  <View style={{ flex: 1, gap: 2 }}>
+                  <YStack flex={1} gap={2}>
                     <Text variant="labelLg" weight="semibold" numberOfLines={1}>{member.name}</Text>
                     <Text variant="bodyXs" muted numberOfLines={1}>{member.headline}</Text>
-                  </View>
+                  </YStack>
                   <Pill label={meta.label} color={meta.chipColor} dot />
                 </PressableScale>
               );
@@ -109,12 +110,12 @@ function RolesManager() {
             {visible.length === 0 ? (
               <Text variant="bodySm" muted style={{ padding: 16 }}>No members match.</Text>
             ) : null}
-          </View>
+          </YStack>
         )}
       </ScrollView>
 
       <RoleSheet key={editing?.id ?? 'none'} member={editing} onClose={() => setEditing(null)} />
-    </View>
+    </YStack>
   );
 }
 
@@ -144,7 +145,7 @@ function RoleSheet({ member, onClose }: { member: Member | null; onClose: () => 
 
   return (
     <ModalSheet visible={!!member} onClose={onClose} title={member ? `Role · ${member.name}` : 'Role'}>
-      <View style={{ gap: 10 }}>
+      <YStack gap={10}>
         {ASSIGNABLE_ROLES.map((option) => {
           const access = ACCESS_LEVELS[accessLevelOf(option)];
           const active = role === option;
@@ -167,10 +168,10 @@ function RoleSheet({ member, onClose }: { member: Member | null; onClose: () => 
               }}
             >
               <Icon name={access.icon} size={20} color={active ? 'primary' : 'onSurfaceVariant'} />
-              <View style={{ flex: 1 }}>
+              <YStack flex={1}>
                 <Text variant="labelLg" weight="bold">{access.label}</Text>
                 <Text variant="bodyXs" muted>{access.description}</Text>
-              </View>
+              </YStack>
               <Icon name={active ? 'radioButtonChecked' : 'radioButtonUnchecked'} size={20} color={active ? 'primary' : 'outline'} />
             </PressableScale>
           );
@@ -181,7 +182,7 @@ function RoleSheet({ member, onClose }: { member: Member | null; onClose: () => 
           </Text>
         ) : null}
         <Button label="Save role" icon="check" loading={setRole.isPending} onPress={save} />
-      </View>
+      </YStack>
     </ModalSheet>
   );
 }

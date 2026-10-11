@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { RequirePermission } from '@/components/RequirePermission';
 import { Button } from '@/components/ui/Button';
@@ -30,7 +31,6 @@ export default function AdminScreen() {
 }
 
 function AdminScreenContent() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { adminStats: STATS } = useUiConfig();
@@ -40,71 +40,68 @@ function AdminScreenContent() {
   const { can } = useAuth();
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" justifyContent="space-between">
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Organizer dashboard
           </Text>
-        </View>
-        <View style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: theme.colors.primaryFixed, alignItems: 'center', justifyContent: 'center' }}>
+        </XStack>
+        <YStack width={34} height={34} borderRadius={10} backgroundColor="primaryFixed" alignItems="center" justifyContent="center">
           <Icon name="barChart" size={18} color="primary" />
-        </View>
-      </View>
+        </YStack>
+      </XStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : null}
 
       {isPending || !stats ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={120} radius={12} />
           <Skeleton height={200} radius={12} />
-        </View>
+        </YStack>
       ) : (
         <ScrollView contentContainerStyle={{ padding: 16, gap: 20, paddingBottom: 48 }} showsVerticalScrollIndicator={false}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+          <XStack flexWrap="wrap" gap={10}>
             {STATS.map((stat) => {
               const value = stat.key === 'attendanceRate' ? `${stats[stat.key]}%` : formatCount(stats[stat.key]);
               return (
-                <View
+                <XStack
                   key={stat.key}
-                  style={{
-                    flexBasis: '47%',
-                    flexGrow: 1,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: 14,
-                    borderRadius: theme.radius.card,
-                    backgroundColor: theme.colors.surfaceContainerLowest,
-                    borderWidth: 1,
-                    borderColor: theme.colors.outlineVariant,
-                  }}
+                  flexBasis="47%"
+                  flexGrow={1}
+                  alignItems="center"
+                  gap={10}
+                  padding={14}
+                  borderRadius="card"
+                  backgroundColor="surfaceContainerLowest"
+                  borderWidth={1}
+                  borderColor="outlineVariant"
                 >
-                  <View style={{ width: 38, height: 38, borderRadius: 11, backgroundColor: theme.colors.primaryFixed, alignItems: 'center', justifyContent: 'center' }}>
+                  <YStack width={38} height={38} borderRadius={11} backgroundColor="primaryFixed" alignItems="center" justifyContent="center">
                     <Icon name={stat.icon} size={18} color="primary" />
-                  </View>
-                  <View style={{ gap: 2 }}>
+                  </YStack>
+                  <YStack gap={2}>
                     <Text variant="titleMd" weight="bold">{value}</Text>
                     <Text variant="codeSm" muted>{stat.label}</Text>
-                  </View>
-                </View>
+                  </YStack>
+                </XStack>
               );
             })}
-          </View>
+          </XStack>
 
           <AnnouncementComposer />
 
-          <View style={{ gap: 10 }}>
+          <YStack gap={10}>
             <Text variant="titleMd" weight="bold">Announcements</Text>
             {announcements && announcements.length > 0 ? (
               announcements.slice(0, 4).map((announcement) => (
-                <View key={announcement.id} style={{ padding: 12, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant, gap: 4 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <YStack key={announcement.id} padding={12} borderRadius="base" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant" gap={4}>
+                  <XStack alignItems="center" gap={8}>
                     {announcement.pinned ? (
                       <Icon name="pushPin" size={14} color="primary" />
                     ) : null}
@@ -112,19 +109,19 @@ function AdminScreenContent() {
                       {announcement.title}
                     </Text>
                     <DeleteAnnouncementButton id={announcement.id} />
-                  </View>
+                  </XStack>
                   <Text variant="bodySm" muted numberOfLines={2}>{announcement.body}</Text>
-                </View>
+                </YStack>
               ))
             ) : (
               <Text variant="bodySm" muted>No announcements yet.</Text>
             )}
-          </View>
+          </YStack>
 
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <XStack gap={8}>
             <Button label="Event tasks" icon="taskAlt" variant="container" onPress={() => router.push('/tasks')} />
             <Button label="Core votes" icon="howToVote" variant="container" onPress={() => router.push('/decisions')} />
-          </View>
+          </XStack>
 
           {can('roles.manage') ? (
             <Button label="Roles & access" icon="shield" variant="container" onPress={() => router.push('/admin/roles' as never)} />
@@ -132,13 +129,13 @@ function AdminScreenContent() {
 
           <Button label="Scan tickets at the door" icon="qrCodeScanner" onPress={() => router.push('/admin/check-in')} />
 
-          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <XStack gap={8}>
             <Button label="Create event" icon="add" variant="container" onPress={() => toast('Event builder coming soon', 'info')} />
             <Button label="Manage events" icon="editCalendar" onPress={() => toast('Open the Events tab to manage', 'info')} />
-          </View>
+          </XStack>
         </ScrollView>
       )}
-    </View>
+    </YStack>
   );
 }
 
@@ -177,9 +174,9 @@ function AnnouncementComposer() {
   };
 
   return (
-    <View style={{ gap: 10 }}>
+    <YStack gap={10}>
       <Text variant="titleMd" weight="bold">New announcement</Text>
-      <View style={{ gap: 10, padding: 14, borderRadius: theme.radius.card, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}>
+      <YStack gap={10} padding={14} borderRadius="card" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
         <Input value={title} onChangeText={setTitle} placeholder="Title" />
         <TextInput
           value={body}
@@ -203,8 +200,8 @@ function AnnouncementComposer() {
           }}
         />
         <Button label="Publish to community" icon="campaign" onPress={submit} loading={busy} />
-      </View>
-    </View>
+      </YStack>
+    </YStack>
   );
 }
 

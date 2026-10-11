@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React from 'react';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Icon, IconName } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
@@ -40,39 +41,39 @@ export default function NotificationsScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" justifyContent="space-between">
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Notifications
           </Text>
-        </View>
+        </XStack>
         <Icon
           name="campaign"
           size={22}
           color={data?.some((notification) => !notification.read) ? 'primary' : 'secondary'}
         />
-      </View>
+      </XStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : null}
 
       {isPending ? (
-        <View style={{ padding: 16, paddingTop: 20, gap: 12 }}>
+        <YStack padding={16} paddingTop={20} gap={12}>
           {[1, 2, 3, 4].map((key) => (
-            <View key={key} style={{ flexDirection: 'row', gap: 10 }}>
+            <XStack key={key} gap={10}>
               <Skeleton width={40} height={40} radius={12} />
-              <View style={{ flex: 1, gap: 6 }}>
+              <YStack flex={1} gap={6}>
                 <Skeleton height={13} width="70%" />
                 <Skeleton height={10} width="40%" />
-              </View>
-            </View>
+              </YStack>
+            </XStack>
           ))}
-        </View>
+        </YStack>
       ) : null}
 
       {!isPending && data && data.length === 0 ? (
@@ -102,10 +103,10 @@ export default function NotificationsScreen() {
                   borderColor: unread ? theme.colors.primaryContainer : theme.colors.outlineVariant,
                 }}
               >
-                <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: unread ? theme.colors.primaryFixed : theme.colors.surfaceContainerLow, alignItems: 'center', justifyContent: 'center' }}>
+                <YStack width={40} height={40} borderRadius={12} backgroundColor={unread ? 'primaryFixed' : 'surfaceContainerLow'} alignItems="center" justifyContent="center">
                   <Icon name={KIND_ICON[notification.type] ?? 'campaign'} size={18} color={unread ? 'primary' : 'secondary'} />
-                </View>
-                <View style={{ flex: 1, gap: 2 }}>
+                </YStack>
+                <YStack flex={1} gap={2}>
                   <Text variant="bodyMd" weight={unread ? 'semibold' : 'medium'} numberOfLines={2}>
                     {notification.title}
                     {notification.body ? (
@@ -117,13 +118,13 @@ export default function NotificationsScreen() {
                   <Text variant="codeSm" muted>
                     {notification.createdAt}
                   </Text>
-                </View>
-                {unread ? <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: theme.colors.primary }} /> : null}
+                </YStack>
+                {unread ? <YStack width={8} height={8} borderRadius={4} backgroundColor="primary" /> : null}
               </PressableScale>
             );
           })}
         </ScrollView>
       ) : null}
-    </View>
+    </YStack>
   );
 }

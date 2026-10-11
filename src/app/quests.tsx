@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { QuestCard } from '@/components/QuestCard';
 import { Icon } from '@/components/ui/Icon';
@@ -13,11 +14,9 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { Text } from '@/components/ui/Text';
 import { useClaimQuest, useQuests } from '@/hooks/use-quests';
 import { useUiStore } from '@/stores/ui.store';
-import { useTheme } from '@/theme';
 import type { Quest } from '@/types';
 
 export default function QuestsScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { data: quests, isPending, isError, error, refetch } = useQuests();
@@ -36,27 +35,27 @@ export default function QuestsScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16}>
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Quests
           </Text>
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : isPending && !quests ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={72} radius={14} />
           {[1, 2].map((key) => (
             <Skeleton key={key} height={200} radius={14} />
           ))}
-        </View>
+        </YStack>
       ) : (
         <ScrollView
           style={{ flex: 1 }}
@@ -64,14 +63,14 @@ export default function QuestsScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Reveal>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
+            <XStack gap={8}>
               <SummaryTile label="Active" value={active.length} icon="flag" />
               <SummaryTile label="Ready" value={readyCount} icon="stars" highlight={readyCount > 0} />
               <SummaryTile label="XP earned" value={earned} icon="bolt" />
-            </View>
+            </XStack>
           </Reveal>
 
-          <View style={{ gap: 12 }}>
+          <YStack gap={12}>
             <SectionHeader title="In progress" subtitle="Finish every step to unlock the reward" accent="primary" />
             {active.map((quest: Quest) => (
               <QuestCard
@@ -81,35 +80,32 @@ export default function QuestsScreen() {
                 claiming={claim.isPending && claim.variables === quest.id}
               />
             ))}
-          </View>
+          </YStack>
 
           {locked.length > 0 ? (
-            <View style={{ gap: 12 }}>
+            <YStack gap={12}>
               <SectionHeader title="Locked" subtitle="Unlock as your streak and level grow" accent="secondary" />
               {locked.map((quest: Quest) => (
                 <QuestCard key={quest.id} quest={quest} onClaim={handleClaim} claiming={false} />
               ))}
-            </View>
+            </YStack>
           ) : null}
         </ScrollView>
       )}
-    </View>
+    </YStack>
   );
 }
 
 function SummaryTile({ label, value, icon, highlight }: { label: string; value: number; icon: 'flag' | 'stars' | 'bolt'; highlight?: boolean }) {
-  const theme = useTheme();
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 12,
-        borderRadius: theme.radius.card,
-        backgroundColor: highlight ? theme.colors.primaryFixed : theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: highlight ? theme.colors.primaryContainer : theme.colors.outlineVariant,
-        gap: 4,
-      }}
+    <YStack
+      flex={1}
+      padding={12}
+      borderRadius="card"
+      backgroundColor={highlight ? 'primaryFixed' : 'surfaceContainerLowest'}
+      borderWidth={1}
+      borderColor={highlight ? 'primaryContainer' : 'outlineVariant'}
+      gap={4}
     >
       <Icon name={icon} size={18} color={highlight ? 'primary' : 'secondary'} />
       <Text variant="titleMd" weight="bold" color={highlight ? 'primary' : 'onSurface'}>
@@ -118,6 +114,6 @@ function SummaryTile({ label, value, icon, highlight }: { label: string; value: 
       <Text variant="bodyXs" muted>
         {label}
       </Text>
-    </View>
+    </YStack>
   );
 }

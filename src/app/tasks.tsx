@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { SwipeableRow } from '@/components/animations';
 import { TaskCard } from '@/components/TaskCard';
@@ -22,7 +23,6 @@ import { useAuth } from '@/features/auth/auth-provider';
 import { useEvents, useUpcomingEvents } from '@/hooks/use-events';
 import { useCreateTask, useSetTaskStatus, useTasks } from '@/hooks/use-tasks';
 import { useUiStore } from '@/stores/ui.store';
-import { useTheme } from '@/theme';
 import type { Task, TaskPriority, TaskStatus } from '@/types';
 
 type TaskFilter = 'active' | 'mine' | 'todo' | 'done';
@@ -48,7 +48,6 @@ const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
 };
 
 export default function TasksScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { can } = useAuth();
@@ -113,34 +112,34 @@ export default function TasksScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" gap={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
         <Text variant="headlineMd" weight="bold">
           Event tasks
         </Text>
-      </View>
+      </XStack>
 
       {!canView ? (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 }}>
-          <View style={{ width: 56, height: 56, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.surfaceContainerHigh }}>
+        <YStack flex={1} alignItems="center" justifyContent="center" padding={32} gap={10}>
+          <YStack width={56} height={56} borderRadius={18} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
             <Icon name="lock" size={26} color="onSurfaceVariant" />
-          </View>
+          </YStack>
           <Text variant="titleMd" weight="bold">Core team only</Text>
           <Text variant="bodySm" muted style={{ textAlign: 'center' }}>
             Event tasks are handled by the core team. Want to help organise? Apply to join the core team.
           </Text>
-        </View>
+        </YStack>
       ) : isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : isPending && !tasks ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={72} radius={14} />
           <Skeleton height={130} radius={14} />
           <Skeleton height={130} radius={14} />
-        </View>
+        </YStack>
       ) : (
         <>
           <ScrollView
@@ -149,18 +148,18 @@ export default function TasksScreen() {
             showsVerticalScrollIndicator={false}
           >
             <Reveal>
-              <View style={{ flexDirection: 'row', gap: 12 }}>
+              <XStack gap={12}>
                 <SummaryTile value={counts.todo} label="To do" icon="radioButtonUnchecked" color="onSurfaceVariant" />
                 <SummaryTile value={counts.inProgress} label="In progress" icon="schedule" color="warning" />
                 <SummaryTile value={counts.done} label="Done" icon="checkCircle" color="tertiary" />
-              </View>
+              </XStack>
             </Reveal>
 
-            <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+            <XStack gap={8} flexWrap="wrap">
               {FILTERS.map((item) => (
                 <FilterChip key={item.key} label={item.label} active={filter === item.key} onPress={() => setFilter(item.key)} />
               ))}
-            </View>
+            </XStack>
 
             <SectionHeader
               title={filter === 'done' ? 'Completed' : filter === 'mine' ? 'Your tasks' : 'By event'}
@@ -169,26 +168,26 @@ export default function TasksScreen() {
               }
               accent="primary"
             />
-            <View style={{ gap: 22 }}>
+            <YStack gap={22}>
               {groups.length ? (
                 groups.map((group) => {
                   const done = group.items.filter((task) => task.status === 'done').length;
                   return (
-                    <View key={group.key} style={{ gap: 10 }}>
+                    <YStack key={group.key} gap={10}>
                       <PressableScale
                         disabled={!group.eventId}
                         onPress={() => group.eventId && router.push(`/events/${group.eventId}` as never)}
                         style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}
                       >
-                        <View style={{ width: 32, height: 32, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: group.eventId ? theme.colors.primaryFixed : theme.colors.surfaceContainerHigh }}>
+                        <YStack width={32} height={32} borderRadius={10} alignItems="center" justifyContent="center" backgroundColor={group.eventId ? 'primaryFixed' : 'surfaceContainerHigh'}>
                           <Icon name={group.eventId ? 'event' : 'groups'} size={16} color={group.eventId ? 'primary' : 'onSurfaceVariant'} />
-                        </View>
-                        <View style={{ flex: 1 }}>
+                        </YStack>
+                        <YStack flex={1}>
                           <Text variant="labelLg" weight="bold" numberOfLines={1}>{group.title}</Text>
                           <Text variant="bodyXs" muted>
                             {group.items.length} task{group.items.length > 1 ? 's' : ''} · {done} done
                           </Text>
-                        </View>
+                        </YStack>
                         {group.eventId ? <Icon name="chevronRight" size={18} color="secondary" /> : null}
                       </PressableScale>
                       {group.items.map((task) => {
@@ -207,37 +206,36 @@ export default function TasksScreen() {
                           </SwipeableRow>
                         );
                       })}
-                    </View>
+                    </YStack>
                   );
                 })
               ) : (
-                <View style={{ alignItems: 'center', gap: 6, paddingVertical: 32 }}>
+                <YStack alignItems="center" gap={6} paddingVertical={32}>
                   <Icon name="taskAlt" size={28} color="secondary" />
                   <Text variant="bodySm" muted>
                     Nothing here — you&apos;re all caught up.
                   </Text>
-                </View>
+                </YStack>
               )}
-            </View>
+            </YStack>
           </ScrollView>
 
           {canManage ? (
-            <View style={{ position: 'absolute', left: 16, right: 16, bottom: insets.bottom + 16 }}>
+            <YStack position="absolute" left={16} right={16} bottom={insets.bottom + 16}>
               <Button label="Assign a task" icon="add" onPress={() => setComposerOpen(true)} />
-            </View>
+            </YStack>
           ) : null}
         </>
       )}
 
       <TaskComposer visible={composerOpen} onClose={() => setComposerOpen(false)} />
-    </View>
+    </YStack>
   );
 }
 
 function SummaryTile({ value, label, icon, color }: { value: number; label: string; icon: 'radioButtonUnchecked' | 'schedule' | 'checkCircle'; color: 'onSurfaceVariant' | 'warning' | 'tertiary' }) {
-  const theme = useTheme();
   return (
-    <View style={{ flex: 1, gap: 4, padding: 12, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLowest, borderWidth: 1, borderColor: theme.colors.outlineVariant }}>
+    <YStack flex={1} gap={4} padding={12} borderRadius="base" backgroundColor="surfaceContainerLowest" borderWidth={1} borderColor="outlineVariant">
       <Icon name={icon} size={16} color={color} />
       <Text variant="titleLg" weight="bold">
         {value}
@@ -245,7 +243,7 @@ function SummaryTile({ value, label, icon, color }: { value: number; label: stri
       <Text variant="bodyXs" muted>
         {label}
       </Text>
-    </View>
+    </YStack>
   );
 }
 
@@ -303,17 +301,17 @@ function TaskComposer({ visible, onClose }: { visible: boolean; onClose: () => v
 
   return (
     <ModalSheet visible={visible} onClose={onClose} title="Assign a task">
-      <View style={{ gap: 14 }}>
+      <YStack gap={14}>
         <Input label="Task" value={title} onChangeText={setTitle} placeholder="What needs doing?" icon="taskAlt" maxLength={90} />
 
-        <View style={{ gap: 6 }}>
+        <YStack gap={6}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Details
           </Text>
           <Input value={description} onChangeText={setDescription} placeholder="Add a little context" maxLength={200} />
-        </View>
+        </YStack>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Event
           </Text>
@@ -323,36 +321,36 @@ function TaskComposer({ visible, onClose }: { visible: boolean; onClose: () => v
               <FilterChip key={event.id} label={event.title} active={eventId === event.id} onPress={() => setEventId(event.id)} />
             ))}
           </ScrollView>
-        </View>
+        </YStack>
 
         <Input label="Assign to" value={assignee} onChangeText={setAssignee} placeholder="Leave blank to assign yourself" icon="person" />
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Priority
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <XStack gap={8} flexWrap="wrap">
             {(['low', 'medium', 'high'] as TaskPriority[]).map((key) => (
               <FilterChip key={key} label={TASK_PRIORITY[key].label} active={priority === key} onPress={() => setPriority(key)} />
             ))}
-          </View>
-        </View>
+          </XStack>
+        </YStack>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Due
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <XStack gap={8} flexWrap="wrap">
             {DUE_OPTIONS.map((item) => (
               <FilterChip key={item.key} label={item.label} active={due === item.key} onPress={() => setDue(item.key)} />
             ))}
-          </View>
-        </View>
+          </XStack>
+        </YStack>
 
         <Input label="Points on completion" value={points} onChangeText={setPoints} icon="bolt" keyboardType="number-pad" />
 
         <Button label="Assign task" icon="taskAlt" loading={create.isPending} onPress={submit} />
-      </View>
+      </YStack>
     </ModalSheet>
   );
 }

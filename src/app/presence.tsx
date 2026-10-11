@@ -1,7 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -22,13 +23,11 @@ import {
   useUpdatePresence,
 } from '@/hooks/use-presence';
 import { useUiStore } from '@/stores/ui.store';
-import { useTheme } from '@/theme';
 import type { MyPresence, PresenceMember, PresenceOverview, PresenceStatus, UpdatePresenceInput } from '@/types';
 
 type DraftScope = 'event' | 'hour' | 'open';
 
 export default function PresenceScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ eventId?: string }>();
   const eventId = params.eventId;
@@ -96,21 +95,21 @@ export default function PresenceScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16}>
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Who’s around
           </Text>
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isPending && !mine ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={150} radius={14} />
           <Skeleton height={120} radius={14} />
-        </View>
+        </YStack>
       ) : (
         <ScrollView
           style={{ flex: 1 }}
@@ -151,48 +150,44 @@ export default function PresenceScreen() {
             />
           )}
 
-          <View style={{ gap: 12 }}>
+          <YStack gap={12}>
             <SectionHeader title="Campus right now" subtitle="Crowd-level — nobody’s exact spot" accent="tertiary" />
             <OverviewGrid overview={overview} />
-          </View>
+          </YStack>
 
-          <View style={{ gap: 12 }}>
+          <YStack gap={12}>
             <SectionHeader
               title={isOrganizer ? 'Your core team' : 'Your view'}
               subtitle={isOrganizer ? 'Members sharing their status with the team' : 'Privacy-scoped by design'}
               accent="primary"
             />
             {isOrganizer ? <Roster list={roster} /> : <MemberPrivacyNote />}
-          </View>
+          </YStack>
         </ScrollView>
       )}
-    </View>
+    </YStack>
   );
 }
 
 function PrivacyNote() {
-  const theme = useTheme();
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        padding: 12,
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLow,
-        borderWidth: 1,
-        borderColor: theme.colors.outlineVariant,
-      }}
+    <XStack
+      alignItems="center"
+      gap={10}
+      padding={12}
+      borderRadius="card"
+      backgroundColor="surfaceContainerLow"
+      borderWidth={1}
+      borderColor="outlineVariant"
     >
-      <View style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: theme.colors.tertiaryFixed, alignItems: 'center', justifyContent: 'center' }}>
+      <YStack width={34} height={34} borderRadius={10} backgroundColor="tertiaryFixed" alignItems="center" justifyContent="center">
         <Icon name="shield" size={18} color="onTertiaryFixed" />
-      </View>
+      </YStack>
       <Text variant="bodySm" muted style={{ flex: 1 }}>
         Sharing is off by default and always opt-in. You share a coarse status — never an exact location — and it deletes
         itself when it ends.
       </Text>
-    </View>
+    </XStack>
   );
 }
 
@@ -213,33 +208,30 @@ function SharingCard({
   onToggleGhost: () => void;
   onStop: () => void;
 }) {
-  const theme = useTheme();
   const { presenceStatus: PRESENCE_STATUS, presenceOrder: PRESENCE_ORDER } = useTaxonomy();
   const { presenceEtaOptions: ETA_OPTIONS } = useUiConfig();
   const meta = PRESENCE_STATUS[mine.status];
 
   return (
-    <View
-      style={{
-        padding: 16,
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: theme.colors.outlineVariant,
-        gap: 14,
-      }}
+    <YStack
+      padding={16}
+      borderRadius="card"
+      backgroundColor="surfaceContainerLowest"
+      borderWidth={1}
+      borderColor="outlineVariant"
+      gap={14}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+      <XStack alignItems="center" gap={8} flexWrap="wrap">
         <Pill label={mine.ghost ? 'Ghost mode' : 'Sharing live'} color={mine.ghost ? 'secondary' : 'success'} dot />
         <Pill label={meta.label} color={meta.color} icon={iconName(meta.icon)} />
-      </View>
+      </XStack>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <XStack alignItems="center" gap={8}>
         <Icon name={mine.ghost ? 'visibilityOff' : 'nearMe'} size={16} color="primary" />
         <Text variant="bodySm" muted style={{ flex: 1 }}>
           {scopeText(mine)}
         </Text>
-      </View>
+      </XStack>
 
       <Picker label="Update your status">
         {PRESENCE_ORDER.map((status) => {
@@ -264,17 +256,17 @@ function SharingCard({
         </Picker>
       ) : null}
 
-      <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+      <XStack gap={8} flexWrap="wrap">
         <FilterChip
           label="Ghost mode"
           icon="visibilityOff"
           active={mine.ghost}
           onPress={onToggleGhost}
         />
-      </View>
+      </XStack>
 
       <Button label="Stop sharing" icon="logout" variant="outline" loading={stopping} disabled={busy} onPress={onStop} />
-    </View>
+    </YStack>
   );
 }
 
@@ -299,28 +291,25 @@ function ShareCard({
   onChangeScope: (scope: DraftScope) => void;
   onShare: () => void;
 }) {
-  const theme = useTheme();
   const { presenceStatus: PRESENCE_STATUS, presenceOrder: PRESENCE_ORDER } = useTaxonomy();
   const { presenceEtaOptions: ETA_OPTIONS } = useUiConfig();
   const meta = PRESENCE_STATUS[status];
 
   return (
-    <View
-      style={{
-        padding: 16,
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: theme.colors.outlineVariant,
-        gap: 14,
-      }}
+    <YStack
+      padding={16}
+      borderRadius="card"
+      backgroundColor="surfaceContainerLowest"
+      borderWidth={1}
+      borderColor="outlineVariant"
+      gap={14}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <XStack alignItems="center" gap={8}>
         <Icon name="myLocation" size={18} color="primary" />
         <Text variant="titleSm" weight="bold">
           Share your status
         </Text>
-      </View>
+      </XStack>
 
       <Picker label="Where are you?">
         {PRESENCE_ORDER.map((value) => {
@@ -353,31 +342,30 @@ function ShareCard({
         <FilterChip label="Until I stop" icon="timer" active={scope === 'open'} onPress={() => onChangeScope('open')} />
       </Picker>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      <XStack alignItems="center" gap={8}>
         <Icon name={iconName(meta.icon)} size={15} color="onSurfaceVariant" />
         <Text variant="codeSm" muted style={{ flex: 1 }}>
           Only a label is shared — “{meta.label}” — not your GPS.
         </Text>
-      </View>
+      </XStack>
 
       <Button label="Share my status" icon="nearMe" loading={sharing} onPress={onShare} />
-    </View>
+    </YStack>
   );
 }
 
 function Picker({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <View style={{ gap: 8 }}>
+    <YStack gap={8}>
       <Text variant="codeSm" muted style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
         {label}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{children}</View>
-    </View>
+      <XStack flexWrap="wrap" gap={8}>{children}</XStack>
+    </YStack>
   );
 }
 
 function OverviewGrid({ overview }: { overview?: PresenceOverview }) {
-  const theme = useTheme();
   const tiles: { key: keyof PresenceOverview; label: string; icon: string; color: 'primary' | 'tertiary' | 'warning' | 'secondary' }[] = [
     { key: 'onCampus', label: 'On campus', icon: 'locationCity', color: 'primary' },
     { key: 'atVenue', label: 'At a venue', icon: 'meetingRoom', color: 'tertiary' },
@@ -386,36 +374,33 @@ function OverviewGrid({ overview }: { overview?: PresenceOverview }) {
   ];
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+    <XStack flexWrap="wrap" gap={10}>
       {tiles.map((tile) => (
-        <View
+        <YStack
           key={tile.key}
-          style={{
-            flexBasis: '47%',
-            flexGrow: 1,
-            padding: 14,
-            borderRadius: theme.radius.card,
-            backgroundColor: theme.colors.surfaceContainerLow,
-            gap: 8,
-          }}
+          flexBasis="47%"
+          flexGrow={1}
+          padding={14}
+          borderRadius="card"
+          backgroundColor="surfaceContainerLow"
+          gap={8}
         >
-          <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: theme.colors.surfaceContainerHigh, alignItems: 'center', justifyContent: 'center' }}>
+          <YStack width={36} height={36} borderRadius={10} backgroundColor="surfaceContainerHigh" alignItems="center" justifyContent="center">
             <Icon name={iconName(tile.icon)} size={18} color={tile.color} />
-          </View>
+          </YStack>
           <Text variant="headlineSm" weight="bold">
             {overview ? overview[tile.key] : '—'}
           </Text>
           <Text variant="bodySm" muted>
             {tile.label}
           </Text>
-        </View>
+        </YStack>
       ))}
-    </View>
+    </XStack>
   );
 }
 
 function Roster({ list }: { list?: PresenceMember[] }) {
-  const theme = useTheme();
   const { presenceStatus: PRESENCE_STATUS } = useTaxonomy();
   if (!list || !list.length) {
     return (
@@ -425,25 +410,22 @@ function Roster({ list }: { list?: PresenceMember[] }) {
     );
   }
   return (
-    <View style={{ gap: 8 }}>
+    <YStack gap={8}>
       {list.map((member) => {
         const meta = PRESENCE_STATUS[member.status];
         return (
-          <View
+          <XStack
             key={member.id}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 12,
-              padding: 12,
-              borderRadius: theme.radius.card,
-              backgroundColor: theme.colors.surfaceContainerLowest,
-              borderWidth: 1,
-              borderColor: theme.colors.outlineVariant,
-            }}
+            alignItems="center"
+            gap={12}
+            padding={12}
+            borderRadius="card"
+            backgroundColor="surfaceContainerLowest"
+            borderWidth={1}
+            borderColor="outlineVariant"
           >
             <Avatar uri={member.avatar} name={member.name} size={40} />
-            <View style={{ flex: 1, gap: 2 }}>
+            <YStack flex={1} gap={2}>
               <Text variant="labelLg" weight="semibold" numberOfLines={1}>
                 {member.name}
               </Text>
@@ -451,34 +433,30 @@ function Roster({ list }: { list?: PresenceMember[] }) {
                 {member.venue ?? meta.label}
                 {member.etaMins != null ? ` · ${member.etaMins} min away` : ''}
               </Text>
-            </View>
+            </YStack>
             <Pill label={meta.label} color={meta.color} icon={iconName(meta.icon)} />
-          </View>
+          </XStack>
         );
       })}
-    </View>
+    </YStack>
   );
 }
 
 function MemberPrivacyNote() {
-  const theme = useTheme();
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        padding: 12,
-        borderRadius: theme.radius.card,
-        backgroundColor: theme.colors.surfaceContainerLow,
-      }}
+    <XStack
+      alignItems="center"
+      gap={10}
+      padding={12}
+      borderRadius="card"
+      backgroundColor="surfaceContainerLow"
     >
       <Icon name="lock" size={18} color="onSurfaceVariant" />
       <Text variant="bodySm" muted style={{ flex: 1 }}>
         You see a crowd-level view only. Individual statuses are reserved for the core team, so members can never track
         each other’s live position.
       </Text>
-    </View>
+    </XStack>
   );
 }
 

@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, Switch, TextInput, View } from 'react-native';
+import { ScrollView, Switch, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { DecisionCard } from '@/components/DecisionCard';
 import { Button } from '@/components/ui/Button';
@@ -23,7 +24,6 @@ import { useUiStore } from '@/stores/ui.store';
 import { useTheme } from '@/theme';
 
 export default function DecisionsScreen() {
-  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
   const { can } = useAuth();
@@ -47,27 +47,27 @@ export default function DecisionsScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16}>
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Decisions
           </Text>
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : isPending && !decisions ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={80} radius={14} />
           {[1, 2].map((key) => (
             <Skeleton key={key} height={220} radius={14} />
           ))}
-        </View>
+        </YStack>
       ) : (
         <>
           <ScrollView
@@ -76,22 +76,22 @@ export default function DecisionsScreen() {
             showsVerticalScrollIndicator={false}
           >
             <Reveal>
-              <View style={{ borderRadius: theme.radius.card, padding: 16, backgroundColor: theme.colors.secondaryFixed, gap: 6 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <YStack borderRadius="card" padding={16} backgroundColor="secondaryFixed" gap={6}>
+                <XStack alignItems="center" gap={8}>
                   <Icon name="howToVote" size={20} color="secondary" />
                   <Text variant="titleSm" weight="bold" color="onSecondaryFixedVariant">
                     {canVote ? 'Core team · one ballot each' : 'Decided by the core team'}
                   </Text>
-                </View>
+                </XStack>
                 <Text variant="bodySm" color="onSecondaryFixedVariant">
                   {canVote
                     ? 'Decisions that shape the chapter are voted by the core team. You can change your ballot while a vote is open.'
                     : 'The core team votes on chapter decisions. Follow what is being decided and see the outcomes here — share your own suggestions in the Idea box.'}
                 </Text>
-              </View>
+              </YStack>
             </Reveal>
 
-            <View style={{ gap: 12 }}>
+            <YStack gap={12}>
               <SectionHeader title="Open votes" subtitle={canVote ? 'Cast your ballot before it closes' : 'Being decided now'} accent="primary" />
               {open.length ? (
                 open.map((decision) => (
@@ -108,28 +108,28 @@ export default function DecisionsScreen() {
                   No open votes right now.
                 </Text>
               )}
-            </View>
+            </YStack>
 
             {closed.length > 0 ? (
-              <View style={{ gap: 12 }}>
+              <YStack gap={12}>
                 <SectionHeader title="Results" subtitle="Closed votes and outcomes" accent="tertiary" />
                 {closed.map((decision) => (
                   <DecisionCard key={decision.id} decision={decision} onVote={() => undefined} voting={false} canVote={canVote} />
                 ))}
-              </View>
+              </YStack>
             ) : null}
           </ScrollView>
 
           {can('decisions.create') ? (
-            <View style={{ position: 'absolute', left: 16, right: 16, bottom: insets.bottom + 16 }}>
+            <YStack position="absolute" left={16} right={16} bottom={insets.bottom + 16}>
               <Button label="Open a new vote" icon="add" onPress={() => setComposerOpen(true)} />
-            </View>
+            </YStack>
           ) : null}
         </>
       )}
 
       <DecisionComposer visible={composerOpen} onClose={() => setComposerOpen(false)} />
-    </View>
+    </YStack>
   );
 }
 
@@ -190,10 +190,10 @@ function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () 
 
   return (
     <ModalSheet visible={visible} onClose={onClose} title="Open a new vote">
-      <View style={{ gap: 14 }}>
+      <YStack gap={14}>
         <Input label="Question" value={title} onChangeText={setTitle} placeholder="What are we deciding?" icon="howToVote" maxLength={100} />
 
-        <View style={{ gap: 6 }}>
+        <YStack gap={6}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Context
           </Text>
@@ -218,17 +218,17 @@ function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () 
               textAlignVertical: 'top',
             }}
           />
-        </View>
+        </YStack>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Options
           </Text>
           {options.map((option, index) => (
-            <View key={index} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <View style={{ flex: 1 }}>
+            <XStack key={index} alignItems="center" gap={8}>
+              <YStack flex={1}>
                 <Input value={option} onChangeText={(value) => setOption(index, value)} placeholder={`Option ${index + 1}`} />
-              </View>
+              </YStack>
               {options.length > 2 ? (
                 <PressableScale
                   onPress={() => setOptions((prev) => prev.filter((_, i) => i !== index))}
@@ -238,7 +238,7 @@ function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () 
                   <Icon name="delete" size={18} color="error" />
                 </PressableScale>
               ) : null}
-            </View>
+            </XStack>
           ))}
           {options.length < 6 ? (
             <PressableScale
@@ -251,22 +251,22 @@ function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () 
               </Text>
             </PressableScale>
           ) : null}
-        </View>
+        </YStack>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Closes in
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <XStack gap={8} flexWrap="wrap">
             {DURATIONS.map((item) => (
               <FilterChip key={item.key} label={item.label} active={duration === item.key} onPress={() => setDuration(item.key)} />
             ))}
-          </View>
-        </View>
+          </XStack>
+        </YStack>
 
         <Input label="Quorum" value={quorum} onChangeText={setQuorum} placeholder="Minimum votes" icon="groups" keyboardType="number-pad" />
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <ToggleRow
             icon="visibility"
             label="Show live results"
@@ -281,10 +281,10 @@ function DecisionComposer({ visible, onClose }: { visible: boolean; onClose: () 
             value={important}
             onChange={setImportant}
           />
-        </View>
+        </YStack>
 
         <Button label="Open vote" icon="howToVote" loading={create.isPending} onPress={submit} />
-      </View>
+      </YStack>
     </ModalSheet>
   );
 }
@@ -309,14 +309,14 @@ function ToggleRow({
       style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLow }}
     >
       <Icon name={icon} size={20} color="onSurfaceVariant" />
-      <View style={{ flex: 1 }}>
+      <YStack flex={1}>
         <Text variant="labelLg" weight="medium">
           {label}
         </Text>
         <Text variant="bodyXs" muted>
           {hint}
         </Text>
-      </View>
+      </YStack>
       <Switch value={value} onValueChange={onChange} trackColor={{ true: theme.colors.primaryContainer, false: theme.colors.surfaceContainerHighest }} />
     </PressableScale>
   );

@@ -1,8 +1,9 @@
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Gradient } from '@/components/ui/Gradient';
 import { Icon, IconName } from '@/components/ui/Icon';
@@ -15,8 +16,8 @@ import { EmptyState } from '@/components/ui/States';
 import { Text } from '@/components/ui/Text';
 import { useAttendance, useEvent, useEventTicket } from '@/hooks/use-events';
 import { useUiStore } from '@/stores/ui.store';
-import { formatEventDateTime } from '@/utils/date';
 import { useTheme } from '@/theme';
+import { formatEventDateTime } from '@/utils/date';
 
 export default function TicketScreen() {
   const theme = useTheme();
@@ -42,26 +43,26 @@ export default function TicketScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ overflow: 'hidden' }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack overflow="hidden">
         <Gradient token="brand" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
           <Orbs />
-          <View style={{ paddingTop: insets.top + 4, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
+          <XStack paddingTop={insets.top + 4} paddingHorizontal={8} alignItems="center">
             <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" color="onPrimary" />
             <Text variant="labelLg" weight="semibold" style={{ color: '#FFFFFF', marginLeft: 4 }}>
               Your ticket
             </Text>
-          </View>
-          <View style={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 22, gap: 4 }}>
+          </XStack>
+          <YStack paddingHorizontal={16} paddingTop={8} paddingBottom={22} gap={4}>
             <Text variant="codeSm" style={{ color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', letterSpacing: 0.6 }}>
               GDG on Campus EPI
             </Text>
             <Text variant="headlineSm" weight="bold" style={{ color: '#FFFFFF' }} numberOfLines={2}>
               {event?.title ?? ticket?.eventTitle ?? 'Event ticket'}
             </Text>
-          </View>
+          </YStack>
         </Gradient>
-      </View>
+      </YStack>
 
       <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         {isError ? (
@@ -73,36 +74,31 @@ export default function TicketScreen() {
             onAction={() => router.back()}
           />
         ) : isPending || !ticket ? (
-          <View style={{ gap: 14, alignItems: 'center' }}>
+          <YStack gap={14} alignItems="center">
             <Skeleton width={240} height={240} radius={16} />
             <Skeleton width={180} height={16} />
-          </View>
+          </YStack>
         ) : (
           <>
-            <View
-              style={{
-                alignItems: 'center',
-                gap: 16,
-                padding: 20,
-                borderRadius: theme.radius.card,
-                backgroundColor: theme.colors.surfaceContainerLowest,
-                borderWidth: 1,
-                borderColor: theme.colors.outlineVariant,
-              }}
+            <YStack
+              alignItems="center"
+              gap={16}
+              padding={20}
+              borderRadius="card"
+              backgroundColor="surfaceContainerLowest"
+              borderWidth={1}
+              borderColor="outlineVariant"
             >
               <QRCode value={ticket.token} size={208} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8,
-                  backgroundColor: theme.colors.surfaceContainerHigh,
-                  paddingLeft: 12,
-                  paddingRight: 6,
-                  paddingVertical: 6,
-                  borderRadius: theme.radius.full,
-                  maxWidth: '100%',
-                }}
+              <XStack
+                alignItems="center"
+                gap={8}
+                backgroundColor="surfaceContainerHigh"
+                paddingLeft={12}
+                paddingRight={6}
+                paddingVertical={6}
+                borderRadius="full"
+                maxWidth="100%"
               >
                 <Text variant="codeSm" numberOfLines={1} style={{ flexShrink: 1 }}>
                   {ticket.token}
@@ -114,26 +110,23 @@ export default function TicketScreen() {
                 >
                   <Icon name="copy" size={16} color="primary" />
                 </PressableScale>
-              </View>
+              </XStack>
               <Text variant="bodySm" muted style={{ textAlign: 'center' }}>
                 Show this code at the door to check in.
               </Text>
-            </View>
+            </YStack>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 10,
-                padding: 14,
-                borderRadius: theme.radius.base,
-                backgroundColor: checkedIn ? theme.colors.tertiaryFixed : theme.colors.surfaceContainerLow,
-                borderWidth: 1,
-                borderColor: checkedIn ? 'transparent' : theme.colors.outlineVariant,
-              }}
+            <XStack
+              alignItems="center"
+              gap={10}
+              padding={14}
+              borderRadius="base"
+              backgroundColor={checkedIn ? 'tertiaryFixed' : 'surfaceContainerLow'}
+              borderWidth={1}
+              borderColor={checkedIn ? 'transparent' : 'outlineVariant'}
             >
               <Icon name={checkedIn ? 'checkCircle' : 'schedule'} size={18} color={checkedIn ? 'onTertiaryFixed' : 'primary'} />
-              <View style={{ flex: 1 }}>
+              <YStack flex={1}>
                 <Text variant="labelLg" weight="semibold" color={checkedIn ? 'onTertiaryFixed' : undefined}>
                   {checkedIn ? 'Checked in' : 'Not checked in yet'}
                 </Text>
@@ -142,40 +135,37 @@ export default function TicketScreen() {
                     ? 'Your attendance has been recorded. Points added!'
                     : 'Present this QR to a volunteer to record your attendance.'}
                 </Text>
-              </View>
-            </View>
+              </YStack>
+            </XStack>
 
-            <View
-              style={{
-                gap: 12,
-                padding: 16,
-                borderRadius: theme.radius.card,
-                backgroundColor: theme.colors.surfaceContainerLow,
-                borderWidth: 1,
-                borderColor: theme.colors.outlineVariant,
-              }}
+            <YStack
+              gap={12}
+              padding={16}
+              borderRadius="card"
+              backgroundColor="surfaceContainerLow"
+              borderWidth={1}
+              borderColor="outlineVariant"
             >
               <MetaRow icon="schedule" text={event ? formatEventDateTime(event.startsAt) : '—'} />
               <MetaRow icon="location" text={event ? `${event.location} — ${event.venue}` : '—'} />
               <MetaRow icon="person" text={ticket.attendeeName} />
-            </View>
+            </YStack>
           </>
         )}
       </ScrollView>
-    </View>
+    </YStack>
   );
 }
 
 function MetaRow({ icon, text }: { icon: IconName; text: string }) {
-  const theme = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-      <View style={{ width: 32, height: 32, borderRadius: 9, backgroundColor: theme.colors.surfaceContainerLowest, alignItems: 'center', justifyContent: 'center' }}>
+    <XStack alignItems="center" gap={10}>
+      <YStack width={32} height={32} borderRadius={9} backgroundColor="surfaceContainerLowest" alignItems="center" justifyContent="center">
         <Icon name={icon} size={16} color="primary" />
-      </View>
+      </YStack>
       <Text variant="bodyMd" numberOfLines={2} style={{ flex: 1 }}>
         {text}
       </Text>
-    </View>
+    </XStack>
   );
 }

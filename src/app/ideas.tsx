@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { ScrollView, Switch, TextInput, View } from 'react-native';
+import { ScrollView, Switch, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { IdeaCard } from '@/components/IdeaCard';
 import { Button } from '@/components/ui/Button';
@@ -33,7 +34,6 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]['key'];
 
 export default function IdeasScreen() {
-  const theme = useTheme();
   const { ideaStatus: IDEA_STATUS } = useTaxonomy();
   const insets = useSafeAreaInsets();
   const toast = useUiStore((state) => state.toast);
@@ -75,27 +75,27 @@ export default function IdeasScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <YStack paddingTop={insets.top + 8} paddingHorizontal={16}>
+        <XStack alignItems="center" gap={4}>
           <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
           <Text variant="headlineMd" weight="bold">
             Idea box
           </Text>
-        </View>
-      </View>
+        </XStack>
+      </YStack>
 
       {isError ? (
-        <View style={{ padding: 16 }}>
+        <YStack padding={16}>
           <ErrorState message={error?.message} onRetry={() => refetch()} />
-        </View>
+        </YStack>
       ) : isPending && !ideas ? (
-        <View style={{ padding: 16, gap: 12 }}>
+        <YStack padding={16} gap={12}>
           <Skeleton height={72} radius={14} />
           {[1, 2, 3].map((key) => (
             <Skeleton key={key} height={140} radius={14} />
           ))}
-        </View>
+        </YStack>
       ) : (
         <>
           <ScrollView
@@ -104,34 +104,34 @@ export default function IdeasScreen() {
             showsVerticalScrollIndicator={false}
           >
             <Reveal>
-              <View style={{ borderRadius: theme.radius.card, padding: 16, backgroundColor: theme.colors.primaryFixed, gap: 6 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <YStack borderRadius="card" padding={16} backgroundColor="primaryFixed" gap={6}>
+                <XStack alignItems="center" gap={8}>
                   <Icon name="lightbulb" size={20} color="primary" />
                   <Text variant="titleSm" weight="bold" color="onPrimaryFixedVariant">
                     Shape the chapter
                   </Text>
-                </View>
+                </XStack>
                 <Text variant="bodySm" color="onPrimaryFixedVariant">
                   Suggest what we build next, upvote what matters, and see the club reply. You said, we did.
                 </Text>
-              </View>
+              </YStack>
             </Reveal>
 
             <Reveal delay={40}>
-              <View style={{ flexDirection: 'row', gap: 8 }}>
+              <XStack gap={8}>
                 <SummaryTile label="Ideas" value={ideas?.length ?? 0} icon="lightbulb" />
                 <SummaryTile label="Shipped" value={shipped} icon="checkCircle" highlight={shipped > 0} />
                 <SummaryTile label="Your votes" value={voted} icon="thumbUp" />
-              </View>
+              </XStack>
             </Reveal>
 
-            <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+            <XStack gap={8} flexWrap="wrap">
               {FILTERS.map((item) => (
                 <FilterChip key={item.key} label={item.label} active={filter === item.key} onPress={() => setFilter(item.key)} />
               ))}
-            </View>
+            </XStack>
 
-            <View style={{ gap: 12 }}>
+            <YStack gap={12}>
               <SectionHeader
                 title={filter === 'shipped' ? 'You said, we did' : 'Ideas & suggestions'}
                 subtitle={filter === 'shipped' ? 'Shipped, with the club’s response' : 'Most-upvoted first'}
@@ -154,12 +154,12 @@ export default function IdeasScreen() {
                   Nothing here yet — share the first idea.
                 </Text>
               )}
-            </View>
+            </YStack>
           </ScrollView>
 
-          <View style={{ position: 'absolute', left: 16, right: 16, bottom: insets.bottom + 16 }}>
+          <YStack position="absolute" left={16} right={16} bottom={insets.bottom + 16}>
             <Button label="Share an idea" icon="add" onPress={() => setComposerOpen(true)} />
-          </View>
+          </YStack>
         </>
       )}
 
@@ -183,23 +183,20 @@ export default function IdeasScreen() {
           );
         }}
       />
-    </View>
+    </YStack>
   );
 }
 
 function SummaryTile({ label, value, icon, highlight }: { label: string; value: number; icon: 'lightbulb' | 'checkCircle' | 'thumbUp'; highlight?: boolean }) {
-  const theme = useTheme();
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 12,
-        borderRadius: theme.radius.card,
-        backgroundColor: highlight ? theme.colors.tertiaryFixed : theme.colors.surfaceContainerLowest,
-        borderWidth: 1,
-        borderColor: highlight ? theme.colors.tertiaryFixedDim : theme.colors.outlineVariant,
-        gap: 4,
-      }}
+    <YStack
+      flex={1}
+      padding={12}
+      borderRadius="card"
+      backgroundColor={highlight ? 'tertiaryFixed' : 'surfaceContainerLowest'}
+      borderWidth={1}
+      borderColor={highlight ? 'tertiaryFixedDim' : 'outlineVariant'}
+      gap={4}
     >
       <Icon name={icon} size={18} color={highlight ? 'onTertiaryFixedVariant' : 'secondary'} />
       <Text variant="titleMd" weight="bold" color={highlight ? 'onTertiaryFixedVariant' : 'onSurface'}>
@@ -208,7 +205,7 @@ function SummaryTile({ label, value, icon, highlight }: { label: string; value: 
       <Text variant="bodyXs" muted>
         {label}
       </Text>
-    </View>
+    </YStack>
   );
 }
 
@@ -249,10 +246,10 @@ function IdeaComposer({ visible, onClose }: { visible: boolean; onClose: () => v
 
   return (
     <ModalSheet visible={visible} onClose={onClose} title="Share an idea">
-      <View style={{ gap: 14 }}>
+      <YStack gap={14}>
         <Input label="Title" value={title} onChangeText={setTitle} placeholder="A short, clear idea" icon="lightbulb" maxLength={80} />
 
-        <View style={{ gap: 6 }}>
+        <YStack gap={6}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Details
           </Text>
@@ -277,34 +274,34 @@ function IdeaComposer({ visible, onClose }: { visible: boolean; onClose: () => v
               textAlignVertical: 'top',
             }}
           />
-        </View>
+        </YStack>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Category
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <XStack gap={8} flexWrap="wrap">
             {(Object.keys(IDEA_CATEGORIES) as IdeaCategory[]).map((key) => (
               <FilterChip key={key} label={IDEA_CATEGORIES[key].label} icon={IDEA_CATEGORIES[key].icon as never} active={category === key} onPress={() => setCategory(key)} />
             ))}
-          </View>
-        </View>
+          </XStack>
+        </YStack>
 
         <PressableScale onPress={() => setAnonymous((value) => !value)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: theme.radius.base, backgroundColor: theme.colors.surfaceContainerLow }}>
           <Icon name="visibilityOff" size={20} color="onSurfaceVariant" />
-          <View style={{ flex: 1 }}>
+          <YStack flex={1}>
             <Text variant="labelLg" weight="medium">
               Post anonymously
             </Text>
             <Text variant="bodyXs" muted>
               Your name stays hidden from everyone
             </Text>
-          </View>
+          </YStack>
           <Switch value={anonymous} onValueChange={setAnonymous} trackColor={{ true: theme.colors.primaryContainer, false: theme.colors.surfaceContainerHighest }} />
         </PressableScale>
 
         <Button label="Submit idea" icon="check" loading={create.isPending} onPress={submit} />
-      </View>
+      </YStack>
     </ModalSheet>
   );
 }
@@ -327,23 +324,23 @@ function StatusSheet({
 
   return (
     <ModalSheet visible={!!idea} onClose={onClose} title="Update idea">
-      <View style={{ gap: 14 }}>
+      <YStack gap={14}>
         <Text variant="bodySm" muted numberOfLines={2}>
           {idea?.title}
         </Text>
 
-        <View style={{ gap: 8 }}>
+        <YStack gap={8}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Roadmap status
           </Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          <XStack gap={8} flexWrap="wrap">
             {IDEA_STATUS_ORDER.map((key) => (
               <FilterChip key={key} label={IDEA_STATUS[key].label} icon={IDEA_STATUS[key].icon as never} active={status === key} onPress={() => setStatus(key)} />
             ))}
-          </View>
-        </View>
+          </XStack>
+        </YStack>
 
-        <View style={{ gap: 6 }}>
+        <YStack gap={6}>
           <Text variant="labelMd" color="onSurfaceVariant" style={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
             Official response
           </Text>
@@ -368,10 +365,10 @@ function StatusSheet({
               textAlignVertical: 'top',
             }}
           />
-        </View>
+        </YStack>
 
         <Button label="Save update" icon="check" loading={saving} onPress={() => onSave(status, response)} />
-      </View>
+      </YStack>
     </ModalSheet>
   );
 }

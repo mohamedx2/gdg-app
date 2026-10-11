@@ -1,8 +1,9 @@
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Modal, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Modal, Pressable, ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { XStack, YStack } from 'tamagui';
 
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
@@ -34,13 +35,13 @@ export default function MemoriesScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ paddingTop: insets.top + 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <YStack flex={1} backgroundColor="background">
+      <XStack paddingTop={insets.top + 8} paddingHorizontal={16} alignItems="center" gap={4}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
         <Text variant="headlineMd" weight="bold">
           Memories
         </Text>
-      </View>
+      </XStack>
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 32, gap: 16 }} showsVerticalScrollIndicator={false}>
         <Reveal>
@@ -49,9 +50,9 @@ export default function MemoriesScreen() {
           </Text>
         </Reveal>
 
-        <View style={{ flexDirection: 'row', gap: GAP }}>
+        <XStack gap={GAP}>
           {columns.map((column, columnIndex) => (
-            <View key={columnIndex} style={{ flex: 1, gap: GAP }}>
+            <YStack key={columnIndex} flex={1} gap={GAP}>
               {column.map((memory, index) => (
                 <Reveal key={memory.id} delay={Math.min(index, 6) * 40}>
                   <PressableScale
@@ -69,9 +70,9 @@ export default function MemoriesScreen() {
                   </PressableScale>
                 </Reveal>
               ))}
-            </View>
+            </YStack>
           ))}
-        </View>
+        </XStack>
       </ScrollView>
 
       <Modal visible={!!open} transparent animationType="fade" onRequestClose={() => setOpen(null)} statusBarTranslucent>
@@ -88,11 +89,11 @@ export default function MemoriesScreen() {
               </Text>
             </>
           ) : null}
-          <View style={{ position: 'absolute', top: insets.top + 12, right: 16, width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.14)' }}>
+          <YStack position="absolute" top={insets.top + 12} right={16} width={44} height={44} borderRadius={22} alignItems="center" justifyContent="center" backgroundColor="rgba(255,255,255,0.14)">
             <Icon name="close" size={22} color="onPrimary" />
-          </View>
+          </YStack>
         </Pressable>
       </Modal>
-    </View>
+    </YStack>
   );
 }
