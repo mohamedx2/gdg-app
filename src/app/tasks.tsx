@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { SwipeableRow } from '@/components/animations';
 import { TaskCard } from '@/components/TaskCard';
 import { Button } from '@/components/ui/Button';
 import { FilterChip } from '@/components/ui/Chip';
@@ -39,6 +40,12 @@ const DUE_OPTIONS = [
   { key: '1w', label: '1 week', days: 7 },
   { key: '2w', label: '2 weeks', days: 14 },
 ] as const;
+
+const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
+  todo: 'in-progress',
+  'in-progress': 'done',
+  done: null,
+};
 
 export default function TasksScreen() {
   const theme = useTheme();
@@ -184,14 +191,22 @@ export default function TasksScreen() {
                         </View>
                         {group.eventId ? <Icon name="chevronRight" size={18} color="secondary" /> : null}
                       </PressableScale>
-                      {group.items.map((task) => (
-                        <TaskCard
-                          key={task.id}
-                          task={task}
-                          onAdvance={(status) => advance(task.id, status)}
-                          busy={setStatus.isPending && setStatus.variables?.id === task.id}
-                        />
-                      ))}
+                      {group.items.map((task) => {
+                        const next = NEXT_STATUS[task.status];
+                        return (
+                          <SwipeableRow
+                            key={task.id}
+                            enabled={Boolean(next)}
+                            onSwipeRight={next ? () => advance(task.id, next) : undefined}
+                          >
+                            <TaskCard
+                              task={task}
+                              onAdvance={(status) => advance(task.id, status)}
+                              busy={setStatus.isPending && setStatus.variables?.id === task.id}
+                            />
+                          </SwipeableRow>
+                        );
+                      })}
                     </View>
                   );
                 })

@@ -4,6 +4,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/ActivityCard';
+import { AnimatedNumber, Stagger } from '@/components/animations';
 import { Avatar } from '@/components/ui/Avatar';
 import { CompactEventCard, FeaturedEventCard } from '@/components/EventCard';
 import { Gradient } from '@/components/ui/Gradient';
@@ -146,8 +147,10 @@ export default function HomeScreen() {
             />
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
               {others.length
-                ? others.map((event) => (
-                    <CompactEventCard key={event.id} event={event} />
+                ? others.map((event, index) => (
+                    <Stagger key={event.id} index={index} direction="right">
+                      <CompactEventCard event={event} />
+                    </Stagger>
                   ))
                 : showcase
                   ? null
@@ -214,8 +217,10 @@ export default function HomeScreen() {
                 actionLabel="Community"
                 onAction={() => router.push('/community')}
               />
-              {activity.slice(0, 3).map((item) => (
-                <ActivityCard key={item.id} item={item} />
+              {activity.slice(0, 3).map((item, index) => (
+                <Stagger key={item.id} index={index}>
+                  <ActivityCard item={item} />
+                </Stagger>
               ))}
             </View>
           </Reveal>
@@ -232,8 +237,10 @@ export default function HomeScreen() {
                 onAction={() => router.push('/resources')}
               />
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12 }}>
-                {resources.slice(0, 4).map((resource) => (
-                  <ResourceCard key={resource.id} resource={resource} horizontal />
+                {resources.slice(0, 4).map((resource, index) => (
+                  <Stagger key={resource.id} index={index} direction="right">
+                    <ResourceCard resource={resource} horizontal />
+                  </Stagger>
                 ))}
               </ScrollView>
             </View>
@@ -446,15 +453,21 @@ function LevelCard({
                 <Text variant="labelLg" weight="bold" style={{ color: '#FFFFFF' }}>
                   {tier} Builder
                 </Text>
-                <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
-                  {xp} XP · {badges} badges
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 3 }}>
+                  <AnimatedNumber value={xp} variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }} />
+                  <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                    XP · {badges} badges
+                  </Text>
+                </View>
               </View>
             </View>
             <View style={{ alignItems: 'flex-end' }}>
-              <Text variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }}>
-                {xp}/{xpGoal || '∞'} XP
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                <AnimatedNumber value={xp} variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }} />
+                <Text variant="codeSm" weight="semibold" style={{ color: '#FFFFFF' }}>
+                  /{xpGoal || '∞'} XP
+                </Text>
+              </View>
               <Text variant="bodySm" style={{ color: 'rgba(255,255,255,0.85)' }}>
                 Next: {nextTier ?? 'Season end'}
               </Text>
@@ -493,9 +506,13 @@ function Metric({ label, value, icon }: { label: string; value: number | string;
     >
       <Icon name={icon} size={16} color="#FFFFFF" />
       <View>
-        <Text variant="labelLg" weight="bold" style={{ lineHeight: 18, color: '#FFFFFF' }}>
-          {value}
-        </Text>
+        {typeof value === 'number' ? (
+          <AnimatedNumber value={value} variant="labelLg" weight="bold" style={{ lineHeight: 18, color: '#FFFFFF' }} />
+        ) : (
+          <Text variant="labelLg" weight="bold" style={{ lineHeight: 18, color: '#FFFFFF' }}>
+            {value}
+          </Text>
+        )}
         <Text variant="bodySm" style={{ lineHeight: 14, color: 'rgba(255,255,255,0.82)' }}>
           {label}
         </Text>

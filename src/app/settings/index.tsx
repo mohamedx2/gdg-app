@@ -6,12 +6,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, IconName } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
+import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/theme';
 
 const ROWS: { icon: IconName; label: string; description: string; route: string }[] = [
   { icon: 'palette', label: 'Appearance', description: 'Theme & accent', route: '/settings/appearance' },
   { icon: 'notifications', label: 'Notifications', description: 'Reminders & preferences', route: '/settings/notifications' },
+  { icon: 'autoAwesome', label: 'Motion kit', description: 'Animation showcase', route: '/animations' },
 ];
 
 export default function SettingsScreen() {
@@ -29,8 +31,11 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={{ padding: 16, gap: 8 }} showsVerticalScrollIndicator={false}>
         <View style={{ borderRadius: theme.radius.card, overflow: 'hidden', backgroundColor: theme.colors.surfaceContainerLowest, shadowColor: theme.colors.inverseSurface, shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 1 }}>
           {ROWS.map((row, index) => (
-            <View
+            <PressableScale
               key={row.route}
+              onPress={() => router.push(row.route as never)}
+              accessibilityRole="button"
+              accessibilityLabel={row.label}
               style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 14, borderTopWidth: index === 0 ? 0 : 1, borderTopColor: theme.colors.outlineVariant }}
             >
               <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: theme.colors.surfaceContainerLow, alignItems: 'center', justifyContent: 'center' }}>
@@ -41,7 +46,7 @@ export default function SettingsScreen() {
                 <Text variant="bodySm" muted>{row.description}</Text>
               </View>
               <Icon name="chevronRight" size={18} color="secondary" />
-            </View>
+            </PressableScale>
           ))}
         </View>
         <Text variant="codeSm" muted style={{ textAlign: 'center', marginTop: 8 }}>

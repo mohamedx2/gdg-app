@@ -3,6 +3,7 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { AnimatedNumber } from '@/components/animations';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
@@ -144,9 +145,13 @@ export default function ClubStatsScreen() {
 function HeroStat({ value, label, color }: { value: number | string; label: string; color: ColorToken }) {
   return (
     <View style={{ width: '50%', gap: 2 }}>
-      <Text variant="headlineSm" weight="bold" color={color}>
-        {typeof value === 'number' ? value.toLocaleString() : value}
-      </Text>
+      {typeof value === 'number' ? (
+        <AnimatedNumber value={value} variant="headlineSm" weight="bold" color={color} />
+      ) : (
+        <Text variant="headlineSm" weight="bold" color={color}>
+          {value}
+        </Text>
+      )}
       <Text variant="bodySm" color={color} style={{ opacity: 0.8 }}>
         {label}
       </Text>
@@ -172,9 +177,13 @@ function StatTile({ icon, color, value, label }: { icon: 'groups' | 'workspacePr
       <View style={{ width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: theme.colors.surfaceContainerHigh }}>
         <Icon name={icon} size={18} color={color} />
       </View>
-      <Text variant="headlineSm" weight="bold">
-        {typeof value === 'number' ? value.toLocaleString() : value}
-      </Text>
+      {typeof value === 'number' ? (
+        <AnimatedNumber value={value} variant="headlineSm" weight="bold" />
+      ) : (
+        <Text variant="headlineSm" weight="bold">
+          {value}
+        </Text>
+      )}
       <Text variant="bodySm" muted>
         {label}
       </Text>

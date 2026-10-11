@@ -78,6 +78,7 @@ export default function RootLayout() {
               <Stack.Screen name="decisions" />
               <Stack.Screen name="stats" />
               <Stack.Screen name="memories" />
+              <Stack.Screen name="animations" />
               <Stack.Screen name="tasks" />
               <Stack.Screen name="messages" />
               <Stack.Screen name="messages/[id]" />

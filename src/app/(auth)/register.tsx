@@ -2,9 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { KeyboardShift } from '@/components/animations';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { IconButton } from '@/components/ui/IconButton';
@@ -50,10 +51,7 @@ export default function RegisterScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{ flex: 1, backgroundColor: theme.colors.background }}
-    >
+    <KeyboardShift style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={{ paddingTop: insets.top + 4, paddingHorizontal: 4 }}>
         <IconButton name="arrowBack" onPress={() => router.back()} accessibilityLabel="Go back" />
       </View>
@@ -160,6 +158,6 @@ export default function RegisterScreen() {
           </Text>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardShift>
   );
 }
