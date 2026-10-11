@@ -6,7 +6,8 @@ export default function AuthLayout() {
   const { status } = useAuth();
 
   if (status === 'loading') return null;
-  if (status === 'authenticated' || status === 'guest') return <Redirect href="/(spaces)" />;
+  // Guests may open sign-in / register to upgrade; only signed-in users skip auth.
+  if (status === 'authenticated') return <Redirect href="/(spaces)" />;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

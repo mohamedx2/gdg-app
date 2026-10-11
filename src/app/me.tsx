@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import React from 'react';
 import { XStack, YStack } from 'tamagui';
 
+import { GuestGate } from '@/components/GuestGate';
 import { Avatar } from '@/components/ui/Avatar';
 import { Gradient } from '@/components/ui/Gradient';
 import { Icon } from '@/components/ui/Icon';
@@ -32,12 +33,24 @@ export default function MeSheet() {
   const theme = useTheme();
   const { data: profile, isPending } = useProfile();
   const { data: summary } = useAchievementSummary();
-  const { signOut, isOrganizer, access, can } = useAuth();
+  const { signOut, isOrganizer, access, can, isGuest } = useAuth();
   const { profileMenu: MENU } = useUiConfig();
   const memories = useMemories();
   const preference = useThemeStore((state) => state.preference);
   const setPreference = useThemeStore((state) => state.setPreference);
   const level = ACCESS_LEVELS[access];
+
+  if (isGuest) {
+    return (
+      <Sheet title="Profile" headerRight={<IconButton name="close" onPress={() => router.back()} accessibilityLabel="Close profile" />}>
+        <YStack paddingHorizontal={16} paddingBottom={24}>
+          <GuestGate reason="save your profile, XP, badges and tickets" icon="person">
+            {null}
+          </GuestGate>
+        </YStack>
+      </Sheet>
+    );
+  }
 
   const menu = MENU.map((group) => ({
     ...group,

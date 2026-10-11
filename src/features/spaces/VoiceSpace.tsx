@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
+import { GuestGate } from '@/components/GuestGate';
 import { Icon } from '@/components/ui/Icon';
 import { SegmentedControl, type Segment } from '@/components/ui/SegmentedControl';
 import { Text } from '@/components/ui/Text';
@@ -72,9 +73,11 @@ export function VoiceSpace() {
 
       <SegmentedControl<VoiceSegment> segments={segments} value={segment} onChange={setSegment} accessibilityLabel="Voice section" />
 
-      {segment === 'ideas' ? <VoiceIdeas /> : null}
-      {segment === 'decisions' ? <VoiceDecisions /> : null}
-      {segment === 'tasks' ? <VoiceTasks /> : null}
+      <GuestGate reason="suggest ideas, follow decisions and pick up tasks" icon="forum">
+        {segment === 'ideas' ? <VoiceIdeas /> : null}
+        {segment === 'decisions' ? <VoiceDecisions /> : null}
+        {segment === 'tasks' ? <VoiceTasks /> : null}
+      </GuestGate>
     </ScrollView>
   );
 }

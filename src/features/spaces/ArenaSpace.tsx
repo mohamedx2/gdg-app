@@ -1,4 +1,5 @@
 import React from 'react';
+import { GuestGate } from '@/components/GuestGate';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -39,6 +40,7 @@ export function ArenaSpace() {
         gap: 20,
       }}
     >
+      <GuestGate reason="climb the arena, earn XP and join a squad" icon="emojiEvents">
       <RankHero />
       <SegmentedControl<ArenaSegment>
         segments={SEGMENTS}
@@ -56,6 +58,7 @@ export function ArenaSpace() {
           <ArenaStats />
         </>
       ) : null}
+      </GuestGate>
     </ScrollView>
   );
 }

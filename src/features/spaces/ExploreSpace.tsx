@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
 import { Stagger } from '@/components/animations';
+import { GuestGate } from '@/components/GuestGate';
 import { ResourceCard } from '@/components/ResourceCard';
 import { Avatar } from '@/components/ui/Avatar';
 import { FilterChip } from '@/components/ui/Chip';
@@ -84,7 +85,11 @@ export function ExploreSpace() {
         contentContainerStyle={{ paddingTop: 14, paddingBottom: SPACE_BOTTOM_PADDING + insets.bottom, gap: 14 }}
       >
         {segment === 'events' ? <EventsSegment search={debounced} /> : null}
-        {segment === 'people' ? <PeopleSegment search={debounced} /> : null}
+        {segment === 'people' ? (
+          <GuestGate reason="browse members and connect with the community" icon="people">
+            <PeopleSegment search={debounced} />
+          </GuestGate>
+        ) : null}
         {segment === 'learn' ? <LearnSegment search={debounced} /> : null}
       </ScrollView>
     </YStack>

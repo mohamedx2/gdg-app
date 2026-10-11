@@ -4,6 +4,7 @@ import { RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { XStack, YStack } from 'tamagui';
 
+import { GuestGate } from '@/components/GuestGate';
 import { Avatar } from '@/components/ui/Avatar';
 import { FilterChip } from '@/components/ui/Chip';
 import { Icon, IconName } from '@/components/ui/Icon';
@@ -120,6 +121,7 @@ export default function InboxScreen() {
         ) : null}
       </YStack>
 
+      <GuestGate reason="chat with the club and get event alerts" icon="chatBubble">
       {tab === 'messages' ? (
         <MessagesTab
           conversations={filteredConversations}
@@ -140,6 +142,7 @@ export default function InboxScreen() {
           tint={theme.colors.primary}
         />
       )}
+      </GuestGate>
     </YStack>
   );
 }
