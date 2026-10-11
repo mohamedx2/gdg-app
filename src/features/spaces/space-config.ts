@@ -18,6 +18,11 @@ export const SPACES: readonly SpaceDef[] = [
 
 export type SpaceKey = SpaceDef['key'];
 
+/** Link into a space, optionally opening a specific segment. */
+export function spaceHref(space: SpaceKey, segment?: string): string {
+  return segment ? `/?space=${space}&segment=${segment}` : `/?space=${space}`;
+}
+
 export function spaceIndex(key: string | undefined | null): number {
   const found = SPACES.findIndex((space) => space.key === key);
   return found < 0 ? 0 : found;

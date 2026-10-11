@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,6 +26,12 @@ export default function SpacesScreen() {
 
   const [index, setIndex] = useState(() => spaceIndex(params.space));
   const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // Follow links that target a space while the shell is already mounted.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (params.space) setIndex(spaceIndex(params.space));
+  }, [params.space]);
 
   const handleSelect = useCallback((key: SpaceKey) => {
     setIndex(spaceIndex(key));

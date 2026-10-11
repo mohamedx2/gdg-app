@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
@@ -36,8 +36,13 @@ export const SpaceSwitcher = memo(function SpaceSwitcher({
   const segmentWidth = spaces.length > 0 ? trackWidth / spaces.length : 0;
 
   const translateX = useSharedValue(0);
+  const measured = useRef(false);
   useEffect(() => {
-    translateX.value = withSpring(index * segmentWidth, { damping: 22, stiffness: 240 });
+    if (segmentWidth <= 0) return;
+    const target = index * segmentWidth;
+    // Snap on first measurement (e.g. opened via ?space=arena); spring afterwards.
+    translateX.value = measured.current ? withSpring(target, { damping: 22, stiffness: 240 }) : target;
+    measured.current = true;
   }, [index, segmentWidth, translateX]);
 
   const indicatorStyle = useAnimatedStyle(() => ({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { YStack } from 'tamagui';
@@ -11,8 +11,11 @@ import { ArenaQuests } from '../arena/ArenaQuests';
 import { ArenaSquads } from '../arena/ArenaSquads';
 import { ArenaStats } from '../arena/ArenaStats';
 import { SPACE_BOTTOM_PADDING } from './SpaceScaffold';
+import { useRouteSegment } from './use-route-segment';
 
 type ArenaSegment = 'quests' | 'squads' | 'badges' | 'stats';
+
+const SEGMENT_KEYS = ['quests', 'squads', 'badges', 'stats'] as const;
 
 const SEGMENTS: readonly Segment<ArenaSegment>[] = [
   { value: 'quests', label: 'Quests' },
@@ -24,7 +27,7 @@ const SEGMENTS: readonly Segment<ArenaSegment>[] = [
 /** ARENA — quests, squads, badges and club stats behind a segmented control. */
 export function ArenaSpace() {
   const insets = useSafeAreaInsets();
-  const [segment, setSegment] = useState<ArenaSegment>('quests');
+  const [segment, setSegment] = useRouteSegment<ArenaSegment>(SEGMENT_KEYS, 'quests');
 
   return (
     <YStack flex={1}>

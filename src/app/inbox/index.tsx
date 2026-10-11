@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -32,7 +32,8 @@ const KIND_ICON: Record<string, IconName> = {
 export default function InboxScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const [tab, setTab] = useState<InboxTab>('messages');
+  const { segment } = useLocalSearchParams<{ segment?: string }>();
+  const [tab, setTab] = useState<InboxTab>(segment === 'notifications' ? 'notifications' : 'messages');
   const [query, setQuery] = useState('');
 
   const conversations = useConversations();
