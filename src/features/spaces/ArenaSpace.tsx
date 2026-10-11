@@ -1,63 +1,62 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { YStack } from 'tamagui';
 
 import { SegmentedControl, type Segment } from '@/components/ui/SegmentedControl';
-import { Text } from '@/components/ui/Text';
 
 import { ArenaBadges } from '../arena/ArenaBadges';
+import { ArenaQuiz } from '../arena/ArenaQuiz';
 import { ArenaQuests } from '../arena/ArenaQuests';
 import { ArenaSquads } from '../arena/ArenaSquads';
 import { ArenaStats } from '../arena/ArenaStats';
+import { RankHero } from '../arena/RankHero';
 import { SPACE_BOTTOM_PADDING } from './SpaceScaffold';
 import { useRouteSegment } from './use-route-segment';
 
-type ArenaSegment = 'quests' | 'squads' | 'badges' | 'stats';
+type ArenaSegment = 'quests' | 'squads' | 'quiz' | 'badges';
 
-const SEGMENT_KEYS = ['quests', 'squads', 'badges', 'stats'] as const;
+const SEGMENT_KEYS = ['quests', 'squads', 'quiz', 'badges'] as const;
 
 const SEGMENTS: readonly Segment<ArenaSegment>[] = [
   { value: 'quests', label: 'Quests' },
   { value: 'squads', label: 'Squads' },
+  { value: 'quiz', label: 'Quiz' },
   { value: 'badges', label: 'Badges' },
-  { value: 'stats', label: 'Stats' },
 ];
 
-/** ARENA — quests, squads, badges and club stats behind a segmented control. */
+/** ARENA — rank hero, then quests · squads · quiz · badges (club stats live under badges). */
 export function ArenaSpace() {
   const insets = useSafeAreaInsets();
   const [segment, setSegment] = useRouteSegment<ArenaSegment>(SEGMENT_KEYS, 'quests');
 
   return (
-    <YStack flex={1}>
-      <YStack paddingHorizontal={16} paddingTop={8} gap={12}>
-        <Text variant="bodySm" muted>
-          Compete, climb the board, earn XP
-        </Text>
-        <SegmentedControl<ArenaSegment>
-          segments={SEGMENTS}
-          value={segment}
-          onChange={setSegment}
-          size="sm"
-          accessibilityLabel="Arena section"
-        />
-      </YStack>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          padding: 16,
-          paddingBottom: SPACE_BOTTOM_PADDING + insets.bottom,
-          gap: 20,
-        }}
-      >
-        {segment === 'quests' ? <ArenaQuests /> : null}
-        {segment === 'squads' ? <ArenaSquads /> : null}
-        {segment === 'badges' ? <ArenaBadges /> : null}
-        {segment === 'stats' ? <ArenaStats /> : null}
-      </ScrollView>
-    </YStack>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        padding: 16,
+        paddingTop: 8,
+        paddingBottom: SPACE_BOTTOM_PADDING + insets.bottom,
+        gap: 20,
+      }}
+    >
+      <RankHero />
+      <SegmentedControl<ArenaSegment>
+        segments={SEGMENTS}
+        value={segment}
+        onChange={setSegment}
+        size="sm"
+        accessibilityLabel="Arena section"
+      />
+      {segment === 'quests' ? <ArenaQuests /> : null}
+      {segment === 'squads' ? <ArenaSquads /> : null}
+      {segment === 'quiz' ? <ArenaQuiz /> : null}
+      {segment === 'badges' ? (
+        <>
+          <ArenaBadges />
+          <ArenaStats />
+        </>
+      ) : null}
+    </ScrollView>
   );
 }
 

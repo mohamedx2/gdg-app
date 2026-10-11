@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -49,8 +49,13 @@ function SegmentedControlBase<T extends string>({
 
   const translateX = useSharedValue(0);
 
+  const measured = useRef(false);
   useEffect(() => {
-    translateX.value = withTiming(index * segmentWidth, { duration: 220 });
+    if (segmentWidth <= 0) return;
+    const target = index * segmentWidth;
+    // Snap on first measurement (segment opened from a link); animate afterwards.
+    translateX.value = measured.current ? withTiming(target, { duration: 220 }) : target;
+    measured.current = true;
   }, [index, segmentWidth, translateX]);
 
   const indicatorStyle = useAnimatedStyle(() => ({
