@@ -1,5 +1,6 @@
 import { request } from './http';
 import type { AppApi } from './contract';
+import type { GdgEvent, Paged, Resource } from '@/types';
 
 function toQuery(params: Record<string, unknown> = {}): string {
   const search = new URLSearchParams();
@@ -23,7 +24,12 @@ export const httpApi: AppApi = {
     ticket: (eventId) => request(`/events/${encodeURIComponent(eventId)}/ticket`),
     checkIn: (eventId, token) =>
       request(`/events/${encodeURIComponent(eventId)}/check-in`, { method: 'POST', body: { token } }),
-    upcoming: (limit = 4) => request(`/events${toQuery({ scope: 'upcoming', pageSize: limit })}`),
+    upcoming: async (limit = 4) => {
+      const page = await request<Paged<GdgEvent>>(
+        `/events${toQuery({ scope: 'upcoming', pageSize: limit })}`,
+      );
+      return page.data;
+    },
   },
   members: {
     list: (query = {}) => request(`/members${toQuery(query as Record<string, unknown>)}`),
@@ -39,7 +45,10 @@ export const httpApi: AppApi = {
     toggleBookmark: (id) => request(`/resources/${encodeURIComponent(id)}/bookmark`, { method: 'POST' }),
     setProgress: (id, progress) =>
       request(`/resources/${encodeURIComponent(id)}/progress`, { method: 'PUT', body: { progress } }),
-    recommended: (limit = 4) => request(`/resources${toQuery({ pageSize: limit })}`),
+    recommended: async (limit = 4) => {
+      const page = await request<Paged<Resource>>(`/resources${toQuery({ pageSize: limit })}`);
+      return page.data;
+    },
   },
   community: {
     activity: () => request('/community/activity'),
