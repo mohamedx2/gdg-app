@@ -31,8 +31,6 @@ its own JWTs — Supabase Auth is **not** used.
 | Email              | Role         | Name             |
 | ------------------ | ------------ | ---------------- |
 | `admin@epi.dev`    | `super-admin`| Maram Belgacem   |
-| `organizer@epi.dev`| `core-team`  | Meriem Trabelsi  |
-| `member@epi.dev`   | `student`    | Mohamed Salah    |
 
 Every seeded member also gets a login: `"<member-id>@epi.dev"` (e.g.
 `usr-zeyneb@epi.dev`, `usr-amal@epi.dev`) with the same password. Members whose
@@ -46,6 +44,7 @@ email was overridden above (Maram, Meriem) use the friendly address instead.
 | `npm run build`    | Compile to `dist/`                              |
 | `npm start`        | Run the compiled server                         |
 | `npm run seed`     | Upsert seed data + demo accounts                |
+| `npm run remove:demo-members` | Delete the invented demo profiles (also run at the end of `seed`) |
 | `npm run seed:events` | Upsert only events (2025/26 archive + 2026/27 lineup) — safe on a live DB |
 | `npm run typecheck`| Type-check without emitting                     |
 

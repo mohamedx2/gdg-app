@@ -24,14 +24,13 @@ import {
 } from './data';
 import { buildMemoryRows, seedAppConfig } from './content';
 import { toEventRow } from './event-rows';
+import { removeDemoMembers } from './remove-demo-members';
 
 /** Shared seed password. Every member logs in with `<id>@epi.dev` + this password. */
 const SEED_PASSWORD = 'gdgepi2026';
 
 const DEMO_ACCOUNTS = [
   { email: 'admin@epi.dev', memberId: 'usr-maram', role: 'super-admin', name: 'Maram Belgacem' },
-  { email: 'organizer@epi.dev', memberId: 'usr-meriem', role: 'core-team', name: 'Meriem Trabelsi' },
-  { email: 'member@epi.dev', memberId: 'usr-you', role: 'student', name: 'Mohamed Salah' },
 ];
 
 async function upsert(table: string, rows: Record<string, unknown>[], onConflict = 'id'): Promise<void> {
@@ -419,6 +418,10 @@ async function main(): Promise<void> {
     })),
     'member_id',
   );
+
+  // Demo profiles are seeded for content references, then removed (see remove-demo-members.ts).
+  const removed = await removeDemoMembers();
+  console.log(`  removed ${removed} demo members`);
 
   const { count } = await supabase
     .from('members')

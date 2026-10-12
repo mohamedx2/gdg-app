@@ -80,26 +80,19 @@ npm run dev               # http://localhost:4000/api/v1
 The database is seeded from [`server/src/seed`](server/src/seed):
 
 - **Events** — the GDG On Campus EPI activity plan: the real **2025/26** season (15 activities, Info Session → Build with AI) as the past archive, and the same plan one year later as the **2026/27** upcoming lineup (ids ending in `-2627`, dates provisional — edit them in the Supabase table editor).
-- **Members** — the core team 26/27 (super admins Maram Belgacem and Zeyneb) plus a few demo profiles.
+- **Members** — the real core team 26/27: super admins Maram Belgacem and Zeyneb, and 12 core-team members. Demo profiles used by the seed data are removed at the end of every seed.
 - Resources, squads, quests, quiz questions, badges, ideas, decisions, tasks, conversations, memories and the remote UI config.
 
 ```bash
 cd server
 npm run seed          # full seed (also resets demo points/registrations)
 npm run seed:events   # events only — safe for a live database
+npm run remove:demo-members   # delete the invented demo profiles
 ```
 
-### Demo accounts
+### Accounts
 
-Seed password: `gdgepi2026`. On the sign-in screen, tap an account to fill it in.
-
-| Account | Role |
-| --- | --- |
-| `admin@epi.dev` | Super admin |
-| `organizer@epi.dev` | Core team |
-| `member@epi.dev` | Member |
-
-Every seeded member can also sign in as `<member-id>@epi.dev` (e.g. `usr-zeyneb@epi.dev`) with the same password. Change these before opening the app to everyone.
+Seeded members sign in with `<member-id>@epi.dev` (e.g. `usr-zeyneb@epi.dev`) and the seed password `gdgepi2026`; `admin@epi.dev` is Maram Belgacem (super admin). Give members their real emails and change these passwords before opening the app to everyone.
 
 ## Deploy
 

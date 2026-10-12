@@ -10,6 +10,7 @@
     "start": "node dist/index.js",
     "seed": "tsx src/seed/run.ts",
     "seed:events": "tsx src/seed/events.ts",
+    "remove:demo-members": "tsx src/seed/remove-demo-members.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
