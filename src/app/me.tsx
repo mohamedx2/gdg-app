@@ -152,11 +152,11 @@ export default function MeSheet() {
               <Gradient token="night" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
                 <XStack alignItems="center" gap={12} padding={16}>
                   <YStack width={48} height={48} borderRadius={14} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
-                    <Icon name="qrCodeScanner" size={22} color="inverseOnSurface" />
+                    <Icon name="qrCodeScanner" size={22} color="onNight" />
                   </YStack>
                   <YStack flex={1} gap={2}>
                     <XStack alignItems="center" gap={8}>
-                      <Text variant="titleMd" weight="bold" color="inverseOnSurface">
+                      <Text variant="titleMd" weight="bold" color="onNight">
                         Organizer Console
                       </Text>
                       <YStack paddingHorizontal={6} paddingVertical={1} borderRadius={6} backgroundColor="secondaryContainer">
@@ -170,7 +170,7 @@ export default function MeSheet() {
                     </Text>
                   </YStack>
                   <YStack width={36} height={36} borderRadius={18} alignItems="center" justifyContent="center" backgroundColor="surfaceContainerHigh">
-                    <Icon name="chevronRight" size={18} color="inverseOnSurface" />
+                    <Icon name="chevronRight" size={18} color="onNight" />
                   </YStack>
                 </XStack>
               </Gradient>

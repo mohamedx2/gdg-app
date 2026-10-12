@@ -37,7 +37,7 @@ export function RankHero() {
           <XStack alignItems="center" gap={8}>
             <XStack alignItems="center" gap={6} paddingHorizontal={10} paddingVertical={4} borderRadius="full" borderWidth={1} borderColor="outlineVariant">
               <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
-              <Text variant="codeSm" weight="bold" color="inverseOnSurface">
+              <Text variant="codeSm" weight="bold" color="onNight">
                 ARENA · SEASON
               </Text>
             </XStack>
@@ -55,7 +55,7 @@ export function RankHero() {
             </YStack>
           </XStack>
 
-          <Text variant="headlineSm" weight="bold" color="inverseOnSurface">
+          <Text variant="headlineSm" weight="bold" color="onNight">
             LVL {level} • {summary.tier} Builder
           </Text>
 
@@ -65,7 +65,7 @@ export function RankHero() {
                 Rank progression
               </Text>
               <XStack alignItems="baseline">
-                <AnimatedNumber value={xp} variant="codeSm" weight="bold" color="inverseOnSurface" />
+                <AnimatedNumber value={xp} variant="codeSm" weight="bold" color="onNight" />
                 {goal > 0 ? (
                   <Text variant="codeSm" color="outline">
                     {' '}/ {goal.toLocaleString('en-US')} XP
@@ -99,10 +99,10 @@ export function RankHero() {
             </Text>
             <PressableScale onPress={() => router.push('/achievements' as never)} accessibilityLabel="View XP breakdown">
               <XStack alignItems="center" gap={6} height={40} paddingHorizontal={14} borderRadius="full" borderWidth={1} borderColor="outlineVariant">
-                <Text variant="codeSm" weight="bold" color="inverseOnSurface">
+                <Text variant="codeSm" weight="bold" color="onNight">
                   View breakdown
                 </Text>
-                <Icon name="arrowForward" size={14} color="inverseOnSurface" />
+                <Icon name="arrowForward" size={14} color="onNight" />
               </XStack>
             </PressableScale>
           </XStack>

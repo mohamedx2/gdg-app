@@ -1,6 +1,6 @@
 import { router, type Href } from 'expo-router';
 import React, { memo } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTheme } from '@/theme';
@@ -36,6 +36,8 @@ export const TopBar = memo(function TopBar({
 }: TopBarProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  // Narrow phones: keep the dots, drop the label so the space title never truncates.
+  const compact = useWindowDimensions().width < 400;
 
   return (
     <View
@@ -57,9 +59,11 @@ export const TopBar = memo(function TopBar({
           {GOOGLE_DOTS.map((color) => (
             <View key={color} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: theme.colors[color] }} />
           ))}
-          <Text variant="codeSm" weight="bold" muted>
-            GDG EPI
-          </Text>
+          {compact ? null : (
+            <Text variant="codeSm" weight="bold" muted>
+              GDG EPI
+            </Text>
+          )}
         </View>
         <Text variant="headlineSm" weight="bold" numberOfLines={1} style={{ flex: 1 }}>
           {title}

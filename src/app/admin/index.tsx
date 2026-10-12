@@ -105,7 +105,7 @@ function AdminScreenContent() {
                   <XStack alignItems="center" justifyContent="space-between">
                     <XStack alignItems="center" gap={8}>
                       <Icon name="qrCodeScanner" size={22} color="live" />
-                      <Text variant="titleMd" weight="bold" color="inverseOnSurface">
+                      <Text variant="titleMd" weight="bold" color="onNight">
                         Gate Scanner
                       </Text>
                     </XStack>
@@ -117,7 +117,7 @@ function AdminScreenContent() {
                     </XStack>
                   </XStack>
                   <YStack height={110} borderRadius={16} borderWidth={1} borderStyle="dashed" borderColor="outline" alignItems="center" justifyContent="center" gap={6}>
-                    <Icon name="qrCode" size={34} color="inverseOnSurface" />
+                    <Icon name="qrCode" size={34} color="onNight" />
                     <Text variant="codeSm" color="outline">
                       TAP TO SCAN TICKETS AT THE DOOR
                     </Text>

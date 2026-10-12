@@ -67,6 +67,8 @@ const lightColors = {
 
   inverseSurface: '#111318',
   inverseOnSurface: '#F3F2EC',
+  /** Text/icons on always-dark 'night' surfaces — light in both themes. */
+  onNight: '#F2F3F5',
   terminal: '#0B0D12',
 
   success: '#1E8E3E',
@@ -138,6 +140,7 @@ const darkColors: ColorTokens = {
 
   inverseSurface: '#E2E8F0',
   inverseOnSurface: '#1E293B',
+  onNight: '#F2F3F5',
   terminal: '#0B1120',
 
   success: '#81C995',

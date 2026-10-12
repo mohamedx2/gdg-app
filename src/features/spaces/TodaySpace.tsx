@@ -35,7 +35,7 @@ const MONTH = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'O
 
 /** "FRI 28 MAR · 2025" in mono, as on the Stitch greeting row. */
 function stamp(date: Date): string {
-  return `${DAY[date.getDay()]} ${date.getDate()} ${MONTH[date.getMonth()]} · ${date.getFullYear()}`;
+  return `${DAY[date.getDay()]} ${date.getDate()} ${MONTH[date.getMonth()]}`;
 }
 
 /** "IN 2H 15M" / "IN 3D" / "LIVE" / "ENDED" countdown for the ticket hero. */
@@ -196,9 +196,9 @@ function Greeting() {
   const role = ACCESS_LEVELS[access];
   return (
     <XStack paddingHorizontal={16} alignItems="center" gap={12}>
-      <YStack width={48} height={48}>
+      <YStack width={48} height={48} position="relative">
         <Avatar uri={user?.avatar} name={user?.name ?? 'Guest'} size={48} />
-        {isGuest ? null : (
+        {isGuest || !user ? null : (
           <YStack
             position="absolute"
             right={-1}
@@ -227,7 +227,13 @@ function Greeting() {
         </XStack>
         <XStack alignItems="center" gap={6}>
           <YStack width={6} height={6} borderRadius={3} backgroundColor="primary" />
-          <Text variant="codeSm" muted accessibilityLabel={`Today, ${role.label}`}>
+          <Text
+            variant="codeSm"
+            muted
+            numberOfLines={1}
+            style={{ flexShrink: 1 }}
+            accessibilityLabel={`Today, ${role.label}`}
+          >
             {stamp(new Date())}
           </Text>
         </XStack>
@@ -248,7 +254,6 @@ function Greeting() {
 
 /** Ticket-styled hero for the next event: seat status, countdown, details, perforation, pass. */
 function TicketHero({ event }: { event: GdgEvent }) {
-  const theme = useTheme();
   const { data: attendance } = useAttendance(event.id);
   const registered = attendance === 'registered' || attendance === 'attended';
   const time = countdown(event.startsAt, event.endsAt);
@@ -256,53 +261,55 @@ function TicketHero({ event }: { event: GdgEvent }) {
   const passCode = `GDG-EPI-${event.id.replace(/^evt-/, '').toUpperCase().slice(0, 12)}`;
 
   return (
-    <PressableScale
-      onPress={() => router.push(`/events/${event.id}` as never)}
-      accessibilityLabel={`Open ${event.title}`}
-      style={{ borderRadius: theme.radius.card, overflow: 'hidden' }}
-    >
+    <YStack borderRadius="card" overflow="hidden">
       <Gradient token="night" start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
         <Orbs />
-        <YStack padding={18} gap={12}>
-          <XStack alignItems="center" justifyContent="space-between" gap={8}>
-            <XStack
-              alignItems="center"
-              gap={6}
-              paddingHorizontal={10}
-              paddingVertical={4}
-              borderRadius="full"
-              backgroundColor="tertiaryFixed"
-            >
-              <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
-              <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
-                {registered ? 'CONFIRMED SEAT' : ended ? 'PAST EVENT' : 'UP NEXT'}
-              </Text>
+        {/* Only the details open the event; the pass row has its own action (no nested buttons). */}
+        <PressableScale
+          onPress={() => router.push(`/events/${event.id}` as never)}
+          accessibilityLabel={`Open ${event.title}`}
+        >
+          <YStack padding={18} gap={12}>
+            <XStack alignItems="center" justifyContent="space-between" gap={8}>
+              <XStack
+                alignItems="center"
+                gap={6}
+                paddingHorizontal={10}
+                paddingVertical={4}
+                borderRadius="full"
+                backgroundColor="tertiaryFixed"
+              >
+                <YStack width={6} height={6} borderRadius={3} backgroundColor="live" />
+                <Text variant="codeSm" weight="bold" color="onTertiaryFixedVariant">
+                  {registered ? 'CONFIRMED SEAT' : ended ? 'PAST EVENT' : 'UP NEXT'}
+                </Text>
+              </XStack>
+              <YStack
+                paddingHorizontal={10}
+                paddingVertical={4}
+                borderRadius="full"
+                borderWidth={1}
+                borderColor="outlineVariant"
+              >
+                <Text variant="codeSm" weight="bold" color="onNight">
+                  {time}
+                </Text>
+              </YStack>
             </XStack>
-            <YStack
-              paddingHorizontal={10}
-              paddingVertical={4}
-              borderRadius="full"
-              borderWidth={1}
-              borderColor="outlineVariant"
-            >
-              <Text variant="codeSm" weight="bold" color="inverseOnSurface">
-                {time}
-              </Text>
-            </YStack>
-          </XStack>
 
-          <Text variant="headlineSm" weight="bold" color="inverseOnSurface" numberOfLines={2}>
-            {event.title}
-          </Text>
-          <Text variant="bodySm" color="outline" numberOfLines={2}>
-            {event.summary}
-          </Text>
+            <Text variant="headlineSm" weight="bold" color="onNight" numberOfLines={2}>
+              {event.title}
+            </Text>
+            <Text variant="bodySm" color="outline" numberOfLines={2}>
+              {event.summary}
+            </Text>
 
-          <XStack gap={10}>
-            <InfoChip icon="schedule" label={`${formatTime(event.startsAt)} GMT+1`} />
-            <InfoChip icon="location" label={event.venue || event.location} />
-          </XStack>
-        </YStack>
+            <XStack gap={10}>
+              <InfoChip icon="schedule" label={`${formatTime(event.startsAt)} GMT+1`} />
+              <InfoChip icon="location" label={event.venue || event.location} />
+            </XStack>
+          </YStack>
+        </PressableScale>
 
         {/* Perforation with side notches. */}
         <XStack alignItems="center" height={20}>
@@ -321,13 +328,13 @@ function TicketHero({ event }: { event: GdgEvent }) {
             borderWidth={1}
             borderColor="outlineVariant"
           >
-            <Icon name="verifiedUser" size={20} color="inverseOnSurface" />
+            <Icon name="verifiedUser" size={20} color="onNight" />
           </YStack>
           <YStack flex={1}>
             <Text variant="codeSm" color="outline">
               {registered ? 'FAST TRACK PASS' : `${event.registeredCount}/${event.capacity} SEATS`}
             </Text>
-            <Text variant="codeSm" weight="bold" color="inverseOnSurface" numberOfLines={1}>
+            <Text variant="codeSm" weight="bold" color="onNight" numberOfLines={1}>
               {registered ? passCode : (TRACKS[event.track]?.label.toUpperCase() ?? 'GDG EPI')}
             </Text>
           </YStack>
@@ -342,7 +349,7 @@ function TicketHero({ event }: { event: GdgEvent }) {
           ) : null}
         </XStack>
       </Gradient>
-    </PressableScale>
+    </YStack>
   );
 }
 
@@ -358,8 +365,8 @@ function InfoChip({ icon, label }: { icon: IconName; label: string }) {
       borderWidth={1}
       borderColor="outlineVariant"
     >
-      <Icon name={icon} size={16} color="inverseOnSurface" />
-      <Text variant="codeSm" color="inverseOnSurface" numberOfLines={1} style={{ flexShrink: 1 }}>
+      <Icon name={icon} size={16} color="onNight" />
+      <Text variant="codeSm" color="onNight" numberOfLines={1} style={{ flexShrink: 1 }}>
         {label}
       </Text>
     </XStack>
