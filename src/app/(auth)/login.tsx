@@ -14,6 +14,7 @@ import { FormTextField } from '@/components/ui/Input';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/auth-provider';
+import { GoogleSignInCancelled } from '@/lib/auth/google';
 import { loginSchema, LoginValues } from '@/features/auth/schemas';
 import { useTheme } from '@/theme';
 
@@ -48,8 +49,9 @@ export default function LoginScreen() {
       await signInWithGoogle();
       router.replace('/(spaces)');
     } catch (error) {
-      setErrorText(error instanceof Error ? error.message : 'Google sign in failed.');
       setSubmitting(false);
+      if (error instanceof GoogleSignInCancelled) return;
+      setErrorText(error instanceof Error ? error.message : 'Google sign in failed.');
     }
   };
 

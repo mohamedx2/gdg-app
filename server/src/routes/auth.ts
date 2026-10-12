@@ -1,8 +1,10 @@
 import { Router } from 'express';
+import { OAuth2Client } from 'google-auth-library';
 import { z } from 'zod';
 
 import { asyncHandler } from '../http/async';
 import { HttpError } from '../http/errors';
+import { env } from '../env';
 import { supabase } from '../supabase';
 import { hashPassword, verifyPassword } from '../auth/password';
 import { signToken } from '../auth/jwt';
@@ -85,15 +87,41 @@ authRouter.post(
   }),
 );
 
-const GOOGLE_EMAIL = 'mohamed.salah@gmail.com';
+const googleSchema = z.object({
+  idToken: z.string().min(20),
+});
 
+const googleClient = new OAuth2Client();
+
+/**
+ * Sign in with Google. The app sends the ID token from Google Sign-In; we verify
+ * its signature, audience (our Web client ID) and verified email with Google,
+ * then sign in the member with that email or create a new member account.
+ */
 authRouter.post(
   '/google',
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
+    if (env.googleClientIds.length === 0) {
+      throw new HttpError(503, 'Google sign-in is not configured on the server yet.');
+    }
+    const { idToken } = parse(googleSchema, req.body);
+
+    let payload;
+    try {
+      const ticket = await googleClient.verifyIdToken({ idToken, audience: env.googleClientIds });
+      payload = ticket.getPayload();
+    } catch {
+      throw new HttpError(401, 'Google could not verify this sign-in. Please try again.');
+    }
+    if (!payload?.email || !payload.email_verified) {
+      throw new HttpError(401, 'Your Google account has no verified email.');
+    }
+
+    const email = payload.email.trim().toLowerCase();
     const { data: existing, error: findError } = await supabase
       .from('members')
       .select('*')
-      .eq('id', 'usr-google')
+      .ilike('email', email)
       .maybeSingle();
     if (findError) throw HttpError.server(findError.message);
 
@@ -102,14 +130,12 @@ authRouter.post(
       const { data, error } = await supabase
         .from('members')
         .insert({
-          id: 'usr-google',
-          name: 'Mohamed Salah',
-          email: GOOGLE_EMAIL,
+          id: `usr-g${payload.sub}`,
+          name: payload.name?.trim() || email.split('@')[0],
+          email,
           role: 'student',
-          headline: '3rd Year Software Eng. @ EPI Sousse',
-          avatar: avatarFor('usr-google'),
-          skills: ['Flutter', 'Dart', 'TypeScript'],
-          socials: { github: 'mohamedsalah' },
+          headline: 'GDG on Campus EPI member',
+          avatar: payload.picture ?? avatarFor(email),
         })
         .select('*')
         .single();

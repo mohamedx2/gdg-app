@@ -4,6 +4,7 @@ import { analytics } from '@/lib/analytics';
 import { ApiError } from '@/lib/api/errors';
 import { api } from '@/lib/api';
 import { getAccessToken, cacheProfile, clearSession, getStatus, readCachedProfile, saveSession, SessionStatus, setStatus } from '@/lib/auth/session';
+import { signOutGoogle } from '@/lib/auth/google';
 import { authService, clearRole, readStoredRole, storeRole } from '@/lib/auth/service';
 import { configureApiAuth } from '@/lib/api/http';
 import { accessLevelOf, hasPermission, Permission } from '@/lib/auth/permissions';
@@ -116,6 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signOut = useCallback(async () => {
+    await signOutGoogle();
     await clearSession();
     await clearRole();
     setUser(null);

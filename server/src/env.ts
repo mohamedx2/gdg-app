@@ -17,4 +17,9 @@ export const env = {
   jwtExpiresInSeconds: Number(process.env.JWT_EXPIRES_IN_SECONDS ?? 60 * 60 * 24 * 30),
   port: Number(process.env.PORT ?? 4000),
   corsOrigin: process.env.CORS_ORIGIN ?? '*',
+  /** OAuth client IDs accepted as the Google ID-token audience (comma-separated). */
+  googleClientIds: (process.env.GOOGLE_CLIENT_IDS ?? '')
+    .split(',')
+    .map((id) => id.trim())
+    .filter(Boolean),
 } as const;

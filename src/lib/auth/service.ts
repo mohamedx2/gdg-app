@@ -4,6 +4,7 @@ import { isMockMode } from '@/constants/env';
 import { request } from '@/lib/api/http';
 import { ApiError } from '@/lib/api/errors';
 import { mockDb } from '@/lib/api/mock/db';
+import { getGoogleIdToken } from '@/lib/auth/google';
 import type { MemberRole, UserProfile } from '@/types';
 
 export interface AuthAccount {
@@ -114,7 +115,8 @@ async function httpSignUp(name: string, email: string, password: string): Promis
 }
 
 async function httpGoogle(): Promise<AuthResult> {
-  return request<AuthResult>('/google', { method: 'POST', skipAuth: true });
+  const idToken = await getGoogleIdToken();
+  return request<AuthResult>('/google', { method: 'POST', body: { idToken }, skipAuth: true });
 }
 
 export const authService = {

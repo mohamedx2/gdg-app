@@ -21,3 +21,5 @@ services:
         value: "2592000"
       - key: CORS_ORIGIN
         value: "*"
+      - key: GOOGLE_CLIENT_IDS
+        sync: false
